@@ -1,7 +1,5 @@
 package com.development.community;
 
-import android.annotation.NonNull;
-
 public class Date {
     private int month;
     private int day;
