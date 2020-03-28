@@ -4,6 +4,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+// Adapter class to allow use of Entry class with RecyclerView and ListView
 public class EntryAdapter extends BaseAdapter {
     @Override
     public int getCount() {
@@ -14,6 +15,7 @@ public class EntryAdapter extends BaseAdapter {
     public Object getItem(int i) {
         return null; //TODO: Not Implemented
     }
+
 
     @Override
     public long getItemId(int i) {
