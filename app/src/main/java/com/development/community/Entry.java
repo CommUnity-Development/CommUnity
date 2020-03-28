@@ -1,5 +1,59 @@
 package com.development.community;
 
-// This class is a blueprint for a data entry
+import android.location.Location;
+
 public class Entry {
+
+    private Date date;
+
+    private Time time;
+    private Location destination;
+    private String task;
+
+    public Entry(Date date, Time time, Location destination, String task){
+        this.date = date;
+        this.time = time;
+        this.destination = destination;
+        this.task = task;
+    }
+
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
+    public void setTime(Time time) {
+        this.time = time;
+    }
+
+    public Location getDestination() {
+        return destination;
+    }
+
+    public void setDestination(Location destination) {
+        this.destination = destination;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
+    }
+
+
+    @Override
+    public String toString(){
+        return "Task: "+task.toString() + ", Date: "+date.toString() + ", Time: "+time.toString() +
+                ", Location: "+destination.toString();
+    }
 }
