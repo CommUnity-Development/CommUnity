@@ -6,7 +6,7 @@ public class Date {
 
     // Not sure if we'll use this yet, but it might be helpful.
 
-    public Date(int month, int day){
+    public Date(int month, int day, int year){
         this.month = month;
         this.day = day;
     }
