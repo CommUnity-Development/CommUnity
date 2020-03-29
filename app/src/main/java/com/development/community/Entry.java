@@ -12,7 +12,7 @@ public class Entry implements Serializable {
     private String destination;
     private String task;
 
-    public Entry(Date date, Time time, String destination, String task){
+    Entry(Date date, Time time, String destination, String task){
         this.date = date;
         this.time = time;
         this.destination = destination;
