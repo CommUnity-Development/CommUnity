@@ -23,6 +23,9 @@ public class EntryActivity extends AppCompatActivity {
     private EditText taskTextBox;
     private Button submitButton;
 
+    private Date selectedDate;
+    private Time selectedTime;
+
     //TODO: Implement an AutoCompleteSupportFragment for the location picker
 
     @Override
@@ -47,18 +50,20 @@ public class EntryActivity extends AppCompatActivity {
                         String period = "AM";
                         String minuteString = String.valueOf(chosenMinute);
                         if(minuteString.length()==1) minuteString = "0"+minuteString;
-                        if(chosenHour > 12) {
-                            chosenHour -=12;
+                        int normHour = chosenHour;
+                        if(normHour > 12) {
+                            normHour -=12;
                             period = "PM";
                         }
-                        else if(chosenHour == 12){
+                        else if(normHour == 12){
                             period = "PM";
                         }
-                        else if(chosenHour == 0){
-                            chosenHour = 12;
+                        else if(normHour == 0){
+                            normHour = 12;
                         }
 
-                        timeButton.setText( "Chosen Time: " + chosenHour + ":" + minuteString + " " + period);
+                        timeButton.setText( "Chosen Time: " + normHour + ":" + minuteString + " " + period);
+                        selectedTime = new Time(chosenHour, chosenMinute);
 
                     }
                 }, hour, minute, false);
@@ -76,8 +81,9 @@ public class EntryActivity extends AppCompatActivity {
                 int day = calendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(EntryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
-                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                        dateButton.setText("Date Chosen: "+ Controller.monthsShort[i1] + " " + i2 + ", " + i);
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        dateButton.setText("Date Chosen: "+ Controller.monthsShort[month] + " " + day + ", " + year);
+                        selectedDate = new Date(month, day, year);
                     }
                 }, year, month, day);
                 datePickerDialog.setTitle("Select Date");
