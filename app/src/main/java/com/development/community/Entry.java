@@ -3,6 +3,7 @@ package com.development.community;
 import android.location.Location;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 public class Entry implements Serializable {
 
@@ -11,6 +12,15 @@ public class Entry implements Serializable {
     private Time time;
     private String destination;
     private String task;
+
+
+    Entry(){
+        Calendar calendar = Calendar.getInstance();
+        this.date = new Date();
+        this.time = new Time();
+        this.destination = "";
+        this.task = "";
+    }
 
     Entry(Date date, Time time, String destination, String task){
         this.date = date;

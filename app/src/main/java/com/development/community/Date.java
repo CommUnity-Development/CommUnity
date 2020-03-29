@@ -1,18 +1,26 @@
 package com.development.community;
 
-import android.os.Parcelable;
+import java.util.Calendar;
 
 import java.io.Serializable;
 
 public class Date implements Serializable {
     private int month;
     private int day;
+    private int year;
 
-    // Not sure if we'll use this yet, but it might be helpful.
+
+    Date(){
+        Calendar calendar = Calendar.getInstance();
+        this.month = calendar.get(Calendar.MONTH);
+        this.day = calendar.get(Calendar.DAY_OF_MONTH);
+        this.year = calendar.get(Calendar.YEAR);
+    }
 
     Date(int month, int day, int year){
         this.month = month;
         this.day = day;
+        this.year = year;
     }
 
     public int getMonth() {
@@ -32,8 +40,17 @@ public class Date implements Serializable {
     }
 
 
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     @Override
     public String toString(){
-        return "Month: "+month + ", Day: "+day;
+        return month + " " + day + ", " + year;
     }
 }
