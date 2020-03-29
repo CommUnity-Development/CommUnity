@@ -15,6 +15,9 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.io.Serializable;
 import java.util.Calendar;
 
@@ -30,6 +33,9 @@ public class EntryActivity extends AppCompatActivity {
     private Date selectedDate;
     private Time selectedTime;
 
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
     //TODO: Implement an AutoCompleteSupportFragment for the location picker
 
     @Override
@@ -43,6 +49,9 @@ public class EntryActivity extends AppCompatActivity {
         addressTextBox = findViewById(R.id.addressTextBox);
         currentLocationButton = findViewById(R.id.currentLocationButton);
         taskTextBox = findViewById(R.id.taskTextBox);
+
+        firebaseDatabase =  FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("test");
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,6 +124,7 @@ public class EntryActivity extends AppCompatActivity {
                     intent.putExtra("Time", selectedTime);
                     intent.putExtra("Task", taskTextBox.getText().toString());
                     intent.putExtra("Location", addressTextBox.getText().toString());
+                    databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString()));
                     Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                 }

@@ -2,15 +2,17 @@ package com.development.community;
 
 import android.location.Location;
 
-public class Entry {
+import java.io.Serializable;
+
+public class Entry implements Serializable {
 
     private Date date;
 
     private Time time;
-    private Location destination;
+    private String destination;
     private String task;
 
-    public Entry(Date date, Time time, Location destination, String task){
+    Entry(Date date, Time time, String destination, String task){
         this.date = date;
         this.time = time;
         this.destination = destination;
@@ -34,11 +36,11 @@ public class Entry {
         this.time = time;
     }
 
-    public Location getDestination() {
+    public String getDestination() {
         return destination;
     }
 
-    public void setDestination(Location destination) {
+    public void setDestination(String destination) {
         this.destination = destination;
     }
 
@@ -53,7 +55,7 @@ public class Entry {
 
     @Override
     public String toString(){
-        return "Task: "+task.toString() + ", Date: "+date.toString() + ", Time: "+time.toString() +
-                ", Location: "+destination.toString();
+        return "Task: "+ task + ", Date: "+date.toString() + ", Time: "+time.toString() +
+                ", Location: "+ destination;
     }
 }
