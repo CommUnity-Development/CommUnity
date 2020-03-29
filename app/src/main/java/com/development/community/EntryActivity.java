@@ -4,14 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 public class EntryActivity extends AppCompatActivity {
@@ -34,8 +38,11 @@ public class EntryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_entry);
 
         timeButton = findViewById(R.id.TimeButton);
-
         dateButton = findViewById(R.id.DateButton);
+        submitButton = findViewById(R.id.submitButton);
+        addressTextBox = findViewById(R.id.addressTextBox);
+        currentLocationButton = findViewById(R.id.currentLocationButton);
+        taskTextBox = findViewById(R.id.taskTextBox);
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +68,7 @@ public class EntryActivity extends AppCompatActivity {
                         else if(normHour == 0){
                             normHour = 12;
                         }
-
-                        timeButton.setText( "Chosen Time: " + normHour + ":" + minuteString + " " + period);
+                        timeButton.setText(getString(R.string.chosen_time, normHour, minuteString, period));
                         selectedTime = new Time(chosenHour, chosenMinute);
 
                     }
@@ -82,7 +88,7 @@ public class EntryActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(EntryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateButton.setText("Date Chosen: "+ Controller.monthsShort[month] + " " + day + ", " + year);
+                        dateButton.setText(getString(R.string.chosen_date,Controller.months[month], day, year));
                         selectedDate = new Date(month, day, year);
                     }
                 }, year, month, day);
@@ -91,6 +97,28 @@ public class EntryActivity extends AppCompatActivity {
             }
         });
 
+        currentLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Not Implemented
+            }
+        });
 
+        submitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EntryActivity.this, MainActivity.class);
+                if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || addressTextBox.getText().toString().equals("")) Toast.makeText(EntryActivity.this,
+                        "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
+                else {
+                    intent.putExtra("Date", selectedDate);
+                    intent.putExtra("Time", selectedTime);
+                    intent.putExtra("Task", taskTextBox.getText().toString());
+                    intent.putExtra("Location", addressTextBox.getText().toString());
+                    Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
+                    startActivity(intent);
+                }
+            }
+        });
     }
 }
