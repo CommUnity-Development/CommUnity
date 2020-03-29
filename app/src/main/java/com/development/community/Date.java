@@ -1,12 +1,16 @@
 package com.development.community;
 
-public class Date {
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Date implements Serializable {
     private int month;
     private int day;
 
     // Not sure if we'll use this yet, but it might be helpful.
 
-    public Date(int month, int day, int year){
+    Date(int month, int day, int year){
         this.month = month;
         this.day = day;
     }

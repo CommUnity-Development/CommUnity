@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">CommUnity</string>
+    <string name="chosen_time">Chosen Time: %1$d:%2$s %3$s"</string>
+    <string name="chosen_date">Date Chosen: %1$s %2$d, %3$d</string>
+    <string name="enter_address">Enter the address, city, state, and zip code in the textbox below or select Use Current Location</string>
+    <string name="enter_location">Enter Location Here</string>
+    <string name="use_current_location">Use Current Location</string>
+    <string name="enter_task_here">Enter Task Here</string>
+    <string name="submit">Submit</string>
+    <string name="choose_a_date">Choose a Date</string>
+    <string name="choose_a_time">Choose a Time</string>
 </resources>

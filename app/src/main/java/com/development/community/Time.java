@@ -1,10 +1,12 @@
 package com.development.community;
 
-public class Time {
+import java.io.Serializable;
+
+public class Time implements Serializable {
     private int hour;
     private int minute;
 
-    public Time(int hour, int minute){
+    Time(int hour, int minute){
         this.hour = hour;
         this.minute = minute;
     }
