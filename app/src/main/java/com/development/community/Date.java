@@ -5,9 +5,6 @@ public class Date {
     private int day;
 
     // Not sure if we'll use this yet, but it might be helpful.
-    public enum Months{
-        JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER
-    }
 
     public Date(int month, int day){
         this.month = month;
