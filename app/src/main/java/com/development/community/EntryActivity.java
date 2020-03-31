@@ -97,7 +97,7 @@ public class EntryActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(EntryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateButton.setText(getString(R.string.chosen_date,Controller.months[month], day, year));
+                        dateButton.setText(getString(R.string.chosen_date,Controller.monthsShort[month], day, year));
                         selectedDate = new Date(month, day, year);
                     }
                 }, year, month, day);
