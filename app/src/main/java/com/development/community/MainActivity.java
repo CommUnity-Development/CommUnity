@@ -8,8 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ListView;
-
-import com.google.firebase.database.core.view.View;
+import android.view.View;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
