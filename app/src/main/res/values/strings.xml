@@ -11,4 +11,7 @@
     <string name="choose_a_time">Choose a Time</string>
     <string name="location_string">Location: %1$s</string>
     <string name="task_string">Task: %1$s</string>
+    <string name="post">POST</string>
+    <string name="postbutton">PostButton</string>
+    <string name="a_hamburger_icon">a hamburger icon</string>
 </resources>

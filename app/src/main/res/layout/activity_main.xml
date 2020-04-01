@@ -9,29 +9,39 @@
     android:paddingTop="0dp"
     android:paddingRight="0dp"
     android:paddingBottom="0dp"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:paddingEnd="0dp"
+    android:paddingStart="0dp">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp">
 
         <ImageButton
             android:id="@+id/menuButton"
-            android:layout_width="62dp"
-            android:layout_height="62dp"
-            android:contentDescription="a hamburger icon"
-            android:src="@drawable/hamburgericon2"
+            android:background="@null"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/a_hamburger_icon"
+            android:src="@drawable/nav_icon"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
+        <ImageButton
+            android:background="@null"
             android:id="@+id/postButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="POST"
+            android:text="@string/post"
+            android:src="@drawable/plus_button"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginBottom="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/postbutton" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
