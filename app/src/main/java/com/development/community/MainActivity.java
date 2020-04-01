@@ -8,7 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ListView;
+import android.view.View;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener{
     EntryAdapter entryAdapter;
@@ -16,6 +22,16 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Button postButton = (Button)findViewById(R.id.postButton);
+
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, EntryActivity.class));
+            }
+        });
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
