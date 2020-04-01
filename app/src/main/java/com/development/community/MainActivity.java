@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     EntryAdapter entryAdapter;
-    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
