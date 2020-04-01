@@ -1,5 +1,6 @@
 package com.development.community;
 
+import androidx.annotation.NonNull;
 import android.location.Location;
 
 import java.io.Serializable;
@@ -8,7 +9,6 @@ import java.util.Calendar;
 public class Entry implements Serializable {
 
     private Date date;
-
     private Time time;
     private String destination;
     private String task;
@@ -30,7 +30,7 @@ public class Entry implements Serializable {
     }
 
 
-    public Date getDate() {
+    Date getDate() {
         return date;
     }
 
@@ -38,7 +38,7 @@ public class Entry implements Serializable {
         this.date = date;
     }
 
-    public Time getTime() {
+    Time getTime() {
         return time;
     }
 
@@ -46,7 +46,7 @@ public class Entry implements Serializable {
         this.time = time;
     }
 
-    public String getDestination() {
+    String getDestination() {
         return destination;
     }
 
@@ -54,7 +54,7 @@ public class Entry implements Serializable {
         this.destination = destination;
     }
 
-    public String getTask() {
+    String getTask() {
         return task;
     }
 
@@ -63,6 +63,7 @@ public class Entry implements Serializable {
     }
 
 
+    @NonNull
     @Override
     public String toString(){
         return "Task: "+ task + ", Date: "+date.toString() + ", Time: "+time.toString() +
