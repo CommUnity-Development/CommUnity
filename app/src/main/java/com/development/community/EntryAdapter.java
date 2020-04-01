@@ -19,44 +19,18 @@ import java.util.ArrayList;
 class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
     private static final String TAG = "RecycleViewAdapter";
 
-    private ArrayList<Time> times = new ArrayList<>();
-    private ArrayList<Date> dates = new ArrayList<>();
-    private ArrayList<String> locations = new ArrayList<>();
-    private ArrayList<String> tasks = new ArrayList<>();
+    private ArrayList<Time> times;
+    private ArrayList<Date> dates;
+    private ArrayList<String> locations;
+    private ArrayList<String> tasks;
     private Context context;
 
-    public EntryAdapter( Context context,  ArrayList<Time> times, ArrayList<Date> dates, ArrayList<String> locations, ArrayList<String> tasks) {
+    EntryAdapter(Context context, ArrayList<Time> times, ArrayList<Date> dates, ArrayList<String> locations, ArrayList<String> tasks) {
         this.times = times;
         this.dates = dates;
         this.locations = locations;
         this.tasks = tasks;
         this.context = context;
-      
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-
-class EntryAdapter extends BaseAdapter {
-    private ArrayList<Entry> entryList;
-    private Context context;
-    EntryAdapter(Context context, ArrayList<Entry> entryList){
-        super();
-        this.entryList = entryList;
-        this.context = context;
-
-    }
-    EntryAdapter(){
-        super();
-        this.entryList = new ArrayList<>();
-    }
-    
-    @Override
-    public int getCount() {
-        return entryList.size();
     }
 
     @NonNull
@@ -65,11 +39,7 @@ class EntryAdapter extends BaseAdapter {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entry_layout, parent, false);
         ViewHolder holder = new ViewHolder(view);
         return holder;
-      
-    public Object getItem(int i) {
-        return entryList.get(i);
     }
-      
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder called");
@@ -92,14 +62,14 @@ class EntryAdapter extends BaseAdapter {
         return tasks.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
         TextView tvDate;
         TextView tvTask;
         TextView tvTime;
         TextView tvLocation;
         LinearLayout layout;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvDate = itemView.findViewById(R.id.tvDate);
             tvTime = itemView.findViewById(R.id.tvTime);
@@ -107,23 +77,5 @@ class EntryAdapter extends BaseAdapter {
             tvTask = itemView.findViewById(R.id.tvTask);
             layout = itemView.findViewById(R.id.linearLayout);
         }
-      
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        Entry entry = entryList.get(i);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.entry_layout, null);
-        ((TextView) v.findViewById(R.id.tvTask)).setText(context.getString(R.string.task_string,
-                entry.getTask()));
-        ((TextView) v.findViewById(R.id.tvDate)).setText(entry.getDate().toString());
-        ((TextView) v.findViewById(R.id.tvTime)).setText(entry.getTime().toString());
-        ((TextView) v.findViewById(R.id.tvLocation)).setText(context.getString(R.string.location_string,
-                entry.getDestination()));
-        return v;
     }
 }
