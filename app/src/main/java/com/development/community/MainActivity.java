@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        listView = findViewById(R.id.listView);
         ListView x = null;
         ArrayList<Entry> testArrayList = new ArrayList<>();
         testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
@@ -64,6 +65,9 @@ public class MainActivity extends AppCompatActivity {
         entryAdapter = new EntryAdapter(MainActivity.this, times,dates,locations,tasks);
         recyclerView.setAdapter(entryAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        entryAdapter = new EntryAdapter(MainActivity.this, testArrayList);
+        listView.setAdapter(entryAdapter);
+
 
     }
 
