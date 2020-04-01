@@ -4,8 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ListView;
+
+import com.google.firebase.database.core.view.View;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +18,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Button postButton = (Button)findViewById(R.id.postButton);
+
+        postButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, EntryActivity.class));
+            }
+        });
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
