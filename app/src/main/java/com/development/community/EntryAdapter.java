@@ -1,54 +1,81 @@
 package com.development.community;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-class EntryAdapter extends BaseAdapter {
-    private ArrayList<Entry> entryList;
+class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
+    private static final String TAG = "RecycleViewAdapter";
+
+    private ArrayList<Time> times = new ArrayList<>();
+    private ArrayList<Date> dates = new ArrayList<>();
+    private ArrayList<String> locations = new ArrayList<>();
+    private ArrayList<String> tasks = new ArrayList<>();
     private Context context;
-    EntryAdapter(Context context, ArrayList<Entry> entryList){
-        super();
-        this.entryList = entryList;
+
+    public EntryAdapter( Context context,  ArrayList<Time> times, ArrayList<Date> dates, ArrayList<String> locations, ArrayList<String> tasks) {
+        this.times = times;
+        this.dates = dates;
+        this.locations = locations;
+        this.tasks = tasks;
         this.context = context;
-
-    }
-    EntryAdapter(){
-        super();
-        this.entryList = new ArrayList<>();
-    }
-    
-    @Override
-    public int getCount() {
-        return entryList.size();
     }
 
+    @NonNull
     @Override
-    public Object getItem(int i) {
-        return entryList.get(i);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entry_layout, parent, false);
+        ViewHolder holder = new ViewHolder(view);
+        return holder;
+    }
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Log.d(TAG, "onBindViewHolder called");
+        holder.tvTask.setText(tasks.get(position));
+        holder.tvDate.setText(dates.get(position).toString());
+        holder.tvTime.setText(times.get(position).toString());
+        holder.tvLocation.setText(locations.get(position));
+
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(context, "An item was clicked", Toast.LENGTH_SHORT).show();
+                // Replace with allowing the user to sign up to complete the task
+            }
+        });
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
+    public int getItemCount() {
+        return tasks.size();
     }
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        Entry entry = entryList.get(i);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.entry_layout, null);
-        ((TextView) v.findViewById(R.id.tvTask)).setText(context.getString(R.string.task_string,
-                entry.getTask()));
-        ((TextView) v.findViewById(R.id.tvDate)).setText(entry.getDate().toString());
-        ((TextView) v.findViewById(R.id.tvTime)).setText(entry.getTime().toString());
-        ((TextView) v.findViewById(R.id.tvLocation)).setText(context.getString(R.string.location_string,
-                entry.getDestination()));
-        return v;
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        TextView tvDate;
+        TextView tvTask;
+        TextView tvTime;
+        TextView tvLocation;
+        LinearLayout layout;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvDate = itemView.findViewById(R.id.tvDate);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            tvLocation = itemView.findViewById(R.id.tvLocation);
+            tvTask = itemView.findViewById(R.id.tvTask);
+            layout = itemView.findViewById(R.id.linearLayout);
+        }
     }
 }

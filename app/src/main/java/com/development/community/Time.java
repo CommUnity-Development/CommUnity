@@ -3,6 +3,7 @@ package com.development.community;
 import java.util.Calendar;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class Time implements Serializable {
         this.minute = minute;
     }
 
+    @NonNull
     @Override
     public String toString(){
         String minuteString = String.valueOf(minute);
