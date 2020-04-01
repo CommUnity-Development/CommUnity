@@ -2,6 +2,7 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,13 +21,15 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     EntryAdapter entryAdapter;
     ArrayList<Entry> testArrayList = new ArrayList<>();
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
-        
-        Button postButton = (Button)findViewById(R.id.postButton);
+
+        ImageButton postButton = findViewById(R.id.postButton);
 
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 startActivity(new Intent(MainActivity.this, EntryActivity.class));
             }
         });
+
+
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
 
