@@ -29,7 +29,7 @@ and folders within each folder.
 The `cd` command allows you to change where you are. Running `cd` on its own will take you to your home directory. Running
 `cd foldername` allows you to change your directory into the folder named "foldername". Running `cd ..` takes you back one 
 folder (for example, if your current path is `/users/darshankrishnaswamy/documents/somefolder`, then running `cd ..` will 
-take you to `/users/darshankrishnaswamy/documents`.
+take you to `/users/darshankrishnaswamy/documents` (side note: `..` symbolizes the parent directory for your current directory, so `cd ..` works by changing your current directory to the parent directory of the current directory).
 
 ## Git Commands
 
@@ -41,7 +41,7 @@ The most basic git commands are `git add`, `git commit`, `git push`, and `git pu
 `git add` allows you to add files to version control. If you make a new file, the file will not be added to the repository 
 until you run `git add filename`. Additionally, if you modify a file, you have to run `git add filename` in order to stage 
 your changes to be added to version control. To make things simple, as long as you have a `.gitignore` file created (which 
-Android Studio does by default), you can run `git add .`, which adds all new or edited files to git.
+Android Studio does by default), you can run `git add .`, which adds all new or edited files to git (side note: the `.` character symbolizes your current directory, similarly to how `..` represents the parent directory of the current directory, so `git add .` works by adding all files in your current directory).
 
 `git commit` allows you to save any new files or changes that you have made (this must be run after you have added all the 
 files that you have changed). It is generally run as `git commit -m "message"`, where message is your commit message (a 
