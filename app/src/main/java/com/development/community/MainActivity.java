@@ -2,25 +2,56 @@ package com.development.community;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.service.autofill.TextValueSanitizer;
-import android.view.View;
-import android.widget.TextView;
+import android.widget.ListView;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
+    EntryAdapter entryAdapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        TextView tv = findViewById(R.id.hello_world);
-        tv.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, EntryActivity.class);
-                startActivity(intent);
-            }
-        });
+        listView = findViewById(R.id.listView);
+        ListView x = null;
+        ArrayList<Entry> testArrayList = new ArrayList<>();
+        testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
+                "Earth", "Buy groceries"));
+        testArrayList.add(new Entry(new Date(10,11,2017), new Time(12,8),
+                "Florida", "Watch a movie"));
+        testArrayList.add(new Entry(new Date(6,23,1982), new Time(8,9),
+                "Mars", "Gather rocks"));
+        testArrayList.add(new Entry(new Date(5,12,2030), new Time(19,54),
+                "California", "See the Golden Gate Bridge"));
+        testArrayList.add(new Entry(new Date(5,12,1987), new Time(12,18),
+                "Antarctica", "Hang out with penguins"));
+        testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
+                "Earth", "Buy groceries"));
+        testArrayList.add(new Entry(new Date(10,11,2017), new Time(12,8),
+                "Florida", "Watch a movie"));
+        testArrayList.add(new Entry(new Date(6,23,1982), new Time(8,9),
+                "Mars", "Gather rocks"));
+        testArrayList.add(new Entry(new Date(5,12,2030), new Time(19,54),
+                "California", "See the Golden Gate Bridge"));
+        testArrayList.add(new Entry(new Date(5,12,1987), new Time(12,18),
+                "Antarctica", "Hang out with penguins"));
+        testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
+                "Earth", "Buy groceries"));
+        testArrayList.add(new Entry(new Date(10,11,2017), new Time(12,8),
+                "Florida", "Watch a movie"));
+        testArrayList.add(new Entry(new Date(6,23,1982), new Time(8,9),
+                "Mars", "Gather rocks"));
+        testArrayList.add(new Entry(new Date(5,12,2030), new Time(19,54),
+                "California", "See the Golden Gate Bridge"));
+        testArrayList.add(new Entry(new Date(5,12,1987), new Time(12,18),
+                "Antarctica", "Hang out with penguins"));
+        entryAdapter = new EntryAdapter(MainActivity.this, testArrayList);
+        listView.setAdapter(entryAdapter);
+
     }
+
+
 }

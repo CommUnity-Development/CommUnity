@@ -9,4 +9,6 @@
     <string name="submit">Submit</string>
     <string name="choose_a_date">Choose a Date</string>
     <string name="choose_a_time">Choose a Time</string>
+    <string name="location_string">Location: %1$s</string>
+    <string name="task_string">Task: %1$s</string>
 </resources>
