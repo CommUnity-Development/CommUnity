@@ -41,6 +41,8 @@ public class Time implements Serializable {
 
     @Override
     public String toString(){
-        return hour + ":" + minute;
+        String minuteString = String.valueOf(minute);
+        if(minute < 10) minuteString = "0"+minuteString;
+        return hour + ":" + minuteString;
     }
 }
