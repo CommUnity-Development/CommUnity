@@ -1,5 +1,9 @@
 package com.development.community;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +16,9 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener{
     EntryAdapter entryAdapter;
-    ListView listView;
+    ArrayList<Entry> testArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
-        ListView x = null;
-        ArrayList<Entry> testArrayList = new ArrayList<>();
+
+
         testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
                 "Earth", "Buy groceries"));
         testArrayList.add(new Entry(new Date(10,11,2017), new Time(12,8),
@@ -75,10 +79,18 @@ public class MainActivity extends AppCompatActivity {
             dates.add(item.getDate());
             locations.add(item.getDestination());
         }
-        entryAdapter = new EntryAdapter(MainActivity.this, times,dates,locations,tasks);
+        entryAdapter = new EntryAdapter(MainActivity.this, times,dates,locations,tasks, this);
         recyclerView.setAdapter(entryAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
 
+    @Override
+    public void onEntryClick(int position) {
+//        Toast.makeText(this, "CLICKED", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(this, EntryActivity.class);
+        intent.putExtra("Entry", testArrayList.get(position)); //Example of how to use it
+        startActivity(intent);
+
+    }
 }
