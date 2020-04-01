@@ -1,6 +1,8 @@
 package com.development.community;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         listView = findViewById(R.id.listView);
         ListView x = null;
         ArrayList<Entry> testArrayList = new ArrayList<>();
@@ -48,8 +51,23 @@ public class MainActivity extends AppCompatActivity {
                 "California", "See the Golden Gate Bridge"));
         testArrayList.add(new Entry(new Date(5,12,1987), new Time(12,18),
                 "Antarctica", "Hang out with penguins"));
+
+        ArrayList<String> tasks = new ArrayList<>();
+        ArrayList<Time> times = new ArrayList<>();
+        ArrayList<Date> dates = new ArrayList<>();
+        ArrayList<String> locations = new ArrayList<>();
+        for(Entry item : testArrayList){
+            tasks.add(item.getTask());
+            times.add(item.getTime());
+            dates.add(item.getDate());
+            locations.add(item.getDestination());
+        }
+        entryAdapter = new EntryAdapter(MainActivity.this, times,dates,locations,tasks);
+        recyclerView.setAdapter(entryAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         entryAdapter = new EntryAdapter(MainActivity.this, testArrayList);
         listView.setAdapter(entryAdapter);
+
 
     }
 

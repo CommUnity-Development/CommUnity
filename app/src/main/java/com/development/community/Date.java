@@ -1,5 +1,7 @@
 package com.development.community;
 
+import androidx.annotation.NonNull;
+
 import java.util.Calendar;
 
 import java.io.Serializable;
@@ -49,6 +51,7 @@ public class Date implements Serializable {
         this.year = year;
     }
 
+    @NonNull
     @Override
     public String toString(){
         return Controller.monthsShort[month] + " " + day + ", " + year;
