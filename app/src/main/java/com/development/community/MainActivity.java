@@ -22,7 +22,10 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        
         Button postButton = (Button)findViewById(R.id.postButton);
 
         postButton.setOnClickListener(new View.OnClickListener() {
@@ -31,10 +34,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 startActivity(new Intent(MainActivity.this, EntryActivity.class));
             }
         });
-
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
 
