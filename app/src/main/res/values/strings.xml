@@ -11,6 +11,18 @@
     <string name="choose_a_time">Choose a Time</string>
     <string name="location_string">Location: %1$s</string>
     <string name="task_string">Task: %1$s</string>
+    <string name="homeAddress">Home Address:</string>
+    <string name="state">State:</string>
+    <string name="town">Town:</string>
+    <string name="bio">Short Bio:</string>
+    <string name="firebase">(firebase)</string>
+    <string name="something_from_firebase">(something from firebase)</string>
+    <string name="yourName">Name:</string>
+    <string name="nameEnter">Ex: Johnny Appleseed</string>
+    <string name="stateEnter">Ex: Massachusetts</string>
+    <string name="townEnter">Ex: Boston</string>
+    <string name="addressEnter">Ex: 85 Prescott Street</string>
+    <string name="bioEnter">Ex: -I like math</string>
     <string name="post">POST</string>
     <string name="postbutton">PostButton</string>
     <string name="a_hamburger_icon">a hamburger icon</string>
@@ -19,3 +31,4 @@
     <string name="location">Location</string>
     <string name="task">Task</string>
 </resources>
+
