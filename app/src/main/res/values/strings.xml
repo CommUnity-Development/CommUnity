@@ -23,5 +23,12 @@
     <string name="townEnter">Ex: Boston</string>
     <string name="addressEnter">Ex: 85 Prescott Street</string>
     <string name="bioEnter">Ex: -I like math</string>
+    <string name="post">POST</string>
+    <string name="postbutton">PostButton</string>
+    <string name="a_hamburger_icon">a hamburger icon</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="location">Location</string>
+    <string name="task">Task</string>
 </resources>
 
