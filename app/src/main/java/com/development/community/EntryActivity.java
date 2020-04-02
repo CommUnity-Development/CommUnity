@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -124,9 +126,15 @@ public class EntryActivity extends AppCompatActivity {
                     intent.putExtra("Time", selectedTime);
                     intent.putExtra("Task", taskTextBox.getText().toString());
                     intent.putExtra("Location", addressTextBox.getText().toString());
-                    databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString()));
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    FirebaseUser user = auth.getCurrentUser();
+                    if(user != null)
+                    {databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString(), user.getDisplayName()));
                     Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
-                    startActivity(intent);
+                    startActivity(intent);}
+                    else{
+                        Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });

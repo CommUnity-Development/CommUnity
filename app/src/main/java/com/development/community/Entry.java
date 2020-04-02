@@ -12,6 +12,7 @@ public class Entry implements Serializable {
     private Time time;
     private String destination;
     private String task;
+    private String username;
 
 
     public Entry(){
@@ -22,11 +23,12 @@ public class Entry implements Serializable {
         this.task = "";
     }
 
-    public Entry(Date date, Time time, String destination, String task){
+    public Entry(Date date, Time time, String destination, String task, String username){
         this.date = date;
         this.time = time;
         this.destination = destination;
         this.task = task;
+        this.username = username;
     }
 
 
@@ -62,11 +64,21 @@ public class Entry implements Serializable {
         this.task = task;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 
     @NonNull
     @Override
     public String toString(){
         return "Task: "+ task + ", Date: "+date.toString() + ", Time: "+time.toString() +
-                ", Location: "+ destination;
+                ", Location: "+ destination + ", Username: "+username;
     }
+
+
 }

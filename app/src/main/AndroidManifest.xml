@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".account_create"/>
-        <activity android:name=".profile_page" />
+        <activity android:name=".Profile_Page" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".EntryActivity" />
         <activity android:name=".MainActivity">
