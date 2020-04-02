@@ -4,20 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.ListView;
 import android.view.View;
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -64,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Entry entry = ds.getValue(Entry.class);
                     testArrayList.add(entry);
+//                    assert entry != null;
                     assert entry != null;
                     tasks.add(entry.getTask());
                     times.add(entry.getTime());
@@ -82,38 +77,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             }
         });
 
-        testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
-                "Earth", "Buy groceries"));
-        testArrayList.add(new Entry(new Date(10,11,2017), new Time(12,8),
-                "Florida", "Watch a movie"));
-        testArrayList.add(new Entry(new Date(6,23,1982), new Time(8,9),
-                "Mars", "Gather rocks"));
-        testArrayList.add(new Entry(new Date(5,12,2030), new Time(19,54),
-                "California", "See the Golden Gate Bridge"));
-        testArrayList.add(new Entry(new Date(5,12,1987), new Time(12,18),
-                "Antarctica", "Hang out with penguins"));
-        testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
-                "Earth", "Buy groceries"));
-        testArrayList.add(new Entry(new Date(10,11,2017), new Time(12,8),
-                "Florida", "Watch a movie"));
-        testArrayList.add(new Entry(new Date(6,23,1982), new Time(8,9),
-                "Mars", "Gather rocks"));
-        testArrayList.add(new Entry(new Date(5,12,2030), new Time(19,54),
-                "California", "See the Golden Gate Bridge"));
-        testArrayList.add(new Entry(new Date(5,12,1987), new Time(12,18),
-                "Antarctica", "Hang out with penguins"));
-        testArrayList.add(new Entry(new Date(5,12,2020), new Time(14,15),
-                "Earth", "Buy groceries"));
-        testArrayList.add(new Entry(new Date(10,11,2017), new Time(12,8),
-                "Florida", "Watch a movie"));
-        testArrayList.add(new Entry(new Date(6,23,1982), new Time(8,9),
-                "Mars", "Gather rocks"));
-        testArrayList.add(new Entry(new Date(5,12,2030), new Time(19,54),
-                "California", "See the Golden Gate Bridge"));
-        testArrayList.add(new Entry(new Date(5,12,1987), new Time(12,18),
-                "Antarctica", "Hang out with penguins"));
-
-
         for(Entry item : testArrayList){
             tasks.add(item.getTask());
             times.add(item.getTime());
@@ -128,8 +91,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     @Override
     public void onEntryClick(int position) {
-//        Toast.makeText(this, "CLICKED", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(this, EntryActivity.class);
+        Intent intent = new Intent(this, SignUpActivity.class);
         intent.putExtra("Entry", testArrayList.get(position)); //Example of how to use it
         startActivity(intent);
 
