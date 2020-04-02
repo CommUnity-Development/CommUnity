@@ -14,7 +14,7 @@ public class Entry implements Serializable {
     private String task;
 
 
-    Entry(){
+    public Entry(){
         Calendar calendar = Calendar.getInstance();
         this.date = new Date();
         this.time = new Time();
@@ -22,7 +22,7 @@ public class Entry implements Serializable {
         this.task = "";
     }
 
-    Entry(Date date, Time time, String destination, String task){
+    public Entry(Date date, Time time, String destination, String task){
         this.date = date;
         this.time = time;
         this.destination = destination;
@@ -30,7 +30,7 @@ public class Entry implements Serializable {
     }
 
 
-    Date getDate() {
+    public Date getDate() {
         return date;
     }
 
@@ -38,7 +38,7 @@ public class Entry implements Serializable {
         this.date = date;
     }
 
-    Time getTime() {
+    public Time getTime() {
         return time;
     }
 
@@ -46,7 +46,7 @@ public class Entry implements Serializable {
         this.time = time;
     }
 
-    String getDestination() {
+    public String getDestination() {
         return destination;
     }
 
@@ -54,7 +54,7 @@ public class Entry implements Serializable {
         this.destination = destination;
     }
 
-    String getTask() {
+    public String getTask() {
         return task;
     }
 
