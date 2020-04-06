@@ -16,7 +16,7 @@
         <activity android:name=".Profile_Page" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".EntryActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"  android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
