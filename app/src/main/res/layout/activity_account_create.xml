@@ -109,7 +109,7 @@
         app:layout_constraintTop_toBottomOf="@+id/userState" />
 
     <EditText
-        android:id="@+id/userAddress"
+        android:id="@+id/userBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -120,10 +120,10 @@
         android:inputType="textPersonName"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/bio"
-        app:layout_constraintTop_toBottomOf="@+id/userAddress4" />
+        app:layout_constraintTop_toBottomOf="@+id/userAddress" />
 
     <EditText
-        android:id="@+id/userAddress4"
+        android:id="@+id/userAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
