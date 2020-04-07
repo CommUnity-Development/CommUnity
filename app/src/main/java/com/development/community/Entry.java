@@ -1,7 +1,6 @@
 package com.development.community;
 
 import androidx.annotation.NonNull;
-import android.location.Location;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -13,9 +12,11 @@ public class Entry implements Serializable {
     private String destination;
     private String task;
     private String username;
+    private Boolean signedUp;
 
 
     public Entry(){
+        this.signedUp = false;
         Calendar calendar = Calendar.getInstance();
         this.date = new Date();
         this.time = new Time();
@@ -23,12 +24,13 @@ public class Entry implements Serializable {
         this.task = "";
     }
 
-    public Entry(Date date, Time time, String destination, String task, String username){
+    public Entry(Date date, Time time, String destination, String task, String username, boolean signedUp){
         this.date = date;
         this.time = time;
         this.destination = destination;
         this.task = task;
         this.username = username;
+        this.signedUp = signedUp;
     }
 
 
@@ -81,4 +83,11 @@ public class Entry implements Serializable {
     }
 
 
+    public Boolean getSignedUp() {
+        return signedUp;
+    }
+
+    public void setSignedUp(Boolean signedUp) {
+        this.signedUp = signedUp;
+    }
 }
