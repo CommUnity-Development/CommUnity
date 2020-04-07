@@ -35,7 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener{
     EntryAdapter entryAdapter;
-    ArrayList<Entry> testArrayList = new ArrayList<>();
+    ArrayList<Entry> entryArrayList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     ArrayList<String> tasks = new ArrayList<>();
@@ -89,8 +89,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Entry entry = ds.getValue(Entry.class);
-                    testArrayList.add(entry);
-//                    assert entry != null;
+                    entryArrayList.add(entry);
                     assert entry != null;
                     tasks.add(entry.getTask());
                     times.add(entry.getTime());
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             }
         });
 
-        for(Entry item : testArrayList){
+        for(Entry item : entryArrayList){
             tasks.add(item.getTask());
             times.add(item.getTime());
             dates.add(item.getDate());
@@ -149,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     @Override
     public void onEntryClick(int position) {
         Intent intent = new Intent(this, SignUpActivity.class);
-        intent.putExtra("Entry", testArrayList.get(position)); //Example of how to use it
+        intent.putExtra("Entry", entryArrayList.get(position)); //Example of how to use it
         startActivity(intent);
 
     }
