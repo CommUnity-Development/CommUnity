@@ -9,18 +9,19 @@
 
     <ImageView
         android:id="@+id/userProfPic"
-        android:layout_width="164dp"
-        android:layout_height="172dp"
-        android:layout_marginTop="30dp"
+        android:layout_width="198dp"
+        android:layout_height="181dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/nice" />
 
     <TextView
-        android:id="@+id/userName"
+        android:id="@+id/userNameView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="CommUnity"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,24 +29,23 @@
         app:layout_constraintTop_toBottomOf="@+id/userProfPic" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="411dp"
-        android:layout_height="460dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="409dp"
+        android:layout_height="409dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/userNameView">
 
         <TextView
-            android:id="@+id/homeAddress"
+            android:id="@+id/bio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="@string/homeAddress"
+            android:text="@string/bio"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/town" />
+            app:layout_constraintTop_toBottomOf="@+id/homeAddress" />
 
         <TextView
             android:id="@+id/state"
@@ -72,31 +72,31 @@
             app:layout_constraintTop_toBottomOf="@+id/state" />
 
         <TextView
-            android:id="@+id/bio"
+            android:id="@+id/homeAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
-            android:text="@string/bio"
+            android:text="@string/homeAddress"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/town" />
 
         <TextView
-            android:id="@+id/userState"
+            android:id="@+id/userStateView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:text="@string/something_from_firebase"
+            android:text="@string/firebase"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/state"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/userTown"
+            android:id="@+id/userTownView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -105,10 +105,10 @@
             android:text="@string/firebase"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/town"
-            app:layout_constraintTop_toBottomOf="@+id/userState" />
+            app:layout_constraintTop_toBottomOf="@+id/userStateView" />
 
         <TextView
-            android:id="@+id/userBio"
+            android:id="@+id/userAddressView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -117,19 +117,20 @@
             android:text="@string/firebase"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/homeAddress"
-            app:layout_constraintTop_toBottomOf="@+id/userTown" />
+            app:layout_constraintTop_toBottomOf="@+id/userTownView" />
 
         <TextView
-            android:id="@+id/userBio"
-            android:layout_width="258dp"
-            android:layout_height="260dp"
+            android:id="@+id/userBioView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:text="@string/firebase"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/bio"
-            app:layout_constraintTop_toBottomOf="@+id/userAddress" />
+            app:layout_constraintTop_toBottomOf="@+id/userAddressView" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
