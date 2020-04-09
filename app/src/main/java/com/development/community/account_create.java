@@ -47,12 +47,13 @@ public class account_create extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(account_create.this, MainActivity.class);
-                if(userName.getText().toString() == null || userState.getText().toString()==null || userTown.getText().toString()==null || userAddress.getText().toString()==null ||
-                        userBio.getText().toString()==null)
+                if(userName.getText().toString() == "" || userState.getText().toString()=="" || userTown.getText().toString()=="" || userAddress.getText().toString()=="" ||
+                        userBio.getText().toString()=="")
                     Toast.makeText(account_create.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
                     databaseReference.push().setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
                             userAddress.getText().toString(),userBio.getText().toString()));
+//                    startActivity(intent);
                 }
             }
         });
