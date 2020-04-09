@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -30,7 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("test");
+        databaseReference = firebaseDatabase.getReference("tasks");
 
         button = findViewById(R.id.signUpButton);
         markButton = findViewById(R.id.markAsCompleteButton);
@@ -50,7 +53,7 @@ public class SignUpActivity extends AppCompatActivity {
                     button.setText("Withdraw");
                     markButton.setVisibility(0);
                 }
-                else button.setText("Sign Up");
+                else button.setText("Mark as incomplete");
             }
 
             @Override
@@ -63,10 +66,24 @@ public class SignUpActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                if(button.getText().equals("Sign Up"))
-                dr.child("status").setValue(1);
-                else if(button.getText().equals("Withdraw"))
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseUser user = auth.getCurrentUser();
+                if(button.getText().equals("Sign Up")) {
+                    dr.child("status").setValue(1);
+                    assert user != null;
+                    Log.d("DISPLAY", user.getDisplayName());
+                    Log.d("DISPLAY", user.getUid());
+                    dr.child("serverUsername").setValue(user.getDisplayName());
+                    dr.child("serverUID").setValue(user.getUid());
+                }
+                else if(button.getText().equals("Withdraw")) {
                     dr.child("status").setValue(0);
+                    dr.child("serverUsername").setValue(null);
+                    dr.child("serverUID").setValue(null);
+                }
+                else{
+
+                }
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
             }
