@@ -2,7 +2,6 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -48,10 +47,12 @@ public class account_create extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(account_create.this, MainActivity.class);
-                if(userName == null || userState==null || userTown==null || userAddress==null || userBio==null)
+                if(userName.getText().toString() == null || userState.getText().toString()==null || userTown.getText().toString()==null || userAddress.getText().toString()==null ||
+                        userBio.getText().toString()==null)
                     Toast.makeText(account_create.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
-                    databaseReference.push().setValue(new User(userName.toString(),userState.toString(),userTown.toString(),userAddress.toString(),userBio.toString()));
+                    databaseReference.push().setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
+                            userAddress.getText().toString(),userBio.getText().toString()));
                 }
             }
         });
@@ -60,4 +61,3 @@ public class account_create extends AppCompatActivity {
 
 
     }
-}
