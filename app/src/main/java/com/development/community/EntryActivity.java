@@ -108,7 +108,7 @@ public class EntryActivity extends AppCompatActivity {
         currentLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Not Implemented
+                //TODO: Implement Current Location Button
             }
         });
 
@@ -126,7 +126,7 @@ public class EntryActivity extends AppCompatActivity {
                     FirebaseAuth auth = FirebaseAuth.getInstance();
                     FirebaseUser user = auth.getCurrentUser();
                     if(user != null) {
-                        databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString(), user.getDisplayName(), false));
+                        databaseReference.push().setValue(new EntryWithId(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString(), user.getDisplayName(), 0, databaseReference.push().getKey()));
                     Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                     }

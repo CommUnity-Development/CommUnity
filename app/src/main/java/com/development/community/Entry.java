@@ -12,11 +12,11 @@ public class Entry implements Serializable {
     private String destination;
     private String task;
     private String username;
-    private Boolean signedUp;
+    private int status; // 0: Not signed up, 1: In progress, 2: Completed
 
 
     public Entry(){
-        this.signedUp = false;
+        this.status = 0;
         Calendar calendar = Calendar.getInstance();
         this.date = new Date();
         this.time = new Time();
@@ -24,14 +24,16 @@ public class Entry implements Serializable {
         this.task = "";
     }
 
-    public Entry(Date date, Time time, String destination, String task, String username, boolean signedUp){
+    public Entry(Date date, Time time, String destination, String task, String username, int status){
         this.date = date;
         this.time = time;
         this.destination = destination;
         this.task = task;
         this.username = username;
-        this.signedUp = signedUp;
+        this.status = status;
     }
+
+
 
 
     public Date getDate() {
@@ -83,11 +85,11 @@ public class Entry implements Serializable {
     }
 
 
-    public Boolean getSignedUp() {
-        return signedUp;
+    public int getStatus() {
+        return status;
     }
 
-    public void setSignedUp(Boolean signedUp) {
-        this.signedUp = signedUp;
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
