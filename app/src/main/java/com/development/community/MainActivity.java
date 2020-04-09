@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageButton;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -42,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<Time> times = new ArrayList<>();
     ArrayList<Date> dates = new ArrayList<>();
     ArrayList<String> locations = new ArrayList<>();
+    ArrayList<String> ids = new ArrayList<>();
+    ArrayList<String> usernames = new ArrayList<>();
+    ArrayList<Integer> statuses = new ArrayList<>();
     FirebaseAuth firebaseAuth;
     FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 123;
@@ -87,6 +91,14 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                entryArrayList.clear();
+                times.clear();
+                dates.clear();
+                tasks.clear();
+                locations.clear();
+                ids.clear();
+                statuses.clear();
+                usernames.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
                     Entry entry = ds.getValue(Entry.class);
                     entryArrayList.add(entry);
@@ -95,8 +107,12 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     times.add(entry.getTime());
                     dates.add(entry.getDate());
                     locations.add(entry.getDestination());
+                    ids.add(ds.getKey());
+                    statuses.add(entry.getStatus());
+                    usernames.add(entry.getUsername());
+
                 }
-                entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks,
+                entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,//TODO: See if this works
                         MainActivity.this);
                 recyclerView.setAdapter(entryAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -104,19 +120,20 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("TAG", "onCancelled: ");
             }
         });
 
-        for(Entry item : entryArrayList){
-            tasks.add(item.getTask());
-            times.add(item.getTime());
-            dates.add(item.getDate());
-            locations.add(item.getDestination());
-        }
-        entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, this);
-        recyclerView.setAdapter(entryAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+//        for(Entry item : entryArrayList){
+//            tasks.add(item.getTask());
+//            times.add(item.getTime());
+//            dates.add(item.getDate());
+//            locations.add(item.getDestination());
+//
+//        }
+//        entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,this); //TODO: Implement IDs
+//        recyclerView.setAdapter(entryAdapter);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         authStateListener = new FirebaseAuth.AuthStateListener(){
 
@@ -127,6 +144,42 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     //user is signed in
                     onSignedInInitialize(user.getDisplayName());
                     Toast.makeText(MainActivity.this, "You are now signed in.",Toast.LENGTH_LONG).show();
+//                    recyclerView.clearOnChildAttachStateChangeListeners();
+
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            entryArrayList.clear();
+                            times.clear();
+                            dates.clear();
+                            tasks.clear();
+                            locations.clear();
+                            ids.clear();
+                            statuses.clear();
+                            usernames.clear();
+                            for(DataSnapshot ds : dataSnapshot.getChildren()){
+                                Entry entry = ds.getValue(Entry.class);
+                                entryArrayList.add(entry);
+                                assert entry != null;
+                                tasks.add(entry.getTask());
+                                times.add(entry.getTime());
+                                dates.add(entry.getDate());
+                                locations.add(entry.getDestination());
+                                ids.add(ds.getKey());
+                                statuses.add(entry.getStatus());
+                                usernames.add(entry.getUsername());
+
+                            }
+                            entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,//TODO: See if this works
+                                    MainActivity.this);
+                            recyclerView.setAdapter(entryAdapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                        }
+                    });
                 }else{
                     onSignedOutCleanUp();
                     //user is signed out
@@ -148,7 +201,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     @Override
     public void onEntryClick(int position) {
         Intent intent = new Intent(this, SignUpActivity.class);
-        intent.putExtra("Entry", entryArrayList.get(position)); //Example of how to use it
+        intent.putExtra("ID", ids.get(position));
         startActivity(intent);
 
     }
