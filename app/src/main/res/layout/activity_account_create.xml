@@ -67,7 +67,7 @@
         app:layout_constraintTop_toBottomOf="@+id/state" />
 
     <EditText
-        android:id="@+id/userNameView"
+        android:id="@+id/userName"
         android:layout_width="282dp"
         android:layout_height="49dp"
         android:layout_marginStart="10dp"
@@ -84,15 +84,15 @@
         android:id="@+id/userState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
         android:ems="10"
         android:hint="@string/stateEnter"
         android:inputType="textPersonName"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/state"
-        app:layout_constraintTop_toBottomOf="@+id/userNameView" />
+        app:layout_constraintTop_toBottomOf="@+id/userName" />
 
     <EditText
         android:id="@+id/userTown"
