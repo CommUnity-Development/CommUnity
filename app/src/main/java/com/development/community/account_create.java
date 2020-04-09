@@ -53,7 +53,7 @@ public class account_create extends AppCompatActivity {
                 else {
                     databaseReference.push().setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
                             userAddress.getText().toString(),userBio.getText().toString()));
-//                    startActivity(intent);
+                    startActivity(intent);
                 }
             }
         });
