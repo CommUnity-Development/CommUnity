@@ -11,26 +11,36 @@ public class Entry implements Serializable {
     private Time time;
     private String destination;
     private String task;
-    private String username;
+    private String clientUsername;
+    private String clientUID;
     private int status; // 0: Not signed up, 1: In progress, 2: Completed
+    private String serverUsername;
+    private String serverUID;
 
 
     public Entry(){
         this.status = 0;
-        Calendar calendar = Calendar.getInstance();
         this.date = new Date();
         this.time = new Time();
         this.destination = "";
         this.task = "";
+        this.clientUID = null;
+        this.serverUsername = null;
+        this.serverUID = null;
+        this.clientUsername = null;
     }
 
-    public Entry(Date date, Time time, String destination, String task, String username, int status){
+    public Entry(Date date, Time time, String destination, String task, String clientUsername, String clientUID, int status,
+                 String serverUsername, String serverUID){
         this.date = date;
         this.time = time;
         this.destination = destination;
         this.task = task;
-        this.username = username;
+        this.clientUsername = clientUsername;
         this.status = status;
+        this.clientUID = clientUID;
+        this.serverUID = serverUID;
+        this.serverUsername = serverUsername;
     }
 
 
@@ -68,12 +78,12 @@ public class Entry implements Serializable {
         this.task = task;
     }
 
-    public String getUsername() {
-        return username;
+    public String getClientUsername() {
+        return clientUsername;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setClientUsername(String username) {
+        this.clientUsername = username;
     }
 
 
@@ -81,7 +91,7 @@ public class Entry implements Serializable {
     @Override
     public String toString(){
         return "Task: "+ task + ", Date: "+date.toString() + ", Time: "+time.toString() +
-                ", Location: "+ destination + ", Username: "+username;
+                ", Location: "+ destination + ", Client Username: "+clientUsername;
     }
 
 
@@ -91,5 +101,29 @@ public class Entry implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getClientUID() {
+        return clientUID;
+    }
+
+    public void setClientUID(String clientUID) {
+        this.clientUID = clientUID;
+    }
+
+    public String getServerUsername() {
+        return serverUsername;
+    }
+
+    public void setServerUsername(String serverUsername) {
+        this.serverUsername = serverUsername;
+    }
+
+    public String getServerUID() {
+        return serverUID;
+    }
+
+    public void setServerUID(String serverUID) {
+        this.serverUID = serverUID;
     }
 }
