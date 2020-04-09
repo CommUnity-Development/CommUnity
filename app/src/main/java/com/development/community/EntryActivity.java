@@ -1,13 +1,9 @@
 package com.development.community;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,10 +11,13 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.Serializable;
 import java.util.Calendar;
 
 public class EntryActivity extends AppCompatActivity {
@@ -109,7 +108,7 @@ public class EntryActivity extends AppCompatActivity {
         currentLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Not Implemented
+                //TODO: Implement Current Location Button
             }
         });
 
@@ -124,9 +123,16 @@ public class EntryActivity extends AppCompatActivity {
                     intent.putExtra("Time", selectedTime);
                     intent.putExtra("Task", taskTextBox.getText().toString());
                     intent.putExtra("Location", addressTextBox.getText().toString());
-                    databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString()));
+                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                    FirebaseUser user = auth.getCurrentUser();
+                    if(user != null) {
+                        databaseReference.push().setValue(new EntryWithId(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString(), user.getDisplayName(), 0, databaseReference.push().getKey()));
                     Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
                     startActivity(intent);
+                    }
+                    else{
+                        Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });

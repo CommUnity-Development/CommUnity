@@ -24,17 +24,22 @@ class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
     private ArrayList<Date> dates;
     private ArrayList<String> locations;
     private ArrayList<String> tasks;
-    private Context context;
+    private ArrayList<String> usernames;
+    private ArrayList<Integer> statuses;
+    private static Context context;
     private onEntryListener mOnEntryListener;
+    private ArrayList<String> ids;
 
-    EntryAdapter(Context context, ArrayList<Time> times, ArrayList<Date> dates, ArrayList<String> locations, ArrayList<String> tasks, onEntryListener mOnEntryListener) {
+    EntryAdapter(Context context, ArrayList<Time> times, ArrayList<Date> dates, ArrayList<String> locations, ArrayList<String> tasks, ArrayList<Integer> statuses, ArrayList<String> usernames, ArrayList<String> ids, onEntryListener mOnEntryListener) {
         this.times = times;
         this.dates = dates;
         this.locations = locations;
         this.tasks = tasks;
         this.context = context;
         this.mOnEntryListener = mOnEntryListener;
-
+        this.statuses = statuses;
+        this.usernames = usernames;
+        this.ids = ids;
     }
 
     @NonNull
@@ -50,6 +55,8 @@ class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
         holder.tvDate.setText(dates.get(position).toString());
         holder.tvTime.setText(times.get(position).toString());
         holder.tvLocation.setText(locations.get(position));
+        holder.tvUsername.setText("Requested by " +usernames.get(position));
+        holder.tvStatus.setText("Status: " +Controller.statuses[statuses.get(position)]);
     }
 
     @Override
@@ -67,6 +74,8 @@ class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
         TextView tvTime;
         TextView tvLocation;
         LinearLayout layout;
+        TextView tvStatus;
+        TextView tvUsername;
         onEntryListener onEntryListener;
 
         ViewHolder(@NonNull View itemView, onEntryListener onEntryListener) {
@@ -76,6 +85,8 @@ class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
             tvLocation = itemView.findViewById(R.id.tvLocation);
             tvTask = itemView.findViewById(R.id.tvTask);
             layout = itemView.findViewById(R.id.linearLayout);
+            tvStatus = itemView.findViewById(R.id.tvStatus);
+            tvUsername = itemView.findViewById(R.id.tvUsername);
             this.onEntryListener = onEntryListener;
 
             itemView.setOnClickListener(this);
@@ -87,6 +98,7 @@ class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
         public void onClick(View view) {
             onEntryListener.onEntryClick(getAdapterPosition());
             Log.d(TAG, "onClick: success");
+
         }
     }
 }
