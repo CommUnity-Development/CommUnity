@@ -19,6 +19,7 @@ import java.util.Objects;
 public class SignUpActivity extends AppCompatActivity {
 
     private Button button;
+    private Button markButton;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -32,6 +33,7 @@ public class SignUpActivity extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference("test");
 
         button = findViewById(R.id.signUpButton);
+        markButton = findViewById(R.id.markAsCompleteButton);
 
         String id = Objects.requireNonNull(getIntent().getExtras()).getString("ID");
         assert id != null;
@@ -44,7 +46,10 @@ public class SignUpActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 status[0] = Integer.parseInt(String.valueOf(dataSnapshot.getValue()));
                 if(status[0] == 0) button.setText("Sign Up");
-                else if(status[0] == 1) button.setText("Withdraw");
+                else if(status[0] == 1) {
+                    button.setText("Withdraw");
+                    markButton.setVisibility(0);
+                }
                 else button.setText("Sign Up");
             }
 
@@ -62,6 +67,15 @@ public class SignUpActivity extends AppCompatActivity {
                 dr.child("status").setValue(1);
                 else if(button.getText().equals("Withdraw"))
                     dr.child("status").setValue(0);
+                Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        markButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dr.child("status").setValue(2);
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
             }
