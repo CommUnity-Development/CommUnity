@@ -10,9 +10,4 @@ public class Controller {
             "September", "October","November", "December"};
     public static String[] statuses = {"Not Signed Up", "In Progress", "Complete"};
 
-    //TODO: Implement Updating Database
-//    public boolean updateDatabase(Date date, Time time, String destination, String task, String username, int signedUp){
-//        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("test");
-//
-//    }
 }

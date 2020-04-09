@@ -2,11 +2,9 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageButton;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

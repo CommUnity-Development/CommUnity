@@ -126,7 +126,7 @@ public class EntryActivity extends AppCompatActivity {
                     FirebaseAuth auth = FirebaseAuth.getInstance();
                     FirebaseUser user = auth.getCurrentUser();
                     if(user != null) {
-                        databaseReference.push().setValue(new EntryWithId(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString(), user.getDisplayName(), 0, databaseReference.push().getKey()));
+                        databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(), taskTextBox.getText().toString(), user.getDisplayName(), 0));
                     Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
                     startActivity(intent);
                     }
