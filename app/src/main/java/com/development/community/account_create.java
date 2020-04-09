@@ -1,14 +1,31 @@
 package com.development.community;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class account_create extends AppCompatActivity {
+
+    private EditText userName;
+    private EditText userState;
+    private EditText userTown;
+    private EditText userAddress;
+    private EditText userBio;
+
+    private Button createButton;
+
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,14 +33,31 @@ public class account_create extends AppCompatActivity {
         setContentView(R.layout.activity_account_create);
 
 
-        @SuppressLint("WrongViewCast") ImageButton createButton = findViewById(R.id.createButton);
+        userName = findViewById(R.id.userName);
+        userState = findViewById(R.id.userState);
+        userTown = findViewById(R.id.userTown);
+        userAddress = findViewById(R.id.userAddress);
+        userBio = findViewById(R.id.userBio);
+
+        createButton = findViewById(R.id.createButton);
+
+        firebaseDatabase =  FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(account_create.this, EntryActivity.class));
+            public void onClick(View view) {
+                Intent intent = new Intent(account_create.this, MainActivity.class);
+                if(userName == null || userState==null || userTown==null || userAddress==null || userBio==null)
+                    Toast.makeText(account_create.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
+                else {
+                    databaseReference.push().setValue(new Entry());
+                }
             }
         });
+    }
+
+
 
     }
 }
