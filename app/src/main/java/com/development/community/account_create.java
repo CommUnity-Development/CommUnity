@@ -47,8 +47,8 @@ public class account_create extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(account_create.this, MainActivity.class);
-                if(userName.getText().toString() == "" || userState.getText().toString()=="" || userTown.getText().toString()=="" || userAddress.getText().toString()=="" ||
-                        userBio.getText().toString()=="")
+                if(userName.getText().toString().equals("") || userState.getText().toString().equals("") || userTown.getText().toString().equals("") || userAddress.getText().toString().equals("") ||
+                        userBio.getText().toString().equals(""))
                     Toast.makeText(account_create.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
                     databaseReference.push().setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
