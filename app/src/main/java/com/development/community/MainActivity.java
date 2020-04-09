@@ -2,11 +2,9 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageButton;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("test");
+        databaseReference = firebaseDatabase.getReference("tasks");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -109,10 +107,10 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     locations.add(entry.getDestination());
                     ids.add(ds.getKey());
                     statuses.add(entry.getStatus());
-                    usernames.add(entry.getUsername());
+                    usernames.add(entry.getClientUsername());
 
                 }
-                entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,//TODO: See if this works
+                entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
                         MainActivity.this);
                 recyclerView.setAdapter(entryAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
@@ -124,17 +122,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         });
 
 
-//        for(Entry item : entryArrayList){
-//            tasks.add(item.getTask());
-//            times.add(item.getTime());
-//            dates.add(item.getDate());
-//            locations.add(item.getDestination());
-//
-//        }
-//        entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,this); //TODO: Implement IDs
-//        recyclerView.setAdapter(entryAdapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         authStateListener = new FirebaseAuth.AuthStateListener(){
 
             @Override
@@ -144,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     //user is signed in
                     onSignedInInitialize(user.getDisplayName());
                     Toast.makeText(MainActivity.this, "You are now signed in.",Toast.LENGTH_LONG).show();
-//                    recyclerView.clearOnChildAttachStateChangeListeners();
 
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -167,10 +153,10 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                                 locations.add(entry.getDestination());
                                 ids.add(ds.getKey());
                                 statuses.add(entry.getStatus());
-                                usernames.add(entry.getUsername());
+                                usernames.add(entry.getClientUsername());
 
                             }
-                            entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,//TODO: See if this works
+                            entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
                                     MainActivity.this);
                             recyclerView.setAdapter(entryAdapter);
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
