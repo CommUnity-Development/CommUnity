@@ -29,6 +29,8 @@ public class User implements Serializable {
         return name;
     }
 
+
+
     public void setName(String name) {
         this.name = name;
     }
@@ -64,5 +66,17 @@ public class User implements Serializable {
     public void setBio(String bio) {
         this.bio = bio;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", state='" + state + '\'' +
+                ", town='" + town + '\'' +
+                ", address='" + address + '\'' +
+                ", bio='" + bio + '\'' +
+                '}';
+    }
+
 
 }

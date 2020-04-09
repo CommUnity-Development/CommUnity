@@ -51,7 +51,7 @@ public class account_create extends AppCompatActivity {
                 if(userName == null || userState==null || userTown==null || userAddress==null || userBio==null)
                     Toast.makeText(account_create.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
-                    databaseReference.push().setValue(new Entry());
+                    databaseReference.push().setValue(new User(userName.toString(),userState.toString(),userTown.toString(),userAddress.toString(),userBio.toString()));
                 }
             }
         });
