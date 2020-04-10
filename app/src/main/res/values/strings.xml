@@ -39,8 +39,10 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_account">My Profile</string>
+    <string name="menu_tasksUp">Upcoming Tasks</string>
+    <string name="menu_tasksPast">Past Tasks</string>
+    <string name="menu_messaging">Messaging</string>
 
     <string name="home_second">Home Second</string>
     <string name="sign_out">Sign Out</string>
