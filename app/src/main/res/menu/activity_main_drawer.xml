@@ -18,7 +18,7 @@
         android:title="@string/menu_tasksUp" />
         <item
             android:id="@+id/nav_tasksPast"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_arrow_downward_black_24dp"
             android:title="@string/menu_tasksPast" />
         <item
             android:id="@+id/nav_messaging"
