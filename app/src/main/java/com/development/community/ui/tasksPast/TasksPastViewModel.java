@@ -10,7 +10,7 @@ public class TasksPastViewModel extends ViewModel {
 
     public TasksPastViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
+        mText.setValue("This is TasksPast fragment");
     }
 
     public LiveData<String> getText() {
