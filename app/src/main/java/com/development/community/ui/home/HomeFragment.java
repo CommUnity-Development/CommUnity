@@ -1,4 +1,4 @@
-package com.development.community.ui;
+package com.development.community.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +35,9 @@ public class HomeFragment extends Fragment {
     DatabaseReference databaseReference;
     OnPostButtonClickListener postButtonClickListener;
     EntryAdapterMethods entryAdapterMethods;
+    private HomeViewModel homeViewModel;
+
+
 
     public HomeFragment(){
 
@@ -66,6 +69,10 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+        homeViewModel =
+                ViewModelProviders.of(this).get(HomeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
         final RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
