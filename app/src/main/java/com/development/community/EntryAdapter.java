@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
+public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
     private static final String TAG = "RecycleViewAdapter";
 
     private ArrayList<Time> times;

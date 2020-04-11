@@ -2,6 +2,7 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.widget.ImageButton;
 
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.development.community.ui.HomeFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +35,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener{
+public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
+        HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods {
     EntryAdapter entryAdapter;
     ArrayList<Entry> entryArrayList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
@@ -55,20 +59,19 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        HomeFragment homeFragment = new HomeFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add(R.id.frame_layout, homeFragment).commit();
+
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         firebaseAuth = FirebaseAuth.getInstance();
 
-        ImageButton postButton = findViewById(R.id.postButton);
 
-        postButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, EntryActivity.class));
-            }
-        });
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-        final RecyclerView recyclerView = findViewById(R.id.recyclerView);
+
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -98,6 +101,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 statuses.clear();
                 usernames.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Log.d("DATASNAPSHOT", ds.toString());
                     Entry entry = ds.getValue(Entry.class);
                     entryArrayList.add(entry);
                     assert entry != null;
@@ -112,8 +116,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 }
                 entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
                         MainActivity.this);
-                recyclerView.setAdapter(entryAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
             }
 
             @Override
@@ -158,8 +161,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                             }
                             entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
                                     MainActivity.this);
-                            recyclerView.setAdapter(entryAdapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
                         }
 
                         @Override
@@ -209,6 +210,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     private void onSignedOutCleanUp(){
 
+
     }
 
     @Override
@@ -223,5 +225,20 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onPostButtonClick() {
+        startActivity(new Intent(MainActivity.this, EntryActivity.class));
+    }
+
+    @Override
+    public EntryAdapter getAdapter() {
+        return entryAdapter;
+    }
+
+    @Override
+    public LinearLayoutManager getLayoutManager() {
+        return new LinearLayoutManager(MainActivity.this);
     }
 }

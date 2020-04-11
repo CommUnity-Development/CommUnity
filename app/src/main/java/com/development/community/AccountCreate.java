@@ -9,10 +9,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class account_create extends AppCompatActivity {
+import java.util.Objects;
+
+public class AccountCreate extends AppCompatActivity {
 
     private EditText userName;
     private EditText userState;
@@ -46,12 +49,14 @@ public class account_create extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(account_create.this, MainActivity.class);
+                Intent intent = new Intent(AccountCreate.this, MainActivity.class);
                 if(userName.getText().toString().equals("") || userState.getText().toString().equals("") || userTown.getText().toString().equals("") || userAddress.getText().toString().equals("") ||
                         userBio.getText().toString().equals(""))
-                    Toast.makeText(account_create.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AccountCreate.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
-                    databaseReference.push().setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
+                    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+                    databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
                             userAddress.getText().toString(),userBio.getText().toString()));
                     startActivity(intent);
                 }
