@@ -48,5 +48,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_profile">Profile</string>
 </resources>
 

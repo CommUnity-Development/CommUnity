@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        HomeFragment homeFragment = new HomeFragment();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.fragment_home, homeFragment).commit();
+//        HomeFragment homeFragment = new HomeFragment();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().add(R.id.fragment_home, homeFragment).commit();
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_tasksUp)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_tasksUp, R.id.nav_tasksPast, R.id.nav_messaging)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

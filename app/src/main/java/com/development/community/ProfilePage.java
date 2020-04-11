@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class Profile_Page extends AppCompatActivity {
+public class ProfilePage extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

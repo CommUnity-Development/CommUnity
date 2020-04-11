@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".AccountCreate"/>
-        <activity android:name=".Profile_Page" />
+        <activity android:name=".ProfilePage" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".EntryActivity" />
         <activity android:name=".MainActivity"  android:theme="@style/AppTheme.NoActionBar">
