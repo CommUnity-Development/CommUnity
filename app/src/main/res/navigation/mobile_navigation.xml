@@ -11,34 +11,31 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
-<!--        <action-->
-<!--            android:id="@+id/action_HomeFragment_to_HomeSecondFragment"-->
-<!--            app:destination="@id/nav_home_second" />-->
     </fragment>
-<!--    <fragment-->
-<!--        android:id="@+id/nav_home_second"-->
-<!--        android:name="com.development.community.ui.HomeSecondFragment"-->
-<!--        android:label="@string/home_second"-->
-<!--        tools:layout="@layout/fragment_home_second">-->
-<!--        <action-->
-<!--            android:id="@+id/action_HomeSecondFragment_to_HomeFragment"-->
-<!--            app:destination="@id/nav_home" />-->
 
-<!--        <argument-->
-<!--            android:name="myArg"-->
-<!--            app:argType="string" />-->
-<!--    </fragment>-->
 
     <!--TODO: Implement these-->
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.development.community.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:name="com.development.community.ui.profile.ProfileFragment"
+        android:label="@string/menu_profile"
+        tools:layout="@layout/fragment_profile" />
 
     <fragment
         android:id="@+id/nav_tasksUp"
-        android:name="com.development.community.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:name="com.development.community.ui.tasksUp.TasksUpFragment"
+        android:label="@string/menu_tasksUp"
+        tools:layout="@layout/fragment_tasks_up" />
+
+    <fragment
+        android:id="@+id/nav_tasksPast"
+        android:name="com.development.community.ui.tasksPast.TasksPastFragment"
+        android:label="@string/menu_tasksPast"
+        tools:layout="@layout/fragment_tasks_past" />
+
+    <fragment
+        android:id="@+id/nav_messaging"
+        android:name="com.development.community.ui.messaging.MessagingFragment"
+        android:label="@string/menu_messaging"
+        tools:layout="@layout/fragment_messaging" />
 </navigation>
