@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         HomeFragment homeFragment = new HomeFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.frame_layout, homeFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_home, homeFragment).commit();
 
 
         firebaseDatabase = FirebaseDatabase.getInstance();
