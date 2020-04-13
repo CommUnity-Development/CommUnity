@@ -9,17 +9,21 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
 import com.firebase.ui.auth.AuthUI;
@@ -31,6 +35,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
         HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods {
@@ -61,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 //        FragmentManager fragmentManager = getSupportFragmentManager();
 //        fragmentManager.beginTransaction().add(R.id.fragment_home, homeFragment).commit();
 
+//        MessagingFragment mf = new MessagingFragment();
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        fragmentManager.beginTransaction().add(R.id.fragment_home, mf).commit();
+
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
@@ -83,6 +92,17 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
+        final View navHeader = navigationView.getHeaderView(0);
+        ImageView imgView = navHeader.findViewById(R.id.imageView);
+//        imgView.setImageResource(R.drawable.nice);
+
+        TextView username = navHeader.findViewById(R.id.name);
+        if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
+        username.setText(firebaseAuth.getCurrentUser().getDisplayName());
+
+        TextView email = navHeader.findViewById(R.id.email);
+        if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail() != null)
+            email.setText(firebaseAuth.getCurrentUser().getEmail());
 
 
 
@@ -131,6 +151,13 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     //user is signed in
                     onSignedInInitialize(user.getDisplayName());
                     Toast.makeText(MainActivity.this, "You are now signed in.",Toast.LENGTH_LONG).show();
+                    TextView username = navHeader.findViewById(R.id.name);
+                    if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
+                        username.setText(firebaseAuth.getCurrentUser().getDisplayName());
+
+                    TextView email = navHeader.findViewById(R.id.email);
+                    if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail() != null)
+                        email.setText(firebaseAuth.getCurrentUser().getEmail());
 
                     databaseReference.addValueEventListener(new ValueEventListener() {
                         @Override
@@ -191,6 +218,17 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.action_sign_out:
+                AuthUI.getInstance().signOut(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onPause(){
         super.onPause();
         firebaseAuth.removeAuthStateListener(authStateListener);
@@ -206,7 +244,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
     private void onSignedOutCleanUp(){
-
 
     }
 
