@@ -25,7 +25,7 @@ public class ProfileFragment extends Fragment {
     Button editButton;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("Users");
-    FirebaseAuth auth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
 
@@ -52,11 +52,18 @@ public class ProfileFragment extends Fragment {
                 String uidReal = auth.getCurrentUser().getUid();
                 DataSnapshot ds = dataSnapshot.child(uidReal);
                 User user = ds.getValue(User.class);
-                assert user != null;
-                userState.setText(user.getState());
-                userBio.setText(user.getBio());
-                userAddress.setText(user.getAddress());
-                userTown.setText(user.getTown());
+                if(user != null) {
+                    userState.setText(user.getState());
+                    userBio.setText(user.getBio());
+                    userAddress.setText(user.getAddress());
+                    userTown.setText(user.getTown());
+                }
+                else{
+                    userState.setText("Null");
+                    userBio.setText("Null");
+                    userAddress.setText("Null");
+                    userTown.setText("Null");
+                }
             }
 
             @Override
