@@ -39,7 +39,7 @@ public class AccountCreate extends AppCompatActivity {
         userState = findViewById(R.id.userState);
         userTown = findViewById(R.id.userTown);
         userAddress = findViewById(R.id.userAddress);
-        userBio = findViewById(R.id.userBio);
+        userBio = findViewById(R.id.userBioEnter);
 
         createButton = findViewById(R.id.createButton);
 
