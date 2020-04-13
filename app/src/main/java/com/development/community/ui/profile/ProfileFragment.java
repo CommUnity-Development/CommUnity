@@ -25,7 +25,7 @@ public class ProfileFragment extends Fragment {
     Button editButton;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("Users");
-    FirebaseAuth auth;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
 
 
