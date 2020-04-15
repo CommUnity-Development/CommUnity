@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.development.community.MainActivity;
+
 public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;

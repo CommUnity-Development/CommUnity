@@ -22,8 +22,8 @@ public class TasksPastFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         tasksPastViewModel =
                 ViewModelProviders.of(this).get(TasksPastViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tasks_up, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
+        View root = inflater.inflate(R.layout.fragment_tasks_past, container, false);
+        final TextView textView = root.findViewById(R.id.text_tasks_past);
         tasksPastViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
