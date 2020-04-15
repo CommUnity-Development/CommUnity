@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
         userBio = root.findViewById(R.id.userBioView);
         userAddress = root.findViewById(R.id.userAddressView);
         userTown = root.findViewById(R.id.userTownView);
-        editButton = root.findViewById(R.id.editButton);
+        editButton = root.findViewById(R.id.saveButton);
 
 
 

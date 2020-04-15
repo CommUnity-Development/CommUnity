@@ -1,30 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.profile.ProfileFragment">
-
-    <ImageView
-        android:id="@+id/userProfPic2"
-        android:layout_width="198dp"
-        android:layout_height="181dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/nice" />
-
-    <TextView
-        android:id="@+id/userName2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="CommUnity"
-        android:textSize="36sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfPic2" />
+    tools:context=".ui.accountEdit.AccountEdit">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="409dp"
@@ -83,64 +63,68 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/town" />
 
-        <TextView
-            android:id="@+id/userStateView"
+        <EditText
+            android:id="@+id/userStateEnter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/firebase"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/stateEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/state"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/userTownView"
+        <EditText
+            android:id="@+id/userTownEnter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/firebase"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/townEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/town"
-            app:layout_constraintTop_toBottomOf="@+id/userStateView" />
+            app:layout_constraintTop_toBottomOf="@+id/userStateEnter" />
 
-        <TextView
-            android:id="@+id/userAddressView"
+        <EditText
+            android:id="@+id/userAddressEnter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/firebase"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/addressEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/homeAddress"
-            app:layout_constraintTop_toBottomOf="@+id/userTownView" />
+            app:layout_constraintTop_toBottomOf="@+id/userTownEnter" />
 
-        <TextView
-            android:id="@+id/userBioView"
+        <EditText
+            android:id="@+id/userBioEnter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/firebase"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/bioEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/bio"
-            app:layout_constraintTop_toBottomOf="@+id/userAddressView" />
+            app:layout_constraintTop_toBottomOf="@+id/userAddressEnter" />
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="40dp"
-            android:text="@string/editButton"
+            android:text="@string/saveButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
