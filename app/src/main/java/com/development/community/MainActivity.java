@@ -2,6 +2,7 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 
@@ -61,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Learned from https://www.youtube.com/watch?v=jXtof6OUtcE
+
 
 //        HomeFragment homeFragment = new HomeFragment();
 //        FragmentManager fragmentManager = getSupportFragmentManager();
