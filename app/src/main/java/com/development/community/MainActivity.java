@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
+import com.development.community.ui.messaging.MessagingFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,6 +76,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 //        fragmentManager.beginTransaction().add(R.id.fragment_home, mf).commit();
 
 
+
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+//        navigationView.setCheckedItem(R.id.nav_home);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
