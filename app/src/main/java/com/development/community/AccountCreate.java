@@ -44,7 +44,7 @@ public class AccountCreate extends AppCompatActivity {
         createButton = findViewById(R.id.createButton);
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
+        databaseReference = firebaseDatabase.getReference("Users");
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +63,5 @@ public class AccountCreate extends AppCompatActivity {
             }
         });
     }
-
-
 
     }
