@@ -4,12 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.accountEdit.AccountEdit">
+    tools:context=".ui.accountEdit.AccountFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="300dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,8 +70,8 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:ems="10"
+            android:hint="@string/nameEnter"
             android:inputType="textPersonName"
-            android:text="@string/stateEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/state"
             app:layout_constraintTop_toTopOf="parent" />
@@ -84,8 +83,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:ems="10"
+            android:hint="@string/townEnter"
             android:inputType="textPersonName"
-            android:text="@string/townEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/town"
             app:layout_constraintTop_toBottomOf="@+id/userStateEnter" />
@@ -97,8 +96,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:ems="10"
+            android:hint="@string/addressEnter"
             android:inputType="textPersonName"
-            android:text="@string/addressEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/homeAddress"
             app:layout_constraintTop_toBottomOf="@+id/userTownEnter" />
@@ -110,8 +109,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:ems="10"
+            android:hint="@string/bioEnter"
             android:inputType="textPersonName"
-            android:text="@string/bioEnter"
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/bio"
             app:layout_constraintTop_toBottomOf="@+id/userAddressEnter" />
@@ -120,10 +119,11 @@
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="112dp"
             android:text="@string/saveButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -22,8 +22,8 @@ public class MessagingFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         messagingViewModel =
                 ViewModelProviders.of(this).get(MessagingViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
+        View root = inflater.inflate(R.layout.fragment_messaging, container, false);
+        final TextView textView = root.findViewById(R.id.text_messaging);
         messagingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

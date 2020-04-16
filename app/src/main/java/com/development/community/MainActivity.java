@@ -2,6 +2,7 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -25,7 +27,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
+import com.development.community.ui.accountEdit.AccountFragment;
 import com.development.community.ui.home.HomeFragment;
+import com.development.community.ui.profile.ProfileFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +42,8 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
-        HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods {
+        HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods,
+        ProfileFragment.profileFunc {
     EntryAdapter entryAdapter;
     ArrayList<Entry> entryArrayList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
@@ -61,6 +66,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Learned from https://www.youtube.com/watch?v=jXtof6OUtcE
+
 
 //        HomeFragment homeFragment = new HomeFragment();
 //        FragmentManager fragmentManager = getSupportFragmentManager();
@@ -274,5 +281,11 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     @Override
     public LinearLayoutManager getLayoutManager() {
         return new LinearLayoutManager(MainActivity.this);
+    }
+
+    @Override
+    public void edit() {
+        Intent intent = new Intent(MainActivity.this, editAccountActivity.class);
+        startActivity(intent);
     }
 }
