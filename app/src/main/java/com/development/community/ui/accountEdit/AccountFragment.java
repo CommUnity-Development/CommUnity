@@ -43,7 +43,7 @@ public class AccountFragment extends Fragment {
         databaseReference = firebaseDatabase.getReference("Users");
 
 
-        
+
 
 
         return root;
