@@ -28,6 +28,5 @@
             android:id="@+id/nav_messaging"
             android:icon="@drawable/ic_chat_black_24dp"
             android:title="@string/menu_messaging" />
-
     </group>
 </menu>
