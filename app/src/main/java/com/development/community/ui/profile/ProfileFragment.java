@@ -1,18 +1,22 @@
 package com.development.community.ui.profile;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.development.community.R;
 import com.development.community.User;
+import com.development.community.ui.accountEdit.AccountFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +31,9 @@ public class ProfileFragment extends Fragment {
     DatabaseReference ref = database.getReference("Users");
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
+    public interface profileFunc{
+        void edit();
+    }
 
 
     private ProfileViewModel profileViewModel;
@@ -68,7 +75,7 @@ public class ProfileFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                profileFunc profileFunc = (ProfileFragment.profileFunc) getContext();
             }
 
         });
@@ -76,7 +83,14 @@ public class ProfileFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+                try {
+                    profileFunc pf = (profileFunc) getContext();
+                    assert pf != null;
+                    pf.edit();
+                }catch(Exception e){
+                    Log.d("TAG", "Fail"+e.getMessage());
 
+                }
             }
         });
         

@@ -25,11 +25,15 @@ public class AccountFragment extends Fragment {
     DatabaseReference ref = database.getReference("Users");
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
+    public AccountFragment(){
+
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
+        View root = inflater.inflate(R.layout.fragment_account_edit, container, false);
+        final TextView textView = root.findViewById(R.id.text_messaging);
 
 
         userState = root.findViewById(R.id.userState);
