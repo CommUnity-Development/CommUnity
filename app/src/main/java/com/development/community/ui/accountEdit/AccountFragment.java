@@ -17,10 +17,14 @@ public class AccountFragment extends Fragment {
     EditText userState,userTown,userAddress,userBio;
     Button saveButton;
 
+    public AccountFragment(){
+
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_profile, container, false);
+        View root = inflater.inflate(R.layout.fragment_account_edit, container, false);
         final TextView textView = root.findViewById(R.id.text_messaging);
 
         return root;
