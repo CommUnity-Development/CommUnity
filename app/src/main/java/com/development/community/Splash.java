@@ -1,14 +1,14 @@
 package com.development.community;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Splash extends AppCompatActivity {
 
-    private static final int SPLASH_TIME = 3000;
+    private static final int SPLASH_TIME = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
