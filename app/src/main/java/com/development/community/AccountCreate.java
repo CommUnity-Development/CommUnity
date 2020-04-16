@@ -63,7 +63,5 @@ public class AccountCreate extends AppCompatActivity {
             }
         });
     }
-
-
-
+    
     }

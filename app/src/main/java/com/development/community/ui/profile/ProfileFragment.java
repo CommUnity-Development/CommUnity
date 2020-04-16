@@ -79,6 +79,8 @@ public class ProfileFragment extends Fragment {
 
             }
         });
+        
+
 
         return root;
     }
