@@ -27,6 +27,8 @@ public class storage_testing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage_testing);
 
+        photoPicker = findViewById(R.id.photoPicker);
+
         photoPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
