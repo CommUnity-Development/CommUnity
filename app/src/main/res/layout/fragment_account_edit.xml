@@ -15,6 +15,18 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/name"
+            android:layout_width="70dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/yourName"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/bio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +48,7 @@
             android:text="@string/state"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/name" />
 
         <TextView
             android:id="@+id/town"
@@ -63,7 +75,7 @@
             app:layout_constraintTop_toBottomOf="@+id/town" />
 
         <EditText
-            android:id="@+id/userStateEnter"
+            android:id="@+id/userNameEnter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -75,6 +87,20 @@
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/state"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/userStateEnter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:ems="10"
+            android:hint="@string/stateEnter"
+            android:inputType="textPersonName"
+            android:textSize="24sp"
+            app:layout_constraintStart_toEndOf="@+id/state"
+            app:layout_constraintTop_toBottomOf="@+id/userNameEnter" />
 
         <EditText
             android:id="@+id/userTownEnter"
