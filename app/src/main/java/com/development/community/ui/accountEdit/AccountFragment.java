@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.development.community.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -20,6 +21,9 @@ public class AccountFragment extends Fragment {
     Button saveButton;
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("Users");
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -36,9 +40,10 @@ public class AccountFragment extends Fragment {
         saveButton = root.findViewById(R.id.saveButton);
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("users");
+        databaseReference = firebaseDatabase.getReference("Users");
 
 
+        
 
 
         return root;
