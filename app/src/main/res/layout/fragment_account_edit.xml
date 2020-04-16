@@ -9,11 +9,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-<<<<<<< HEAD
-        android:layout_marginTop="300dp"
-=======
-
->>>>>>> f547d559580d58d303573976c0a93700f4d432d5
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
