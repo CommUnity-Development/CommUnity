@@ -1,6 +1,7 @@
 package com.development.community.ui.accountEdit;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,10 @@ public class AccountFragment extends Fragment {
 
     }
 
+    public interface switchActivity{
+        void switchActivity();
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -60,6 +65,12 @@ public class AccountFragment extends Fragment {
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
                             userAddress.getText().toString(),userBio.getText().toString()));
+                    try {
+                        switchActivity switchActivity = (switchActivity) getContext();
+                        switchActivity.switchActivity();
+                    }catch(Exception e){
+                        Log.d("TAG", "sad");
+                    }
                 }
             }
         });
