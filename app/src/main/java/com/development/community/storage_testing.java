@@ -1,9 +1,11 @@
 package com.development.community;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,6 +40,24 @@ public class storage_testing extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
             }
         });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == 1)
+            if(resultCode == RESULT_OK)
+                Toast.makeText(this,"Signed in",Toast.LENGTH_SHORT).show();
+            else if(resultCode == RESULT_CANCELED){
+                Toast.makeText(this,"Sign in cancelled",Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else if(requestCode == 2 && resultCode == RESULT_OK){
+                Uri selectedImageUri = data.getData();
+                StorageReference photoRef = mChatPhotosStorageReference.child(selectedImageUri.getLastPathSegment());
+                photoRef.putFile(selectedImageUri);
+            }
 
     }
 }
