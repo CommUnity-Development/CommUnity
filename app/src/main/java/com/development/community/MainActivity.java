@@ -104,13 +104,19 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 //        imgView.setImageResource(R.drawable.nice);
 
         TextView username = navHeader.findViewById(R.id.name);
-        if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
-        username.setText(firebaseAuth.getCurrentUser().getDisplayName());
-
-        TextView email = navHeader.findViewById(R.id.email);
-        if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail() != null)
-            email.setText(firebaseAuth.getCurrentUser().getEmail());
-
+        try {
+            if (Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
+                username.setText(firebaseAuth.getCurrentUser().getDisplayName());
+        }catch(NullPointerException e){
+            Log.d("TAG", "Null Username");
+        }
+        try {
+            TextView email = navHeader.findViewById(R.id.email);
+            if (Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail() != null)
+                email.setText(firebaseAuth.getCurrentUser().getEmail());
+        }catch(NullPointerException e){
+            Log.d("TAG", "Null Email");
+        }
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {

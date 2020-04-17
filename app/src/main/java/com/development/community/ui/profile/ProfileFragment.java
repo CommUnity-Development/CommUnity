@@ -24,6 +24,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 public class ProfileFragment extends Fragment {
     TextView userState,userBio,userAddress,userTown;
     Button editButton;
@@ -36,12 +38,11 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    private ProfileViewModel profileViewModel;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        profileViewModel =
-                ViewModelProviders.of(this).get(ProfileViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
 
         userState = root.findViewById(R.id.userStateView);
@@ -56,20 +57,23 @@ public class ProfileFragment extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String uidReal = auth.getCurrentUser().getUid();
-                DataSnapshot ds = dataSnapshot.child(uidReal);
-                User user = ds.getValue(User.class);
-                if(user != null) {
-                    userState.setText(user.getState());
-                    userBio.setText(user.getBio());
-                    userAddress.setText(user.getAddress());
-                    userTown.setText(user.getTown());
-                }
-                else{
-                    userState.setText("Null");
-                    userBio.setText("Null");
-                    userAddress.setText("Null");
-                    userTown.setText("Null");
+                try {
+                    String uidReal = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+                    DataSnapshot ds = dataSnapshot.child(uidReal);
+                    User user = ds.getValue(User.class);
+                    if (user != null) {
+                        userState.setText(user.getState());
+                        userBio.setText(user.getBio());
+                        userAddress.setText(user.getAddress());
+                        userTown.setText(user.getTown());
+                    } else {
+                        userState.setText("Not Found");
+                        userBio.setText("Not Found");
+                        userAddress.setText("Not Found");
+                        userTown.setText("Not Found");
+                    }
+                }catch(Exception e){
+                    Log.d("TAG", "User Error");
                 }
             }
 
