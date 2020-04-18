@@ -2,7 +2,6 @@ package com.development.community;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 
@@ -10,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.development.community.ui.accountEdit.AccountFragment;
 import com.development.community.ui.home.HomeFragment;
 import com.development.community.ui.profile.ProfileFragment;
 import com.firebase.ui.auth.AuthUI;
@@ -291,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     @Override
     public void edit() {
-        Intent intent = new Intent(MainActivity.this, editAccountActivity.class);
+        Intent intent = new Intent(MainActivity.this, EditAccountActivity.class);
         startActivity(intent);
     }
 }
