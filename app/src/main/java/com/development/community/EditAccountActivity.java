@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.development.community.ui.accountEdit.AccountFragment;
 
-public class editAccountActivity extends AppCompatActivity implements AccountFragment.switchActivity {
+public class EditAccountActivity extends AppCompatActivity implements AccountFragment.switchActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class editAccountActivity extends AppCompatActivity implements AccountFra
 
     @Override
     public void switchActivity() {
-        Intent intent = new Intent(editAccountActivity.this, MainActivity.class);
+        Intent intent = new Intent(EditAccountActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }
