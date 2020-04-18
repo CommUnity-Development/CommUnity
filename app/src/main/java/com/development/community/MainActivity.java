@@ -160,7 +160,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 if(user != null){
                     //user is signed in
                     onSignedInInitialize(user.getDisplayName());
-                    Toast.makeText(MainActivity.this, "You are now signed in.",Toast.LENGTH_LONG).show();
                     TextView username = navHeader.findViewById(R.id.name);
                     if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
                         username.setText(firebaseAuth.getCurrentUser().getDisplayName());
