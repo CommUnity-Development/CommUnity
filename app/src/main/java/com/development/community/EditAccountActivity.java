@@ -23,7 +23,6 @@ public class EditAccountActivity extends AppCompatActivity implements AccountFra
 
     @Override
     public void switchActivity() {
-        Intent intent = new Intent(EditAccountActivity.this, MainActivity.class);
-        startActivity(intent);
+        super.onBackPressed();
     }
 }
