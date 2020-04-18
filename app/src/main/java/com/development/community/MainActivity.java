@@ -233,6 +233,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             case R.id.action_sign_out:
                 AuthUI.getInstance().signOut(this);
                 return true;
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
