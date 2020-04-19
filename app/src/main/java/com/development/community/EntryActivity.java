@@ -125,23 +125,28 @@ public class EntryActivity extends AppCompatActivity {
                 if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || addressTextBox.getText().toString().equals("")) Toast.makeText(EntryActivity.this,
                         "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
-                    intent.putExtra("Date", selectedDate);
-                    intent.putExtra("Time", selectedTime);
-                    intent.putExtra("Task", taskTextBox.getText().toString());
-                    intent.putExtra("Location", addressTextBox.getText().toString());
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                    FirebaseUser user = auth.getCurrentUser();
-                    if(user != null) {
-                        Log.i("TAG", user.getUid());
-                        databaseReference.push().setValue(new Entry(selectedDate, selectedTime, getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())),
-                                taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
-                                null, null));
-                    Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
-                    startActivity(intent);
+                    if(getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())) != null){
+                        intent.putExtra("Date", selectedDate);
+                        intent.putExtra("Time", selectedTime);
+                        intent.putExtra("Task", taskTextBox.getText().toString());
+                        intent.putExtra("Location", addressTextBox.getText().toString());
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        FirebaseUser user = auth.getCurrentUser();
+                        if(user != null) {
+                            Log.i("TAG", user.getUid());
+                            databaseReference.push().setValue(new Entry(selectedDate, selectedTime, getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())),
+                                    taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
+                                    null, null));
+                            Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(EntryActivity.this, "Invalid Location", Toast.LENGTH_LONG).show();
                     }
-                    else{
-                        Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
-                    }
+
                 }
             }
         });
@@ -172,6 +177,10 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     public CommUnityLocation getLocationFromLatLng(String address, LatLng l){
+        if(l==null){
+            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+            return null;
+        }
         CommUnityLocation a = new CommUnityLocation(address);
         a.setLatitude(l.getLat());
         a.setLongitude(l.getLng());
