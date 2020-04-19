@@ -1,5 +1,7 @@
 package com.development.community;
 
+import android.location.Location;
+
 import androidx.annotation.NonNull;
 
 import java.io.Serializable;
@@ -9,7 +11,7 @@ public class Entry implements Serializable {
 
     private Date date;
     private Time time;
-    private String destination;
+    private CommUnityLocation destination;
     private String task;
     private String clientUsername;
     private String clientUID;
@@ -22,7 +24,7 @@ public class Entry implements Serializable {
         this.status = 0;
         this.date = new Date();
         this.time = new Time();
-        this.destination = "";
+        this.destination = null;
         this.task = "";
         this.clientUID = null;
         this.serverUsername = null;
@@ -30,7 +32,7 @@ public class Entry implements Serializable {
         this.clientUsername = null;
     }
 
-    public Entry(Date date, Time time, String destination, String task, String clientUsername, String clientUID, int status,
+    public Entry(Date date, Time time, CommUnityLocation destination, String task, String clientUsername, String clientUID, int status,
                  String serverUsername, String serverUID){
         this.date = date;
         this.time = time;
@@ -62,11 +64,11 @@ public class Entry implements Serializable {
         this.time = time;
     }
 
-    public String getDestination() {
+    public CommUnityLocation getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
+    public void setDestination(CommUnityLocation destination) {
         this.destination = destination;
     }
 

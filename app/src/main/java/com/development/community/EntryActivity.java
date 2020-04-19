@@ -2,7 +2,11 @@ package com.development.community;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class EntryActivity extends AppCompatActivity {
 
@@ -128,7 +133,7 @@ public class EntryActivity extends AppCompatActivity {
                     FirebaseUser user = auth.getCurrentUser();
                     if(user != null) {
                         Log.i("TAG", user.getUid());
-                        databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(),
+                        databaseReference.push().setValue(new Entry(selectedDate, selectedTime, getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())),
                                 taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
                                 null, null));
                     Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
@@ -140,5 +145,36 @@ public class EntryActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+    public LatLng getLatLngFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
+    }
+
+    public CommUnityLocation getLocationFromLatLng(String address, LatLng l){
+        CommUnityLocation a = new CommUnityLocation(address);
+        a.setLatitude(l.getLat());
+        a.setLongitude(l.getLng());
+        return a;
     }
 }

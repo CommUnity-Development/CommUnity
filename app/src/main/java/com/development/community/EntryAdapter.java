@@ -1,6 +1,7 @@
 package com.development.community;
 
 import android.content.Context;
+import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
 
     private ArrayList<Time> times;
     private ArrayList<Date> dates;
-    private ArrayList<String> locations;
+    private ArrayList<CommUnityLocation> locations;
     private ArrayList<String> tasks;
     private ArrayList<String> usernames;
     private ArrayList<Integer> statuses;
@@ -26,7 +27,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
     private onEntryListener mOnEntryListener;
     private ArrayList<String> ids;
 
-    EntryAdapter(Context context, ArrayList<Time> times, ArrayList<Date> dates, ArrayList<String> locations, ArrayList<String> tasks, ArrayList<Integer> statuses, ArrayList<String> usernames, ArrayList<String> ids, onEntryListener mOnEntryListener) {
+    EntryAdapter(Context context, ArrayList<Time> times, ArrayList<Date> dates, ArrayList<CommUnityLocation> locations, ArrayList<String> tasks, ArrayList<Integer> statuses, ArrayList<String> usernames, ArrayList<String> ids, onEntryListener mOnEntryListener) {
         this.times = times;
         this.dates = dates;
         this.locations = locations;
@@ -50,7 +51,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
         holder.tvTask.setText(tasks.get(position));
         holder.tvDate.setText(dates.get(position).toString());
         holder.tvTime.setText(times.get(position).toString());
-        holder.tvLocation.setText(locations.get(position));
+        holder.tvLocation.setText(locations.get(position).getProvider());
         holder.tvUsername.setText("Requested by " +usernames.get(position));
         holder.tvStatus.setText("Status: " +Controller.statuses[statuses.get(position)]);
     }
