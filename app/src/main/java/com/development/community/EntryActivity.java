@@ -2,7 +2,11 @@ package com.development.community;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Calendar;
+import java.util.List;
 
 public class EntryActivity extends AppCompatActivity {
 
@@ -120,25 +125,65 @@ public class EntryActivity extends AppCompatActivity {
                 if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || addressTextBox.getText().toString().equals("")) Toast.makeText(EntryActivity.this,
                         "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
-                    intent.putExtra("Date", selectedDate);
-                    intent.putExtra("Time", selectedTime);
-                    intent.putExtra("Task", taskTextBox.getText().toString());
-                    intent.putExtra("Location", addressTextBox.getText().toString());
-                    FirebaseAuth auth = FirebaseAuth.getInstance();
-                    FirebaseUser user = auth.getCurrentUser();
-                    if(user != null) {
-                        Log.i("TAG", user.getUid());
-                        databaseReference.push().setValue(new Entry(selectedDate, selectedTime, addressTextBox.getText().toString(),
-                                taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
-                                null, null));
-                    Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
-                    startActivity(intent);
+                    if(getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())) != null){
+                        intent.putExtra("Date", selectedDate);
+                        intent.putExtra("Time", selectedTime);
+                        intent.putExtra("Task", taskTextBox.getText().toString());
+                        intent.putExtra("Location", addressTextBox.getText().toString());
+                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                        FirebaseUser user = auth.getCurrentUser();
+                        if(user != null) {
+                            Log.i("TAG", user.getUid());
+                            databaseReference.push().setValue(new Entry(selectedDate, selectedTime, getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())),
+                                    taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
+                                    null, null));
+                            Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
+                        }
+                    }else{
+                        Toast.makeText(EntryActivity.this, "Invalid Location", Toast.LENGTH_LONG).show();
                     }
-                    else{
-                        Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
-                    }
+
                 }
             }
         });
+
+    }
+    public LatLng getLatLngFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+
+            Address location = address.get(0);
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (Exception ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
+    }
+
+    public CommUnityLocation getLocationFromLatLng(String address, LatLng l){
+        if(l==null){
+            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+        CommUnityLocation a = new CommUnityLocation(address);
+        a.setLatitude(l.getLat());
+        a.setLongitude(l.getLng());
+        return a;
     }
 }

@@ -1,6 +1,7 @@
 package com.development.community;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<String> tasks = new ArrayList<>();
     ArrayList<Time> times = new ArrayList<>();
     ArrayList<Date> dates = new ArrayList<>();
-    ArrayList<String> locations = new ArrayList<>();
+    ArrayList<CommUnityLocation> locations = new ArrayList<>();
     ArrayList<String> ids = new ArrayList<>();
     ArrayList<String> usernames = new ArrayList<>();
     ArrayList<Integer> statuses = new ArrayList<>();
@@ -243,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     protected void onPause(){
         super.onPause();
         firebaseAuth.removeAuthStateListener(authStateListener);
+
     }
     @Override
     protected void onResume(){
