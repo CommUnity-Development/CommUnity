@@ -32,7 +32,7 @@ public class AccountCreate extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseStorage mFirebaseStorage;
-    private StorageReference mChatPhotosStorageReference;
+    private StorageReference storageReference;
     private FirebaseAuth mFirebaseAuth;
 
     private Button photoPicker;
@@ -59,7 +59,7 @@ public class AccountCreate extends AppCompatActivity {
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseStorage = FirebaseStorage.getInstance();
 
-        mChatPhotosStorageReference = mFirebaseStorage.getReference().child("profile_pics");
+        storageReference = mFirebaseStorage.getReference().child("profile_pics");
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +104,7 @@ public class AccountCreate extends AppCompatActivity {
         else if(requestCode == 2 && resultCode == RESULT_OK){
             Uri selectedImageUri = data.getData();
             String uid = mFirebaseAuth.getCurrentUser().getUid();
-            StorageReference photoRef = mChatPhotosStorageReference.child(uid);
+            StorageReference photoRef = storageReference.child(uid);
             assert selectedImageUri != null;
             photoRef.putFile(selectedImageUri);
 

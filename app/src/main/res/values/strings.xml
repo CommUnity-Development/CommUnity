@@ -70,6 +70,7 @@
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="profPic">UPDATE PROFILE PICTURE</string>
-    <string name="tasksPast">Tasks Completed</string>
+    <string name="tasksPast">Completed Tasks</string>
+    <string name="tasksUp">Upcoming Tasks</string>
 </resources>
 

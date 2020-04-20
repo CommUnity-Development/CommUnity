@@ -85,7 +85,7 @@
             android:hint="@string/nameEnter"
             android:inputType="textPersonName"
             android:textSize="24sp"
-            app:layout_constraintStart_toEndOf="@+id/state"
+            app:layout_constraintStart_toEndOf="@+id/name"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
@@ -140,6 +140,16 @@
             android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/bio"
             app:layout_constraintTop_toBottomOf="@+id/userAddressEnter" />
+
+        <Button
+            android:id="@+id/photoPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="400dp"
+            android:text="@string/profPic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/saveButton"
