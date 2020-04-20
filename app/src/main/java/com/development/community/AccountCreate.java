@@ -1,10 +1,12 @@
 package com.development.community;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
@@ -27,6 +31,11 @@ public class AccountCreate extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private FirebaseStorage mFirebaseStorage;
+    private StorageReference mChatPhotosStorageReference;
+    private FirebaseAuth mFirebaseAuth;
+
+    private ImageButton photoPicker;
 
 
     @Override
@@ -45,6 +54,10 @@ public class AccountCreate extends AppCompatActivity {
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseStorage = FirebaseStorage.getInstance();
+
+        mChatPhotosStorageReference = mFirebaseStorage.getReference().child("profile_pics");
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +75,39 @@ public class AccountCreate extends AppCompatActivity {
                 }
             }
         });
+
+        photoPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/jpeg");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+            }
+        });
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+        if(requestCode == 1) {
+            if (resultCode == RESULT_OK)
+                Toast.makeText(this, "Signed in", Toast.LENGTH_SHORT).show();
+            else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+        else if(requestCode == 2 && resultCode == RESULT_OK){
+            Uri selectedImageUri = data.getData();
+            String uid = mFirebaseAuth.getCurrentUser().getUid();
+            StorageReference photoRef = mChatPhotosStorageReference.child(uid);
+            assert selectedImageUri != null;
+            photoRef.putFile(selectedImageUri);
+
+        }
+
     }
 
     }

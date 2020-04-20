@@ -18,13 +18,15 @@
         <activity android:name=".Splash">
 
         </activity>
-        <activity android:name=".AccountCreate" />
-        <activity android:name=".StorageTesting">
+        <activity android:name=".AccountCreate" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".StorageTesting">
+
         </activity>
         <activity android:name=".ProfilePage" />
         <activity android:name=".SignUpActivity" />
