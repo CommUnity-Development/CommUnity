@@ -63,7 +63,9 @@ public class StorageTesting extends AppCompatActivity {
             else if(requestCode == 2 && resultCode == RESULT_OK){
                 Uri selectedImageUri = data.getData();
                 StorageReference photoRef = mChatPhotosStorageReference.child(selectedImageUri.getLastPathSegment());
-                photoRef.putFile(selectedImageUri);
+                String uid = mFirebaseAuth.getCurrentUser().getUid();
+                photoRef.child(uid).putFile(selectedImageUri);
+
             }
 
     }
