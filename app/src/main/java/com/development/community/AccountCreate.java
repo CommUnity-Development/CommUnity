@@ -35,7 +35,7 @@ public class AccountCreate extends AppCompatActivity {
     private StorageReference mChatPhotosStorageReference;
     private FirebaseAuth mFirebaseAuth;
 
-    private ImageButton photoPicker;
+    private Button photoPicker;
 
 
     @Override
