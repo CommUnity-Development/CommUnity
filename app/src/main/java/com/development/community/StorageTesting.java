@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.Objects;
+
 public class StorageTesting extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseStorage mFirebaseStorage;
@@ -62,10 +64,14 @@ public class StorageTesting extends AppCompatActivity {
         }
             else if(requestCode == 2 && resultCode == RESULT_OK){
                 Uri selectedImageUri = data.getData();
-            String uid = mFirebaseAuth.getCurrentUser().getUid();
-                StorageReference photoRef = mChatPhotosStorageReference.child(uid);
-            assert selectedImageUri != null;
-            photoRef.putFile(selectedImageUri);
+                try {
+                    String uid = Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid();
+                    StorageReference photoRef = mChatPhotosStorageReference.child(uid);
+                    assert selectedImageUri != null;
+                    photoRef.putFile(selectedImageUri);
+                }catch(Exception e){
+                    Toast.makeText(StorageTesting.this, "You are not signed in", Toast.LENGTH_LONG).show();
+                }
 
             }
 
