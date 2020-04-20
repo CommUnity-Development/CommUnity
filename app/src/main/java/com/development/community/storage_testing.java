@@ -28,6 +28,12 @@ public class storage_testing extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_storage_testing);
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseStorage = FirebaseStorage.getInstance();
+
+        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
+        mChatPhotosStorageReference = mFirebaseStorage.getReference().child("profile_pics");
 
         photoPicker = findViewById(R.id.photoPicker);
 
@@ -46,13 +52,14 @@ public class storage_testing extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode == 1)
-            if(resultCode == RESULT_OK)
-                Toast.makeText(this,"Signed in",Toast.LENGTH_SHORT).show();
-            else if(resultCode == RESULT_CANCELED){
-                Toast.makeText(this,"Sign in cancelled",Toast.LENGTH_SHORT).show();
+        if(requestCode == 1) {
+            if (resultCode == RESULT_OK)
+                Toast.makeText(this, "Signed in", Toast.LENGTH_SHORT).show();
+            else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
                 finish();
             }
+        }
             else if(requestCode == 2 && resultCode == RESULT_OK){
                 Uri selectedImageUri = data.getData();
                 StorageReference photoRef = mChatPhotosStorageReference.child(selectedImageUri.getLastPathSegment());
