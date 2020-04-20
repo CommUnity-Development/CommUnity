@@ -16,14 +16,14 @@
             android:label="@string/title_activity_settings" />
         <activity android:name=".EditAccountActivity" />
         <activity android:name=".Splash">
-
-        </activity>
-        <activity android:name=".AccountCreate" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>is
+        </activity>
+        <activity android:name=".AccountCreate" >
+
         </activity>
         <activity android:name=".StorageTesting">
 
