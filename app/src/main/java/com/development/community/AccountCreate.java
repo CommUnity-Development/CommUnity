@@ -44,6 +44,8 @@ public class AccountCreate extends AppCompatActivity {
         setContentView(R.layout.activity_account_create);
 
 
+        photoPicker = findViewById(R.id.photoPicker);
+
         userName = findViewById(R.id.userName);
         userState = findViewById(R.id.userState);
         userTown = findViewById(R.id.userTown);
