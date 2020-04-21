@@ -53,7 +53,7 @@ public class TasksUpFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         tasksPastViewModel =
                 ViewModelProviders.of(this).get(TasksUpViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tasks_past, container, false);
+        View root = inflater.inflate(R.layout.fragment_tasks_up, container, false);
         final RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
 
         firebaseDatabase = FirebaseDatabase.getInstance();

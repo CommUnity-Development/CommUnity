@@ -73,8 +73,6 @@ public class ProfileFragment extends Fragment {
         StorageReference storageReference = storage.getReference().child("profile_pics").child(uid);
 
 
-
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
