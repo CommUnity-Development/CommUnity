@@ -62,6 +62,11 @@ public class TasksPastFragment extends Fragment {
         }catch(ClassCastException e){
             throw new ClassCastException(context.toString() + " must implement something");
         }
+        try{
+            lp = (LayoutPast) context;
+        }catch(ClassCastException e){
+            throw new ClassCastException(context.toString() + "Dios");
+        }
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater,

@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<Entry> entryArrayList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+    DatabaseReference databaseReferencePast;
     ArrayList<String> tasks = new ArrayList<>();
     ArrayList<Time> times = new ArrayList<>();
     ArrayList<Date> dates = new ArrayList<>();
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
+        databaseReferencePast = firebaseDatabase.getReference("tasks");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -168,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
+
+        tasksUpFilter();
 
 
         authStateListener = new FirebaseAuth.AuthStateListener(){
@@ -350,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         return new LinearLayoutManager(MainActivity.this);
     }
 
+    @Override
     public LinearLayoutManager getPastLayout() {
         return new LinearLayoutManager(MainActivity.this);
     }
@@ -360,8 +365,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         startActivity(intent);
     }
 
-    private void tasksUpFilter(String username){
-        databaseReference.addValueEventListener(new ValueEventListener() {
+    private void tasksUpFilter(){
+        databaseReferencePast.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
