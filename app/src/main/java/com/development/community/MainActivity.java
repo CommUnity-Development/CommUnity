@@ -1,8 +1,9 @@
 package com.development.community;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 
@@ -10,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -27,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.development.community.ui.accountEdit.AccountFragment;
 import com.development.community.ui.home.HomeFragment;
 import com.development.community.ui.profile.ProfileFragment;
 import com.firebase.ui.auth.AuthUI;
@@ -51,15 +51,18 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<String> tasks = new ArrayList<>();
     ArrayList<Time> times = new ArrayList<>();
     ArrayList<Date> dates = new ArrayList<>();
-    ArrayList<String> locations = new ArrayList<>();
+    ArrayList<CommUnityLocation> locations = new ArrayList<>();
     ArrayList<String> ids = new ArrayList<>();
     ArrayList<String> usernames = new ArrayList<>();
     ArrayList<Integer> statuses = new ArrayList<>();
     FirebaseAuth firebaseAuth;
+
     FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 123;
 
     private AppBarConfiguration mAppBarConfiguration;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +107,19 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 //        imgView.setImageResource(R.drawable.nice);
 
         TextView username = navHeader.findViewById(R.id.name);
-        if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
-        username.setText(firebaseAuth.getCurrentUser().getDisplayName());
-
-        TextView email = navHeader.findViewById(R.id.email);
-        if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail() != null)
-            email.setText(firebaseAuth.getCurrentUser().getEmail());
-
+        try {
+            if (Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
+                username.setText(firebaseAuth.getCurrentUser().getDisplayName());
+        }catch(NullPointerException e){
+            Log.d("TAG", "Null Username");
+        }
+        try {
+            TextView email = navHeader.findViewById(R.id.email);
+            if (Objects.requireNonNull(firebaseAuth.getCurrentUser()).getEmail() != null)
+                email.setText(firebaseAuth.getCurrentUser().getEmail());
+        }catch(NullPointerException e){
+            Log.d("TAG", "Null Email");
+        }
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -156,8 +165,12 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
                     //user is signed in
+                    if(!Controller.restarted){
+                        recreate();
+                        Controller.restarted = true;
+                    }
+
                     onSignedInInitialize(user.getDisplayName());
-                    Toast.makeText(MainActivity.this, "You are now signed in.",Toast.LENGTH_LONG).show();
                     TextView username = navHeader.findViewById(R.id.name);
                     if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
                         username.setText(firebaseAuth.getCurrentUser().getDisplayName());
@@ -192,6 +205,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                             }
                             entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
                                     MainActivity.this);
+
                         }
 
                         @Override
@@ -200,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     });
                 }else{
                     onSignedOutCleanUp();
+
                     //user is signed out
                     startActivityForResult(
                             AuthUI.getInstance()
@@ -210,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                                             new AuthUI.IdpConfig.EmailBuilder().build()
                                     )).build(), RC_SIGN_IN
                     );
+
                 }
             }
         };
@@ -230,6 +246,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             case R.id.action_sign_out:
                 AuthUI.getInstance().signOut(this);
                 return true;
+            case R.id.action_settings:
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -239,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     protected void onPause(){
         super.onPause();
         firebaseAuth.removeAuthStateListener(authStateListener);
+
     }
     @Override
     protected void onResume(){
@@ -247,7 +266,40 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
     private void onSignedInInitialize(String username){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                entryArrayList.clear();
+                times.clear();
+                dates.clear();
+                tasks.clear();
+                locations.clear();
+                ids.clear();
+                statuses.clear();
+                usernames.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Log.d("DATASNAPSHOT", ds.toString());
+                    Entry entry = ds.getValue(Entry.class);
+                    entryArrayList.add(entry);
+                    assert entry != null;
+                    tasks.add(entry.getTask());
+                    times.add(entry.getTime());
+                    dates.add(entry.getDate());
+                    locations.add(entry.getDestination());
+                    ids.add(ds.getKey());
+                    statuses.add(entry.getStatus());
+                    usernames.add(entry.getClientUsername());
 
+                }
+                entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
+                        MainActivity.this);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     private void onSignedOutCleanUp(){
@@ -285,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     @Override
     public void edit() {
-        Intent intent = new Intent(MainActivity.this, editAccountActivity.class);
+        Intent intent = new Intent(MainActivity.this, EditAccountActivity.class);
         startActivity(intent);
     }
 }
