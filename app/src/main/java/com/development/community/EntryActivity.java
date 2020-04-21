@@ -35,6 +35,7 @@ public class EntryActivity extends AppCompatActivity {
     private EditText taskTextBox;
     private Button submitButton;
 
+
     private Date selectedDate;
     private Time selectedTime;
 

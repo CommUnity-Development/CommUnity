@@ -30,6 +30,7 @@ import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
 import com.development.community.ui.profile.ProfileFragment;
+import com.development.community.ui.tasksPast.TasksPastFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,8 +44,9 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
         HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods,
-        ProfileFragment.profileFunc {
+        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast {
     EntryAdapter entryAdapter;
+    EntryAdapter entryAdapterPast;
     ArrayList<Entry> entryArrayList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -56,6 +58,16 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<String> usernames = new ArrayList<>();
     ArrayList<Integer> statuses = new ArrayList<>();
     FirebaseAuth firebaseAuth;
+
+    ArrayList<Entry> entryArrayListPast = new ArrayList<>();
+    ArrayList<String> tasksPast = new ArrayList<>();
+    ArrayList<Time> timesPast = new ArrayList<>();
+    ArrayList<Date> datesPast = new ArrayList<>();
+    ArrayList<CommUnityLocation> locationsPast = new ArrayList<>();
+    ArrayList<String> idsPast = new ArrayList<>();
+    ArrayList<String> usernamesPast = new ArrayList<>();
+    ArrayList<Integer> statusesPast = new ArrayList<>();
+
 
     FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 123;
@@ -289,7 +301,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     ids.add(ds.getKey());
                     statuses.add(entry.getStatus());
                     usernames.add(entry.getClientUsername());
-
                 }
                 entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
                         MainActivity.this);
@@ -330,8 +341,16 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         return entryAdapter;
     }
 
+    public EntryAdapter getPast(){
+        return entryAdapterPast;
+    }
+
     @Override
     public LinearLayoutManager getLayoutManager() {
+        return new LinearLayoutManager(MainActivity.this);
+    }
+
+    public LinearLayoutManager getPastLayout() {
         return new LinearLayoutManager(MainActivity.this);
     }
 
@@ -340,4 +359,45 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         Intent intent = new Intent(MainActivity.this, EditAccountActivity.class);
         startActivity(intent);
     }
+
+    private void tasksUpFilter(String username){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+                entryArrayListPast.clear();
+                timesPast.clear();
+                datesPast.clear();
+                tasksPast.clear();
+                locationsPast.clear();
+                idsPast.clear();
+                statusesPast.clear();
+                usernamesPast.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Log.d("DATASNAPSHOT", ds.toString());
+                    Entry entry = ds.getValue(Entry.class);
+                    assert entry != null;
+                    if(uid.equals(entry.getServerUID())) {
+                        entryArrayListPast.add(entry);
+                        tasksPast.add(entry.getTask());
+                        timesPast.add(entry.getTime());
+                        datesPast.add(entry.getDate());
+                        locationsPast.add(entry.getDestination());
+                        idsPast.add(ds.getKey());
+                        statusesPast.add(entry.getStatus());
+                        usernamesPast.add(entry.getClientUsername());
+                    }
+                }
+                entryAdapterPast = new EntryAdapter(MainActivity.this, timesPast, datesPast, locationsPast, tasksPast, statusesPast, usernamesPast, idsPast,
+                        MainActivity.this);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+
 }
