@@ -25,18 +25,23 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
 
 //TODO: Retrieve the profile picture from Firebase
 public class ProfileFragment extends Fragment {
-    TextView userState,userBio,userAddress,userTown,userName;
+    TextView userState, userBio, userAddress, userTown,userName;
     Button editButton;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("Users");
     FirebaseAuth auth = FirebaseAuth.getInstance();
-
+    String uid;
+    final String TAG = "STORAGE";
 
     private ImageView userPic;
 
@@ -59,6 +64,14 @@ public class ProfileFragment extends Fragment {
         userAddress = root.findViewById(R.id.userAddressView);
         userTown = root.findViewById(R.id.userTownView);
         editButton = root.findViewById(R.id.saveButton);
+        try {
+            uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        }catch(Exception e){
+            Toast.makeText(getContext(), "You are not signed in", Toast.LENGTH_SHORT).show();
+        }
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageReference = storage.getReference().child("profile_pics").child(uid);
+
 
 
 
@@ -75,6 +88,15 @@ public class ProfileFragment extends Fragment {
                         userBio.setText(user.getBio());
                         userAddress.setText(user.getAddress());
                         userTown.setText(user.getTown());
+                        if(!user.getProfilePicUrl().equals("")){
+                            Glide.with(userPic.getContext())
+                                    .load(user.getProfilePicUrl())
+                                    .into(userPic);
+                            Log.d(TAG, "SUCCEEDED");
+                        }
+                        else {
+                            Log.d(TAG, "FAILED");
+                        }
                     }
 
                     else {

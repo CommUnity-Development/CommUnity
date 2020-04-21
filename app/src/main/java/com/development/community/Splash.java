@@ -15,7 +15,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Splash extends AppCompatActivity {
 
-    private static final int SPLASH_TIME = 5000;
+    private static final int SPLASH_TIME = 1000;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("Users");

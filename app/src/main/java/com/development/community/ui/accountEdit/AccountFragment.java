@@ -18,8 +18,12 @@ import androidx.fragment.app.Fragment;
 import com.development.community.R;
 import com.development.community.User;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
@@ -32,8 +36,11 @@ public class AccountFragment extends Fragment {
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("Users");
     FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private FirebaseAuth mFirebaseAuth;
+    private String uid;
+    final User[] user = new User[1];
 
 
 
@@ -47,6 +54,14 @@ public class AccountFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference("profile_pics");
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        try {
+            uid = Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid();
+        }catch(Exception e){
+            Toast.makeText(getContext(), "You are not signed in", Toast.LENGTH_LONG).show();
+        }
 
         View root = inflater.inflate(R.layout.fragment_account_edit, container, false);
         final TextView textView = root.findViewById(R.id.text_messaging);
@@ -64,6 +79,18 @@ public class AccountFragment extends Fragment {
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
 
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user[0] = dataSnapshot.child(uid).getValue(User.class);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +104,7 @@ public class AccountFragment extends Fragment {
                             userAddress.getText().toString(),userBio.getText().toString()));
                     try {
                         switchActivity switchActivity = (switchActivity) getContext();
+                        assert switchActivity != null;
                         switchActivity.switchActivity();
                     }catch(Exception e){
                         Log.d("TAG", "sad");
@@ -113,10 +141,16 @@ public class AccountFragment extends Fragment {
         }
         else if(requestCode == 2){
             Uri selectedImageUri = data.getData();
-            String uid = mFirebaseAuth.getCurrentUser().getUid();
-            StorageReference photoRef = storageReference.child(uid);
-            assert selectedImageUri != null;
-            photoRef.putFile(selectedImageUri);
+            try {
+                String uid = mFirebaseAuth.getCurrentUser().getUid();
+                StorageReference photoRef = storageReference.child(uid);
+                assert selectedImageUri != null;
+                photoRef.putFile(selectedImageUri);
+                user[0].setProfilePicUrl(selectedImageUri.toString());
+                databaseReference.child(uid).setValue(user[0]);
+            }catch(Exception e){
+                Toast.makeText(getContext(), "You are not signed in", Toast.LENGTH_LONG).show();
+            }
 
         }
 

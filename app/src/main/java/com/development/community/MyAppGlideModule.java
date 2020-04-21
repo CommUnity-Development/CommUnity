@@ -6,7 +6,7 @@ import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.module.AppGlideModule;
 import com.google.firebase.storage.StorageReference;
-import com.firebase.ui.*;
+import com.firebase.ui.auth.AuthUI;
 
 import java.io.InputStream;
 

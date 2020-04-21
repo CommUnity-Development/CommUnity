@@ -1,5 +1,7 @@
 package com.development.community;
 
+import androidx.annotation.NonNull;
+
 import java.io.Serializable;
 
 public class User implements Serializable {
@@ -8,6 +10,7 @@ public class User implements Serializable {
     private String town;
     private String address;
     private String bio;
+    private String profilePicUrl;
 
     public User(){
         name = "";
@@ -15,6 +18,7 @@ public class User implements Serializable {
         town = "";
         address = "";
         bio = "";
+        profilePicUrl = "";
     }
 
     public User(String givenName, String givenState, String givenTown, String givenAddress, String givenBio){
@@ -23,6 +27,16 @@ public class User implements Serializable {
         town = givenTown;
         address = givenAddress;
         bio = givenBio;
+        profilePicUrl = "";
+    }
+
+    public User(String givenName, String givenState, String givenTown, String givenAddress, String givenBio, String givenProfilePicUrl){
+        name = givenName;
+        state = givenState;
+        town = givenTown;
+        address = givenAddress;
+        bio = givenBio;
+        profilePicUrl = givenProfilePicUrl;
     }
 
     public String getName() {
@@ -67,7 +81,7 @@ public class User implements Serializable {
         this.bio = bio;
     }
 
-    @Override
+    @Override @NonNull
     public String toString() {
         return "User{" +
                 "name='" + name + '\'' +
@@ -79,4 +93,11 @@ public class User implements Serializable {
     }
 
 
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
+    }
 }
