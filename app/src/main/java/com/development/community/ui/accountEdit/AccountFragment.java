@@ -35,6 +35,8 @@ public class AccountFragment extends Fragment {
     private StorageReference storageReference;
     private FirebaseAuth mFirebaseAuth;
 
+
+
     public AccountFragment(){
 
     }
@@ -61,6 +63,7 @@ public class AccountFragment extends Fragment {
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");
+
 
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

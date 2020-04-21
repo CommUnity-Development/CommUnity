@@ -7,7 +7,7 @@
     tools:context=".ui.profile.ProfileFragment">
 
     <ImageView
-        android:id="@+id/userProfPic2"
+        android:id="@+id/userProfPic"
         android:layout_width="198dp"
         android:layout_height="181dp"
         android:layout_marginTop="20dp"
@@ -17,14 +17,14 @@
         app:srcCompat="@drawable/ic_person_black_24dp" />
 
     <TextView
-        android:id="@+id/userName2"
+        android:id="@+id/userName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="CommUnity"
         android:textSize="36sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userProfPic2" />
+        app:layout_constraintTop_toBottomOf="@+id/userProfPic" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -35,7 +35,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userName2"
+        app:layout_constraintTop_toBottomOf="@+id/userName"
         app:layout_constraintVertical_bias="0.505">
 
         <androidx.constraintlayout.widget.ConstraintLayout
