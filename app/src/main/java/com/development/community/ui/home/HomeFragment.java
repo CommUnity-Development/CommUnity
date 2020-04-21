@@ -28,7 +28,6 @@ public class HomeFragment extends Fragment{
     DatabaseReference databaseReference;
     OnPostButtonClickListener postButtonClickListener;
     EntryAdapterMethods entryAdapterMethods;
-    private HomeViewModel homeViewModel;
     RecyclerView recyclerView;
 
 
@@ -73,13 +72,11 @@ public class HomeFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
-//        final TextView textView = root.findViewById(R.id.text_home);
         ImageButton postButton = root.findViewById(R.id.postButton);
 
         firebaseDatabase = FirebaseDatabase.getInstance();

@@ -1,5 +1,6 @@
 package com.development.community;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<String> usernames = new ArrayList<>();
     ArrayList<Integer> statuses = new ArrayList<>();
     FirebaseAuth firebaseAuth;
+
     FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 123;
 
@@ -163,6 +165,11 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
                     //user is signed in
+                    if(!Controller.restarted){
+                        recreate();
+                        Controller.restarted = true;
+                    }
+
                     onSignedInInitialize(user.getDisplayName());
                     TextView username = navHeader.findViewById(R.id.name);
                     if(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getDisplayName() != null)
@@ -207,6 +214,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     });
                 }else{
                     onSignedOutCleanUp();
+
                     //user is signed out
                     startActivityForResult(
                             AuthUI.getInstance()
@@ -217,6 +225,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                                             new AuthUI.IdpConfig.EmailBuilder().build()
                                     )).build(), RC_SIGN_IN
                     );
+
                 }
             }
         };
