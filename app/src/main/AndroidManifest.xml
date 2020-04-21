@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".editAccountActivity"></activity>
-        <activity android:name=".Splash"></activity>
+        <activity android:name=".editAccountActivity" />
+        <activity android:name=".Splash" />
         <activity android:name=".AccountCreate" />
         <activity android:name=".ProfilePage" />
         <activity android:name=".SignUpActivity" />
