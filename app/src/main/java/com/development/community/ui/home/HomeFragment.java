@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.development.community.EntryAdapter;
+import com.development.community.MainActivity;
 import com.development.community.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,13 +22,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     private View root;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
     OnPostButtonClickListener postButtonClickListener;
     EntryAdapterMethods entryAdapterMethods;
-    private HomeViewModel homeViewModel;
+    RecyclerView recyclerView;
 
 
 
@@ -36,6 +37,13 @@ public class HomeFragment extends Fragment {
 
     }
 
+    public void setAdapterAndLayout(){
+        recyclerView.setLayoutManager(entryAdapterMethods.getLayoutManager());
+        recyclerView.setAdapter(entryAdapterMethods.getAdapter());
+    }
+
+
+
     public interface OnPostButtonClickListener{
         void onPostButtonClick();
     }
@@ -43,6 +51,7 @@ public class HomeFragment extends Fragment {
     public interface EntryAdapterMethods{
         EntryAdapter getAdapter();
         LinearLayoutManager getLayoutManager();
+
     }
 
     @Override
@@ -63,13 +72,11 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
-        final RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
-//        final TextView textView = root.findViewById(R.id.text_home);
+        recyclerView = root.findViewById(R.id.recyclerView);
         ImageButton postButton = root.findViewById(R.id.postButton);
 
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -78,8 +85,7 @@ public class HomeFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                recyclerView.setLayoutManager(entryAdapterMethods.getLayoutManager());
-                recyclerView.setAdapter(entryAdapterMethods.getAdapter());
+                setAdapterAndLayout();
             }
 
             @Override
