@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.development.community.MainActivity;
 import com.development.community.R;
 import com.development.community.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,8 @@ public class AccountFragment extends Fragment {
     public AccountFragment(){
 
     }
+
+
 
     public interface switchActivity{
         void switchActivity();
@@ -155,4 +158,5 @@ public class AccountFragment extends Fragment {
         }
 
     }
+
 }

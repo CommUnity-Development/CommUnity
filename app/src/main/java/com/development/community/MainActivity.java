@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -58,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     private static final int RC_SIGN_IN = 123;
 
     private AppBarConfiguration mAppBarConfiguration;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                             }
                             entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
                                     MainActivity.this);
+
                         }
 
                         @Override
@@ -253,7 +257,40 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
     private void onSignedInInitialize(String username){
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                entryArrayList.clear();
+                times.clear();
+                dates.clear();
+                tasks.clear();
+                locations.clear();
+                ids.clear();
+                statuses.clear();
+                usernames.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Log.d("DATASNAPSHOT", ds.toString());
+                    Entry entry = ds.getValue(Entry.class);
+                    entryArrayList.add(entry);
+                    assert entry != null;
+                    tasks.add(entry.getTask());
+                    times.add(entry.getTime());
+                    dates.add(entry.getDate());
+                    locations.add(entry.getDestination());
+                    ids.add(ds.getKey());
+                    statuses.add(entry.getStatus());
+                    usernames.add(entry.getClientUsername());
 
+                }
+                entryAdapter = new EntryAdapter(MainActivity.this, times, dates, locations, tasks, statuses, usernames, ids,
+                        MainActivity.this);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
     }
 
     private void onSignedOutCleanUp(){
