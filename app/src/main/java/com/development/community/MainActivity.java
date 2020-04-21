@@ -120,6 +120,19 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         }catch(NullPointerException e){
             Log.d("TAG", "Null Email");
         }
+        try{
+            //TODO: Set this up
+            ImageView pfp = navHeader.findViewById(R.id.imageView);
+            try {
+                String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+
+            }catch(Exception e){
+                Log.d("TAG", "Null User");
+            }
+
+        }catch(NullPointerException e){
+            Log.d("TAG", "Null PFP");
+        }
 
 
         databaseReference.addValueEventListener(new ValueEventListener() {
