@@ -131,7 +131,7 @@ public class AccountCreate extends AppCompatActivity {
         else if(requestCode == 2 && resultCode == RESULT_OK){
             Uri selectedImageUri = data.getData();
             try {
-                String uid = mFirebaseAuth.getCurrentUser().getUid();
+                String uid = Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid();
                 StorageReference photoRef = storageReference.child(uid);
                 assert selectedImageUri != null;
                 photoRef.putFile(selectedImageUri);
