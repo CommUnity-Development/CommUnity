@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     Log.d("DATASNAPSHOT", ds.toString());
                     Entry entry = ds.getValue(Entry.class);
                     assert entry != null;
-                    if(uid.equals(entry.getServerUID())) {
+                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())<0) {
                         entryArrayListPast.add(entry);
                         tasksPast.add(entry.getTask());
                         timesPast.add(entry.getTime());
