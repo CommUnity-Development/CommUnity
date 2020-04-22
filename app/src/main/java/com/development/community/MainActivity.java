@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         });
 
         tasksPastFilter();
+        tasksDownFilter();
 
 
         authStateListener = new FirebaseAuth.AuthStateListener(){
