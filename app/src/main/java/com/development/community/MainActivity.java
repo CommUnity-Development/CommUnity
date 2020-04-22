@@ -31,6 +31,7 @@ import java.util.Objects;
 import com.development.community.ui.home.HomeFragment;
 import com.development.community.ui.profile.ProfileFragment;
 import com.development.community.ui.tasksPast.TasksPastFragment;
+import com.development.community.ui.tasksUp.TasksUpFragment;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,7 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
         HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods,
-        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast {
+        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast, TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp{
     EntryAdapter entryAdapter;
     EntryAdapter entryAdapterPast;
     EntryAdapter entryAdapterUp;
@@ -194,7 +195,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             }
         });
 
-        tasksUpFilter();
+        tasksPastFilter();
+        tasksDownFilter();
 
 
         authStateListener = new FirebaseAuth.AuthStateListener(){
@@ -372,6 +374,10 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         return entryAdapterPast;
     }
 
+    public EntryAdapter getUp(){
+        return entryAdapterUp;
+    }
+
     @Override
     public LinearLayoutManager getLayoutManager() {
         return new LinearLayoutManager(MainActivity.this);
@@ -382,13 +388,17 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         return new LinearLayoutManager(MainActivity.this);
     }
 
+    public LinearLayoutManager getUpLayout() {
+        return new LinearLayoutManager(MainActivity.this);
+    }
+
     @Override
     public void edit() {
         Intent intent = new Intent(MainActivity.this, EditAccountActivity.class);
         startActivity(intent);
     }
 
-    private void tasksUpFilter(){
+    private void tasksPastFilter(){
         databaseReferencePast.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -405,7 +415,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     Log.d("DATASNAPSHOT", ds.toString());
                     Entry entry = ds.getValue(Entry.class);
                     assert entry != null;
-                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())<0) {
+                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())<=0) {
                         entryArrayListPast.add(entry);
                         tasksPast.add(entry.getTask());
                         timesPast.add(entry.getTime());
@@ -417,6 +427,45 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     }
                 }
                 entryAdapterPast = new EntryAdapter(MainActivity.this, timesPast, datesPast, locationsPast, tasksPast, statusesPast, usernamesPast, idsPast,
+                        MainActivity.this);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void tasksDownFilter(){
+        databaseReferencePast.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+                entryArrayListUp.clear();
+                timesUp.clear();
+                datesUp.clear();
+                tasksUp.clear();
+                locationsUp.clear();
+                idsUp.clear();
+                statusesUp.clear();
+                usernamesUp.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Log.d("DATASNAPSHOT", ds.toString());
+                    Entry entry = ds.getValue(Entry.class);
+                    assert entry != null;
+                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())> 0) {
+                        entryArrayListUp.add(entry);
+                        tasksUp.add(entry.getTask());
+                        timesUp.add(entry.getTime());
+                        datesUp.add(entry.getDate());
+                        locationsUp.add(entry.getDestination());
+                        idsUp.add(ds.getKey());
+                        statusesUp.add(entry.getStatus());
+                        usernamesUp.add(entry.getClientUsername());
+                    }
+                }
+                entryAdapterUp = new EntryAdapter(MainActivity.this, timesUp, datesUp, locationsUp, tasksUp, statusesUp, usernamesUp, idsUp,
                         MainActivity.this);
 
             }
