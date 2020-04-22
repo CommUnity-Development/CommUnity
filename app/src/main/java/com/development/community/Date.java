@@ -33,7 +33,7 @@ public class Date implements Serializable, Comparable<Date> {
     }
 
     public static int daysBetween(Date a, Date b){
-        return (a.getYear() - b.getYear())*365 + a.toInt() - b.toInt();
+        return -((a.getYear() - b.getYear())*365 + a.toInt() - b.toInt());
     }
 
     public static Date getCurrentDate(){
