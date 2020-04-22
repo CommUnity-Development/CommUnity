@@ -405,7 +405,46 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     Log.d("DATASNAPSHOT", ds.toString());
                     Entry entry = ds.getValue(Entry.class);
                     assert entry != null;
-                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())<0) {
+                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())<=0) {
+                        entryArrayListPast.add(entry);
+                        tasksPast.add(entry.getTask());
+                        timesPast.add(entry.getTime());
+                        datesPast.add(entry.getDate());
+                        locationsPast.add(entry.getDestination());
+                        idsPast.add(ds.getKey());
+                        statusesPast.add(entry.getStatus());
+                        usernamesPast.add(entry.getClientUsername());
+                    }
+                }
+                entryAdapterPast = new EntryAdapter(MainActivity.this, timesPast, datesPast, locationsPast, tasksPast, statusesPast, usernamesPast, idsPast,
+                        MainActivity.this);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    private void tasksDownFilter(){
+        databaseReferencePast.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String uid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+                entryArrayListPast.clear();
+                timesUp.clear();
+                datesUp.clear();
+                tasksPast.clear();
+                locationsPast.clear();
+                idsPast.clear();
+                statusesPast.clear();
+                usernamesPast.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    Log.d("DATASNAPSHOT", ds.toString());
+                    Entry entry = ds.getValue(Entry.class);
+                    assert entry != null;
+                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())<=0) {
                         entryArrayListPast.add(entry);
                         tasksPast.add(entry.getTask());
                         timesPast.add(entry.getTime());
