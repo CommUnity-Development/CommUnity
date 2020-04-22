@@ -67,7 +67,7 @@ public class AccountFragment extends Fragment {
         }
 
         View root = inflater.inflate(R.layout.fragment_account_edit, container, false);
-        final TextView textView = root.findViewById(R.id.text_messaging);
+//        final TextView textView = root.findViewById(R.id.text_messaging);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
 

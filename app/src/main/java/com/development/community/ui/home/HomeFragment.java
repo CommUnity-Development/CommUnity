@@ -29,7 +29,7 @@ public class HomeFragment extends Fragment{
     OnPostButtonClickListener postButtonClickListener;
     EntryAdapterMethods entryAdapterMethods;
     RecyclerView recyclerView;
-    
+
 
     public HomeFragment(){
 
