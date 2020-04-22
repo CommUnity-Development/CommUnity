@@ -32,11 +32,11 @@ public class Date implements Serializable, Comparable<Date> {
         return (year - b.getYear())*365 + toInt() - b.toInt();
     }
 
-    public int daysBetween(Date a, Date b){
+    public static int daysBetween(Date a, Date b){
         return (a.getYear() - b.getYear())*365 + a.toInt() - b.toInt();
     }
 
-    public Date getCurrentDate(){
+    public static Date getCurrentDate(){
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -44,7 +44,7 @@ public class Date implements Serializable, Comparable<Date> {
         return new Date(month, day, year);
     }
 
-    public int daysFromToday(Date a){
+    public static int daysFromToday(Date a){
         return daysBetween(getCurrentDate(), a);
     }
 
