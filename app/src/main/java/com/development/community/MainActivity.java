@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast {
     EntryAdapter entryAdapter;
     EntryAdapter entryAdapterPast;
+    EntryAdapter entryAdapterUp;
     ArrayList<Entry> entryArrayList = new ArrayList<>();
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
@@ -68,6 +69,15 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<String> idsPast = new ArrayList<>();
     ArrayList<String> usernamesPast = new ArrayList<>();
     ArrayList<Integer> statusesPast = new ArrayList<>();
+
+    ArrayList<Entry> entryArrayListUp = new ArrayList<>();
+    ArrayList<String> tasksUp = new ArrayList<>();
+    ArrayList<Time> timesUp = new ArrayList<>();
+    ArrayList<Date> datesUp = new ArrayList<>();
+    ArrayList<CommUnityLocation> locationsUp = new ArrayList<>();
+    ArrayList<String> idsUp = new ArrayList<>();
+    ArrayList<String> usernamesUp = new ArrayList<>();
+    ArrayList<Integer> statusesUp = new ArrayList<>();
 
 
     FirebaseAuth.AuthStateListener authStateListener;
