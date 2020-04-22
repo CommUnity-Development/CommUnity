@@ -45,7 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
         HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods,
-        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast, TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp {
+        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast, TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp{
     EntryAdapter entryAdapter;
     EntryAdapter entryAdapterPast;
     EntryAdapter entryAdapterUp;
@@ -387,7 +387,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         return new LinearLayoutManager(MainActivity.this);
     }
 
-    @Override
     public LinearLayoutManager getUpLayout() {
         return new LinearLayoutManager(MainActivity.this);
     }
@@ -454,7 +453,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     Log.d("DATASNAPSHOT", ds.toString());
                     Entry entry = ds.getValue(Entry.class);
                     assert entry != null;
-                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())>0) {
+                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())> 0) {
                         entryArrayListUp.add(entry);
                         tasksUp.add(entry.getTask());
                         timesUp.add(entry.getTime());
