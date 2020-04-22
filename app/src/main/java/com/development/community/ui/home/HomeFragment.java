@@ -73,7 +73,7 @@ public class HomeFragment extends Fragment{
                              ViewGroup container, Bundle savedInstanceState) {
 
 
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        root = inflater.inflate(R.layout.fragment_home, container, false);
 
         root = inflater.inflate(R.layout.fragment_home, container, false);
         recyclerView = root.findViewById(R.id.recyclerView);
