@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
             }
         });
 
-        tasksUpFilter();
+        tasksPastFilter();
 
 
         authStateListener = new FirebaseAuth.AuthStateListener(){
@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         startActivity(intent);
     }
 
-    private void tasksUpFilter(){
+    private void tasksPastFilter(){
         databaseReferencePast.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
