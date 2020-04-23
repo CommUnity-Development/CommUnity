@@ -39,20 +39,12 @@ public class MessagingFragment extends Fragment {
 
 
 
-    private MessagingViewModel messagingViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        messagingViewModel =
-                ViewModelProviders.of(this).get(MessagingViewModel.class);
         View root = inflater.inflate(R.layout.fragment_messaging, container, false);
 //        final TextView textView = root.findViewById(R.id.text_messaging);
-        messagingViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-            }
-        });
+
         sendButton = root.findViewById(R.id.sendButton);
         sendText = root.findViewById(R.id.textSend);
 
