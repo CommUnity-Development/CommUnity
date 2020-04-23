@@ -2,7 +2,8 @@ package com.development.community.ui.messaging;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
+import com.development.community.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.development.community.Entry;
 import com.development.community.R;
 import com.development.community.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -80,7 +82,11 @@ public class MessagingFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 assert user != null;
-                readMessage(fuser.getUid(),userid,user.getProfilePicUrl());
+                try {
+                    readMessage(fuser.getUid(), userid, user.getProfilePicUrl());
+                }catch(Exception e){
+                    readMessage(fuser.getUid(), userid, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
+                }
             }
 
             @Override
@@ -106,16 +112,35 @@ public class MessagingFragment extends Fragment {
     }
 
 
-    private void sendMessage(String send, String receive, String message){
+    private void sendMessage(final String send, final String receive, String message){
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        final String[] sendName = {""};
+        final String[] receiveName = {""};
 
         HashMap<String,Object> hashMap = new HashMap<>();
-        hashMap.put("send",send);
-        hashMap.put("receive",receive);
-        hashMap.put("message",message);
 
-        ref.child("chats").push().setValue(hashMap);
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String uid = ds.getKey();
+                    if(uid.equals(send)) sendName[0] = ds.getValue(User.class).getName();
+                    else if(uid.equals(receive)) receiveName[0] = ds.getValue(User.class).getName();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+        Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
+
+        ref.child("chats").push().setValue(message1);
     }
 
 
