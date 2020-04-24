@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.development.community.Message;
 import com.development.community.R;
 import com.development.community.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,11 +25,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
     private Context mContext;
-    private List<Chat> mChat;
+    private List<Message> mChat;
     private String imageurl;
     FirebaseUser fuser;
 
-    public MessageAdapter(Context mContext, List<Chat> mChat, String imageurl) {
+    public MessageAdapter(Context mContext, List<Message> mChat, String imageurl) {
         this.mChat = mChat;
         this.mContext = mContext;
         this.imageurl = imageurl;
@@ -49,7 +50,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Chat chat = mChat.get(position);
+        Message chat = mChat.get(position);
 
         holder.show_message.setText((chat.getMessage()));
 
@@ -81,7 +82,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public int getItemViewType(int position){
         fuser = FirebaseAuth.getInstance().getCurrentUser();
-        if(mChat.get(position).getSender().equals(fuser.getUid()))
+        if(mChat.get(position).getSenderUID().equals(fuser.getUid()))
             return MSG_TYPE_RIGHT;
         else
             return MSG_TYPE_LEFT;

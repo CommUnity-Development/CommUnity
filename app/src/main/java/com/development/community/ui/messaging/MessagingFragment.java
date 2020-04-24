@@ -42,7 +42,7 @@ public class MessagingFragment extends Fragment {
     EditText sendText;
     Intent intent;
     MessageAdapter messageAdapter;
-    List<Chat> mchat;
+    List<Message> mchat;
 
     RecyclerView recyclerView;
 
@@ -84,7 +84,8 @@ public class MessagingFragment extends Fragment {
                 assert user != null;
                 try {
                     readMessage(fuser.getUid(), userid, user.getProfilePicUrl());
-                }catch(Exception e){
+                }catch(Exception ignored){
+                    Toast.makeText(getContext(), ignored.getMessage(), Toast.LENGTH_SHORT).show();
                     readMessage(fuser.getUid(), userid, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
                 }
             }
@@ -149,19 +150,19 @@ public class MessagingFragment extends Fragment {
 
         mchat = new ArrayList<>();
 
-        ref = FirebaseDatabase.getInstance().getReference("chat");
+        ref = FirebaseDatabase.getInstance().getReference("chats");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mchat.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Chat chat = snapshot.getValue(Chat.class);
-                    if(chat.getReciever().equals(myid) && chat.getSender().equals(userid) || chat.getReciever().equals(userid) && chat.getSender().equals(myid))
+                    Message chat = snapshot.getValue(Message.class);
+                    if(chat.getReceiverUID().equals(myid) && chat.getSenderUID().equals(userid) || chat.getReceiverUID().equals(userid) && chat.getSenderUID().equals(myid))
                         mchat.add(chat);
 
-                    messageAdapter = new MessageAdapter(getContext(),mchat,imageurl);
-                    recyclerView.setAdapter(messageAdapter);
                 }
+                messageAdapter = new MessageAdapter(getContext(),mchat,imageurl);
+                recyclerView.setAdapter(messageAdapter);
             }
 
             @Override
