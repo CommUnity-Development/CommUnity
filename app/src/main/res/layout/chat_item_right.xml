@@ -23,6 +23,7 @@
         android:text="hello"
         android:padding="8dp"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
         />
 
 </RelativeLayout>
