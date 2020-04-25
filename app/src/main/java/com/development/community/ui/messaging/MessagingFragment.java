@@ -70,7 +70,7 @@ public class MessagingFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
 
 
-        intent = getActivity().getIntent();
+        intent = Objects.requireNonNull(getActivity()).getIntent();
 
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -157,12 +157,14 @@ public class MessagingFragment extends Fragment {
                 mchat.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Message chat = snapshot.getValue(Message.class);
+                    assert chat != null;
                     if(chat.getReceiverUID().equals(myid) && chat.getSenderUID().equals(userid) || chat.getReceiverUID().equals(userid) && chat.getSenderUID().equals(myid))
                         mchat.add(chat);
-
+                    messageAdapter = new MessageAdapter(getContext(),mchat,imageurl);
+                    recyclerView.setAdapter(messageAdapter);
                 }
-                messageAdapter = new MessageAdapter(getContext(),mchat,imageurl);
-                recyclerView.setAdapter(messageAdapter);
+
+
             }
 
             @Override
