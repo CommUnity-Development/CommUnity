@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class chat_manager extends Fragment {
@@ -29,6 +31,7 @@ public class chat_manager extends Fragment {
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
     private List<User> mUsers;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     FirebaseUser fuser;
     DatabaseReference reference;
@@ -65,13 +68,44 @@ public class chat_manager extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        })
+        });
 
         return view;
     }
 
     private void readChat(){
-        
+        mUsers = new ArrayList<>();
 
+        reference = FirebaseDatabase.getInstance().getReference("Users");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mUsers.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    User user = snapshot.getValue(User.class);
+
+                    String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+                    for(String id : userList){
+                        if(uid.equals(id))
+                            if(mUsers.size()!= 0)
+                                for(User user1: mUsers) {
+                                    String uid2 = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+                                    if (uid.equals(uid2))
+                                        mUsers.add(user);
+                                }
+                        else
+                            mUsers.add(user);
+                    }
+                }
+
+                userAdapter = new UserAdapter(getContext(),mUsers);
+                recyclerView.setAdapter(userAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+        });
     }
 }
