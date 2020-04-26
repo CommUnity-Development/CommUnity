@@ -1,42 +1,70 @@
 package com.development.community.ui.messaging;
 
-public class Chat {
+import androidx.annotation.NonNull;
 
-    private String sender;
-    private String reciever;
+public class Chat {
+    private String senderUID;
+    private String receiverUID;
+    private String senderUsername;
+    public String receiverUsername;
     private String message;
 
-    public Chat(String sender, String reciever, String message) {
-        this.sender = sender;
-        this.reciever = reciever;
+    public Chat(){
+        senderUID = "";
+        senderUsername = "";
+        receiverUID = "";
+        receiverUsername = "";
+        message = "";
+    }
+    public Chat(String senderUID, String senderUsername, String receiverUID, String receiverUsername, String message){
+        this.senderUID = senderUID;
+        this.senderUsername = senderUsername;
+        this.receiverUID = receiverUID;
+        this.receiverUsername = receiverUsername;
         this.message = message;
     }
 
-    public Chat(){
-
+    public String getSenderUID() {
+        return senderUID;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public void setSenderUID(String senderUID) {
+        this.senderUID = senderUID;
     }
 
-    public void setReciever(String reciever) {
-        this.reciever = reciever;
+    public String getReceiverUID() {
+        return receiverUID;
+    }
+
+    public void setReceiverUID(String receiverUID) {
+        this.receiverUID = receiverUID;
+    }
+
+    public String getMessage() {
+        return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
     }
-
-    public String getSender() {
-        return sender;
+    @Override @NonNull
+    public String toString(){
+        return message + "Sent by " + senderUID + " to " + receiverUID;
     }
 
-    public String getReciever() {
-        return reciever;
+    public String getSenderUsername() {
+        return senderUsername;
     }
 
-    public String getMessage() {
-        return message;
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
+
+    public String getReceiverUsername(){
+        return receiverUsername;
+    }
+
+    public void setReceiverUsername(String receiverUsername){
+        this.receiverUsername = receiverUsername;
     }
 }

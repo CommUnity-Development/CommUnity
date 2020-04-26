@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/nav_messaging"
-        android:name="com.development.community.ui.messaging.MessagingFragment"
+        android:name="com.development.community.ui.messaging.ChatManager"
         android:label="@string/menu_messaging"
-        tools:layout="@layout/fragment_messaging" />
+        tools:layout="@layout/fragment_chat_manager" />
 </navigation>

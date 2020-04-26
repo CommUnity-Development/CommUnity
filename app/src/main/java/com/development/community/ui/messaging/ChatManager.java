@@ -11,6 +11,7 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.development.community.R;
 import com.development.community.User;
@@ -46,7 +47,7 @@ public class ChatManager extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_chat_manager, container, false);
 
-        recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         userList = new ArrayList<>();
@@ -58,11 +59,11 @@ public class ChatManager extends Fragment {
 
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
-                    if(chat.getSender().equals(fuser.getUid()))
-                        userList.add(chat.getReciever());
+                    if(chat.getSenderUID().equals(fuser.getUid()))
+                        userList.add(chat.getReceiverUID());
 
-                    if(chat.getReciever().equals(fuser.getUid()))
-                        userList.add(chat.getSender());
+                    if(chat.getReceiverUID().equals(fuser.getUid()))
+                        userList.add(chat.getSenderUID());
 
                 }
             }
