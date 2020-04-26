@@ -1,4 +1,4 @@
-package com.development.community;
+package com.development.community.ui.messaging;
 
 import android.os.Bundle;
 
@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.development.community.R;
+import com.development.community.User;
+import com.development.community.UserAdapter;
 import com.development.community.ui.messaging.Chat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,7 +29,7 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class chat_manager extends Fragment {
+public class ChatManager extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
