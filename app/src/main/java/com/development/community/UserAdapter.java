@@ -33,7 +33,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
-        return new UserAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         Log.d("ONBIND", "VIEW HOLDER HAS BEEN BINDED");
         User user = mUsers.get(position);
         holder.username.setText(user.getName());
-        if(user.getProfilePicUrl().equals("default"))
+        if(user.getProfilePicUrl().equals(""))
             holder.profilePic.setImageResource(R.drawable.ic_person_black_24dp);
         else
             Glide.with(mContext).load(user.getProfilePicUrl()).into(holder.profilePic);
@@ -52,7 +52,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         return mUsers.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    static class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView username;
         public CircleImageView profilePic;

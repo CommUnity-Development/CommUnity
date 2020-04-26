@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class ChatManager extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chat_manager, container, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         userList = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -59,6 +60,7 @@ public class ChatManager extends Fragment {
                 userList.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     Chat chat = snapshot.getValue(Chat.class);
+                    Log.i("MESSAGE", chat.getReceiverUID() + " , " + chat.getSenderUID());
                     if(chat.getSenderUID().equals(fuser.getUid()))
                         userList.add(chat.getReceiverUID());
 
@@ -66,9 +68,12 @@ public class ChatManager extends Fragment {
                         userList.add(chat.getSenderUID());
 
                 }
-                readChat();
-                recyclerView.setAdapter(userAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                UserAdapter userAdapter = readChat();
+
+//                Log.i("Stuff", String.valueOf(userAdapter.getItemCount()));
+                Log.i("ADAPTER", "ADAPTER \"Set\"");
+
+
             }
 
             @Override
@@ -82,6 +87,7 @@ public class ChatManager extends Fragment {
 
     private UserAdapter readChat(){
         mUsers = new ArrayList<>();
+        final UserAdapter[] userAdapter = new UserAdapter[1];
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
@@ -93,11 +99,18 @@ public class ChatManager extends Fragment {
 
                     String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
                     for(String id : userList)
-                        if(uid.equals(id))
+                        if(uid.equals(id)) {
                             mUsers.add(user);
+                            Log.i("User", user.toString());
+                        }
                 }
 
-                userAdapter = new UserAdapter(getContext(),mUsers);
+                Log.i("Musers", mUsers.toString());
+
+                userAdapter[0] = new UserAdapter(getContext(),mUsers);
+                Log.i("LENGTH", String.valueOf(userAdapter[0].getItemCount()));
+                recyclerView.setAdapter(userAdapter[0]);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
             }
@@ -107,6 +120,8 @@ public class ChatManager extends Fragment {
 
         }
         });
-        return userAdapter;
+        return userAdapter[0];
+
+
     }
 }

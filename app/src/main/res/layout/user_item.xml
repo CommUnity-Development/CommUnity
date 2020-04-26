@@ -15,6 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="username"
+        android:id="@+id/userName"
         android:layout_toRightOf="@id/profilepic"
         android:layout_toEndOf="@id/profilepic"
         android:layout_marginLeft="10dp"
