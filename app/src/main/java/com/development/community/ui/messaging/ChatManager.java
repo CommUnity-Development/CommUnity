@@ -35,7 +35,7 @@ public class ChatManager extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-    private List<User> mUsers;
+    private ArrayList<User> mUsers;
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
     FirebaseUser fuser;
@@ -98,16 +98,18 @@ public class ChatManager extends Fragment {
                     User user = snapshot.getValue(User.class);
 
                     String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-                    for(String id : userList)
-                        if(uid.equals(id)) {
+                    for(String id : userList) {
+                        if (uid.equals(id)) {
                             mUsers.add(user);
                             Log.i("User", user.toString());
                         }
+                    }
                 }
 
+                ArrayList<User> mUserSorted = removeDuplicates(mUsers);
                 Log.i("Musers", mUsers.toString());
 
-                userAdapter[0] = new UserAdapter(getContext(),mUsers);
+                userAdapter[0] = new UserAdapter(getContext(),mUserSorted);
                 Log.i("LENGTH", String.valueOf(userAdapter[0].getItemCount()));
                 recyclerView.setAdapter(userAdapter[0]);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -123,5 +125,20 @@ public class ChatManager extends Fragment {
         return userAdapter[0];
 
 
+    }
+
+    private static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) { //https://www.geeksforgeeks.org/how-to-remove-duplicates-from-arraylist-in-java/
+        ArrayList<T> newList = new ArrayList<T>();
+
+        // Traverse through the first list
+        for (T element : list) {
+
+            if (!newList.contains(element)) {
+
+                newList.add(element);
+            }
+        }
+
+        return newList;
     }
 }
