@@ -66,6 +66,8 @@ public class ChatManager extends Fragment {
                         userList.add(chat.getSenderUID());
 
                 }
+
+                readChat();
             }
 
             @Override
@@ -89,17 +91,9 @@ public class ChatManager extends Fragment {
                     User user = snapshot.getValue(User.class);
 
                     String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-                    for(String id : userList){
+                    for(String id : userList)
                         if(uid.equals(id))
-                            if(mUsers.size()!= 0)
-                                for(User user1: mUsers) {
-                                    String uid2 = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-                                    if (uid.equals(uid2))
-                                        mUsers.add(user);
-                                }
-                        else
                             mUsers.add(user);
-                    }
                 }
 
                 userAdapter = new UserAdapter(getContext(),mUsers);
