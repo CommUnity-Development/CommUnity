@@ -66,9 +66,9 @@ public class ChatManager extends Fragment {
                         userList.add(chat.getSenderUID());
 
                 }
-
-//                UserAdapter userAdapter1 = readChat();
+                readChat();
                 recyclerView.setAdapter(userAdapter);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
             }
 
             @Override

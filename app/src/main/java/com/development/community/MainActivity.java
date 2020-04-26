@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         final View navHeader = navigationView.getHeaderView(0);
         ImageView imgView = navHeader.findViewById(R.id.imageView);
-//        imgView.setImageResource(R.drawable.nice);
 
         TextView username = navHeader.findViewById(R.id.name);
         try {
