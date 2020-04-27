@@ -88,7 +88,6 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder>{
 
             itemView.setOnClickListener(this);
 
-
         }
 
         @Override

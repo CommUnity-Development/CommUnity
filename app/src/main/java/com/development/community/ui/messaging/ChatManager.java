@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,13 +36,14 @@ public class ChatManager extends Fragment {
 
     private RecyclerView recyclerView;
     private UserAdapter userAdapter;
-    private ArrayList<User> mUsers;
+    private HashSet<User> mUsers;
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
     FirebaseUser fuser;
     DatabaseReference reference;
 
     private List<String> userList;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,7 +88,7 @@ public class ChatManager extends Fragment {
     }
 
     private UserAdapter readChat(){
-        mUsers = new ArrayList<>();
+        mUsers = new HashSet<>();
         final UserAdapter[] userAdapter = new UserAdapter[1];
 
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -106,10 +108,10 @@ public class ChatManager extends Fragment {
                     }
                 }
 
-                ArrayList<User> mUserSorted = removeDuplicates(mUsers);
                 Log.i("Musers", mUsers.toString());
 
-                userAdapter[0] = new UserAdapter(getContext(),mUserSorted);
+                ArrayList<User> mUserAL = new ArrayList<>(mUsers);
+                userAdapter[0] = new UserAdapter(getContext(),mUserAL);
                 Log.i("LENGTH", String.valueOf(userAdapter[0].getItemCount()));
                 recyclerView.setAdapter(userAdapter[0]);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -127,18 +129,4 @@ public class ChatManager extends Fragment {
 
     }
 
-    private static <T> ArrayList<T> removeDuplicates(ArrayList<T> list) { //https://www.geeksforgeeks.org/how-to-remove-duplicates-from-arraylist-in-java/
-        ArrayList<T> newList = new ArrayList<T>();
-
-        // Traverse through the first list
-        for (T element : list) {
-
-            if (!newList.contains(element)) {
-
-                newList.add(element);
-            }
-        }
-
-        return newList;
-    }
 }

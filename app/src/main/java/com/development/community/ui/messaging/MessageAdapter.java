@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.development.community.EntryAdapter;
 import com.development.community.Message;
 import com.development.community.R;
 import com.development.community.User;
@@ -14,6 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.List;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,6 +61,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         else
             Glide.with(mContext).load(imageurl).into(holder.profile_image);
 
+
+
     }
 
 
@@ -70,15 +74,28 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public TextView show_message;
         public ImageView profile_image;
+        EntryAdapter.onEntryListener onEntryListener;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView) {
             super(itemView);
 
             show_message = itemView.findViewById(R.id.showMessage);
             profile_image = itemView.findViewById(R.id.profilepic);
+            itemView.setOnClickListener((View.OnClickListener) this);
+
         }
 
+            public void onClick(View view){
+                onEntryListener.onEntryClick(getAdapterPosition());
+
+            }
+
     }
+
+    public interface onMessageListener{
+        void onMessageClick(int position);
+    }
+
 
     public int getItemViewType(int position){
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -88,5 +105,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             return MSG_TYPE_LEFT;
 
     }
+
+
 
 }

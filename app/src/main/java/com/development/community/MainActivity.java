@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
+import com.development.community.ui.messaging.MessageAdapter;
+import com.development.community.ui.messaging.MessagingFragment;
 import com.development.community.ui.profile.ProfileFragment;
 import com.development.community.ui.tasksPast.TasksPastFragment;
 import com.development.community.ui.tasksUp.TasksUpFragment;
@@ -45,7 +47,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
         HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods,
-        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast, TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp{
+        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast,
+        TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp, MessageAdapter.onMessageListener {
     EntryAdapter entryAdapter;
     EntryAdapter entryAdapterPast;
     EntryAdapter entryAdapterUp;
@@ -476,4 +479,10 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
 
+    @Override
+    public void onMessageClick(int position) {
+        Intent intent = new Intent(this, MessagingFragment.class);
+        intent.putExtra("ID", ids.get(position));
+        startActivity(intent);
+    }
 }
