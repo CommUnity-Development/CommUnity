@@ -82,9 +82,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             username = itemView.findViewById(R.id.userName);
             profilePic = itemView.findViewById(R.id.profilepic);
             lastMsg = itemView.findViewById(R.id.lastMsg);
+            this.onUserListener = onUserListener;
+            itemView.setOnClickListener(this);
 
         }
 
+        @Override
+        public void onClick(View view) {
+            onUserListener.onUserClick(getAdapterPosition());
+            Log.d("CLICK", "ITEM CLICKED AT POSITION "+getAdapterPosition());
+        }
     }
 
     private void lastMessage(final String userid, final TextView lastMsg){
@@ -111,22 +118,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                 }
 
                 theLastMessage = "default";
-            this.onUserListener = onUserListener;
-            itemView.setOnClickListener(this);
 
             }
 
-        @Override
-        public void onClick(View view) {
-            onUserListener.onUserClick(getAdapterPosition());
-            Log.d("CLICK", "ITEM CLICKED AT POSITION "+getAdapterPosition());
-        }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
+
     }
+
 
 
 }
