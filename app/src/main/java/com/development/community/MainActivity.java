@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
+import com.development.community.ui.messaging.MessageAdapter;
+import com.development.community.ui.messaging.MessagingFragment;
 import com.development.community.ui.profile.ProfileFragment;
 import com.development.community.ui.tasksPast.TasksPastFragment;
 import com.development.community.ui.tasksUp.TasksUpFragment;
@@ -45,7 +47,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
         HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods,
-        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast, TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp{
+        ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast,
+        TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp, MessageAdapter.onMessageListener, UserAdapter.onUserListener {
     EntryAdapter entryAdapter;
     EntryAdapter entryAdapterPast;
     EntryAdapter entryAdapterUp;
@@ -119,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_tasksUp, R.id.nav_tasksPast, R.id.nav_messaging)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_tasksUp, R.id.nav_tasksPast, R.id.fragment_chat_manager)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -129,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         final View navHeader = navigationView.getHeaderView(0);
         ImageView imgView = navHeader.findViewById(R.id.imageView);
-//        imgView.setImageResource(R.drawable.nice);
 
         TextView username = navHeader.findViewById(R.id.name);
         try {
@@ -477,4 +479,18 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
 
+    @Override
+    public void onMessageClick(int position) {
+        Intent intent = new Intent(this, MessagingFragment.class);
+        intent.putExtra("ID", ids.get(position));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUserClick(int position) {
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra("ID", ids.get(position));
+        startActivity(intent);
+
+    }
 }

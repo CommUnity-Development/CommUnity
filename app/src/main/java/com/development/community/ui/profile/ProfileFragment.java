@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide;
 import com.development.community.R;
 import com.development.community.User;
 import com.development.community.ui.accountEdit.AccountFragment;
+//import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

@@ -100,4 +100,6 @@ public class User implements Serializable {
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
     }
+
+
 }

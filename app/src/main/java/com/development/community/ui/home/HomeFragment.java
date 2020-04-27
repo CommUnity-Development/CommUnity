@@ -31,8 +31,6 @@ public class HomeFragment extends Fragment{
     RecyclerView recyclerView;
 
 
-
-
     public HomeFragment(){
 
     }
