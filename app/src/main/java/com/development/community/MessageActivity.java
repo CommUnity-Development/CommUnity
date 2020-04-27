@@ -47,16 +47,17 @@ public class MessageActivity extends AppCompatActivity {
 
 
 
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
 
-        public View onCreateView(@NonNull LayoutInflater inflater,
-                                 ViewGroup container, Bundle savedInstanceState) {
-            View root = inflater.inflate(R.layout.fragment_messaging, container, false);
 //        final TextView textView = root.findViewById(R.id.text_messaging);
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_message);
 
-            sendButton = root.findViewById(R.id.sendButton);
-            sendText = root.findViewById(R.id.textSend);
+            sendButton = findViewById(R.id.sendButton);
+            sendText = findViewById(R.id.textSend);
 
-            recyclerView = root.findViewById(R.id.recyclerView);
+            recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageActivity.this);
             linearLayoutManager.setStackFromEnd(true);
@@ -102,7 +103,6 @@ public class MessageActivity extends AppCompatActivity {
             });
 
 
-            return root;
         }
 
 

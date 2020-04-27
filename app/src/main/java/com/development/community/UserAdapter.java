@@ -59,7 +59,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         else
             Glide.with(mContext).load(user.getProfilePicUrl()).into(holder.profilePic);
         String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
-        lastMessage(uid,holder.lastMsg);
+        lastMessage(uid, holder.lastMsg);
     }
 
 
