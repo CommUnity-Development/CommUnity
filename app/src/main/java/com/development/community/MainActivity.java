@@ -48,7 +48,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
         HomeFragment.OnPostButtonClickListener, HomeFragment.EntryAdapterMethods,
         ProfileFragment.profileFunc,TasksPastFragment.EntryPastAdapter,TasksPastFragment.LayoutPast,
-        TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp, MessageAdapter.onMessageListener {
+        TasksUpFragment.EntryUpAdapter,TasksUpFragment.LayoutUp, MessageAdapter.onMessageListener, UserAdapter.onUserListener {
     EntryAdapter entryAdapter;
     EntryAdapter entryAdapterPast;
     EntryAdapter entryAdapterUp;
@@ -484,5 +484,13 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         Intent intent = new Intent(this, MessagingFragment.class);
         intent.putExtra("ID", ids.get(position));
         startActivity(intent);
+    }
+
+    @Override
+    public void onUserClick(int position) {
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra("ID", ids.get(position));
+        startActivity(intent);
+
     }
 }
