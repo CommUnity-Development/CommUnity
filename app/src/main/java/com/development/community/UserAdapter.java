@@ -32,17 +32,19 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     private Context mContext;
     private List<User> mUsers;
     String theLastMessage;
+    onUserListener mOnUserListener;
 
-    public UserAdapter(Context givenContext, List<User> givenUsers){
+    public UserAdapter(Context givenContext, List<User> givenUsers, onUserListener mOnUserListener){
         mUsers = givenUsers;
         mContext = givenContext;
+        this.mOnUserListener = mOnUserListener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mOnUserListener);
     }
 
     @Override
@@ -54,7 +56,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             holder.profilePic.setImageResource(R.drawable.ic_person_black_24dp);
         else
             Glide.with(mContext).load(user.getProfilePicUrl()).into(holder.profilePic);
-        
+
     }
 
 
@@ -63,13 +65,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         return mUsers.size();
     }
 
-    static class ViewHolder extends RecyclerView.ViewHolder{
+    public interface onUserListener{
+        void onUserClick(int position);
+    }
+
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView username;
         public CircleImageView profilePic;
         private TextView lastMsg;
+        onUserListener onUserListener;
 
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView, onUserListener onUserListener){
             super(itemView);
 
             username = itemView.findViewById(R.id.userName);
@@ -104,9 +111,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
                 }
 
                 theLastMessage = "default";
+            this.onUserListener = onUserListener;
+            itemView.setOnClickListener(this);
 
             }
 
+        @Override
+        public void onClick(View view) {
+            onUserListener.onUserClick(getAdapterPosition());
+            Log.d("CLICK", "ITEM CLICKED AT POSITION "+getAdapterPosition());
+        }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

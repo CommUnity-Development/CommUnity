@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.development.community.MainActivity;
 import com.development.community.R;
 import com.development.community.User;
 import com.development.community.UserAdapter;
@@ -111,7 +112,7 @@ public class ChatManager extends Fragment {
                 Log.i("Musers", mUsers.toString());
 
                 ArrayList<User> mUserAL = new ArrayList<>(mUsers);
-                userAdapter[0] = new UserAdapter(getContext(),mUserAL);
+                userAdapter[0] = new UserAdapter(getContext(),mUserAL, (UserAdapter.onUserListener) getActivity());
                 Log.i("LENGTH", String.valueOf(userAdapter[0].getItemCount()));
                 recyclerView.setAdapter(userAdapter[0]);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
