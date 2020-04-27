@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -33,6 +34,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     private List<User> mUsers;
     String theLastMessage;
     onUserListener mOnUserListener;
+    FirebaseAuth auth = FirebaseAuth.getInstance();
 
     public UserAdapter(Context givenContext, List<User> givenUsers, onUserListener mOnUserListener){
         mUsers = givenUsers;
@@ -56,7 +58,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             holder.profilePic.setImageResource(R.drawable.ic_person_black_24dp);
         else
             Glide.with(mContext).load(user.getProfilePicUrl()).into(holder.profilePic);
-
+        String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
+        lastMessage(uid,holder.lastMsg);
     }
 
 
