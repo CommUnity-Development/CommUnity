@@ -70,7 +70,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         return mChat.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView show_message;
         public ImageView profile_image;
@@ -79,12 +79,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         public ViewHolder(View itemView) {
             super(itemView);
 
+
             show_message = itemView.findViewById(R.id.showMessage);
             profile_image = itemView.findViewById(R.id.profilepic);
             itemView.setOnClickListener((View.OnClickListener) this);
 
         }
-
+            @Override
             public void onClick(View view){
                 onEntryListener.onEntryClick(getAdapterPosition());
 
