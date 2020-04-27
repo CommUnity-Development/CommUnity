@@ -8,6 +8,7 @@ import com.development.community.EntryAdapter;
 import com.development.community.Message;
 import com.development.community.R;
 import com.development.community.User;
+import com.development.community.UserAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -74,7 +75,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public TextView show_message;
         public ImageView profile_image;
-        EntryAdapter.onEntryListener onEntryListener;
+        UserAdapter.onUserListener onUserListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -84,10 +85,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             profile_image = itemView.findViewById(R.id.profilepic);
             itemView.setOnClickListener((View.OnClickListener) this);
 
+
         }
             @Override
             public void onClick(View view){
-                onEntryListener.onEntryClick(getAdapterPosition());
+                onUserListener.onUserClick(getAdapterPosition());
 
             }
 
