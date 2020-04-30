@@ -153,7 +153,8 @@ public class MessageActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
-                    sendNotification(receive,user.getName(),msg);
+                    if(notify)
+                        sendNotification(receive,user.getName(),msg);
                     notify = false;
                 }
 
@@ -169,7 +170,7 @@ public class MessageActivity extends AppCompatActivity {
             ref.child("chats").push().setValue(message1);
         }
 
-        private void sendNotification(String receiver, final String username, String message){
+        private void sendNotification(String receiver, final String username, final String message){
             DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
             Query query = tokens.orderByKey().equalTo(receiver);
             query.addValueEventListener(new ValueEventListener() {
@@ -199,7 +200,7 @@ public class MessageActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
-            })
+            });
         }
 
 
