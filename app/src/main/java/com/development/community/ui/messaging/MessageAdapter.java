@@ -8,8 +8,11 @@ import com.development.community.EntryAdapter;
 import com.development.community.Message;
 import com.development.community.R;
 import com.development.community.User;
+import com.development.community.UserAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 
 
 import java.util.List;
@@ -35,9 +38,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         this.mChat = mChat;
         this.mContext = mContext;
         this.imageurl = imageurl;
+
     }
 
 
+    @Override @NonNull
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == MSG_TYPE_RIGHT) {
             View view = LayoutInflater.from(mContext).inflate(R.layout.chat_item_right, parent, false);
@@ -74,7 +79,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         public TextView show_message;
         public ImageView profile_image;
-        EntryAdapter.onEntryListener onEntryListener;
+        UserAdapter.onUserListener onUserListener;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -83,11 +88,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             show_message = itemView.findViewById(R.id.showMessage);
             profile_image = itemView.findViewById(R.id.profilepic);
             itemView.setOnClickListener((View.OnClickListener) this);
+            onUserListener = (UserAdapter.onUserListener) mContext;
+
 
         }
             @Override
             public void onClick(View view){
-                onEntryListener.onEntryClick(getAdapterPosition());
+                onUserListener.onUserClick(getAdapterPosition());
 
             }
 

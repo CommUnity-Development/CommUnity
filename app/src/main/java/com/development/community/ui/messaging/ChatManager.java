@@ -26,11 +26,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+
+import Notification.Token;
 
 
 public class ChatManager extends Fragment {
@@ -56,6 +59,9 @@ public class ChatManager extends Fragment {
 
         userList = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
         reference = FirebaseDatabase.getInstance().getReference("chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -85,18 +91,47 @@ public class ChatManager extends Fragment {
             }
         });
 
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
         return view;
+    }
+
+
+    private void updateToken(String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+
+        reference.child(fuser.getUid()).setValue(token1);
     }
 
     private UserAdapter readChat(){
         mUsers = new HashSet<>();
         final UserAdapter[] userAdapter = new UserAdapter[1];
 
+
         reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+                userRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            User user = snapshot.getValue(User.class);
+                            mUsers.add(user);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+
+                });
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
 
@@ -111,6 +146,8 @@ public class ChatManager extends Fragment {
 
                 Log.i("Musers", mUsers.toString());
 
+
+
                 ArrayList<User> mUserAL = new ArrayList<>(mUsers);
                 userAdapter[0] = new UserAdapter(getContext(),mUserAL, (UserAdapter.onUserListener) getActivity());
                 Log.i("LENGTH", String.valueOf(userAdapter[0].getItemCount()));
@@ -119,6 +156,8 @@ public class ChatManager extends Fragment {
 
 
             }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
