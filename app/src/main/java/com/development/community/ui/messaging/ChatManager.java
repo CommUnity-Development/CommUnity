@@ -56,6 +56,9 @@ public class ChatManager extends Fragment {
 
         userList = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+
+
         reference = FirebaseDatabase.getInstance().getReference("chats");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -92,11 +95,30 @@ public class ChatManager extends Fragment {
         mUsers = new HashSet<>();
         final UserAdapter[] userAdapter = new UserAdapter[1];
 
+
         reference = FirebaseDatabase.getInstance().getReference("Users");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
+                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+                userRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            User user = snapshot.getValue(User.class);
+                            mUsers.add(user);
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+
+                });
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
 
@@ -110,6 +132,8 @@ public class ChatManager extends Fragment {
                 }
 
                 Log.i("Musers", mUsers.toString());
+
+
 
                 ArrayList<User> mUserAL = new ArrayList<>(mUsers);
                 userAdapter[0] = new UserAdapter(getContext(),mUserAL, (UserAdapter.onUserListener) getActivity());

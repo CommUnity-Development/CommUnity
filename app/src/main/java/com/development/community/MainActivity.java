@@ -481,15 +481,17 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     @Override
     public void onMessageClick(int position) {
-        Intent intent = new Intent(this, MessagingFragment.class);
-        intent.putExtra("ID", ids.get(position));
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra("IDchosen", ids.get(position));
+
         startActivity(intent);
     }
 
     @Override
     public void onUserClick(int position) {
         Intent intent = new Intent(this, MessageActivity.class);
-        intent.putExtra("ID", ids.get(position));
+        intent.putExtra("IDchosen", ids.get(position));
+        intent.putExtra("IDuser", firebaseAuth.getCurrentUser().getUid());
         startActivity(intent);
 
     }
