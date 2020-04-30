@@ -163,7 +163,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
 
             ref.child(path).push().setValue(message1);
-            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Added message to "+path, Toast.LENGTH_SHORT).show();
         }
 
 
