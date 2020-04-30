@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
 import Notification.Client;
 import Notification.Data;
 import Notification.MyResponse;
@@ -40,6 +42,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
+
 
         ImageButton sendButton;
         EditText sendText;
@@ -53,6 +56,8 @@ public class MessageActivity extends AppCompatActivity {
         FirebaseUser fuser;
         DatabaseReference ref;
         FirebaseAuth firebaseAuth;
+
+        static String path = "chats";
 
         String userid;
 
@@ -69,6 +74,25 @@ public class MessageActivity extends AppCompatActivity {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_message);
             apiService = Client.getClient("httpsL//fcm.googleapis.com/").create(APIService.class);
+
+            Intent intent = getIntent();
+            String idUser = intent.getStringExtra("IDuser");
+            final String idReceiver = intent.getStringExtra("IDchosen");
+            Toast.makeText(this, idUser + idReceiver, Toast.LENGTH_SHORT).show();
+            Log.e("idUserRec", idUser + idReceiver);
+            path = "chats";
+//            Log.i("idUser", idUser);
+//            Log.i("chosen", idReceiver);
+
+            try {
+                if (idUser.compareTo(idReceiver) > 0) path = "chats/" + idUser + idReceiver;
+                else path = "chats/" + idReceiver + idUser;
+            }catch(Exception ignored) {
+                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
+                path = "fdklsfkdlsfjsd";
+            }
+//            Toast.makeText()
 
             sendButton = findViewById(R.id.sendButton);
             sendText = findViewById(R.id.textSend);
@@ -92,10 +116,10 @@ public class MessageActivity extends AppCompatActivity {
                     User user = dataSnapshot.getValue(User.class);
                     assert user != null;
                     try {
-                        readMessage(fuser.getUid(), userid, user.getProfilePicUrl());
+                        readMessage(fuser.getUid(), idReceiver, user.getProfilePicUrl());
                     }catch(Exception ignored){
                         Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_SHORT).show();
-                        readMessage(fuser.getUid(), userid, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
+                        readMessage(fuser.getUid(), idReceiver, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
                     }
                 }
 
@@ -112,7 +136,7 @@ public class MessageActivity extends AppCompatActivity {
                     notify = true;
                     String msg = sendText.getText().toString();
                     if(!msg.equals(""))
-                        sendMessage(fuser.getUid(),userid,msg);
+                        sendMessage(fuser.getUid(),idReceiver,msg);
                     else
                         Toast.makeText(MessageActivity.this,"Please Type Something to Send",Toast.LENGTH_SHORT).show();
                 }
@@ -130,7 +154,13 @@ public class MessageActivity extends AppCompatActivity {
 
             HashMap<String,Object> hashMap = new HashMap<>();
 
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+//            Log.d("idUser", idUser);
+//            Log.d("idRec", idReceiver);
+
+
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(path);
+            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -167,7 +197,8 @@ public class MessageActivity extends AppCompatActivity {
 
             Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
 
-            ref.child("chats").push().setValue(message1);
+            ref.child(path).push().setValue(message1);
+            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         }
 
         private void sendNotification(String receiver, final String username, final String message){
@@ -209,7 +240,7 @@ public class MessageActivity extends AppCompatActivity {
 
             mchat = new ArrayList<>();
 
-            ref = FirebaseDatabase.getInstance().getReference("chats");
+            ref = FirebaseDatabase.getInstance().getReference(path);
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -233,4 +264,13 @@ public class MessageActivity extends AppCompatActivity {
             });
         }
 
+    @Override
+    public void onMessageClick(int position) {
+
     }
+
+    @Override
+    public void onUserClick(int position) {
+
+    }
+}

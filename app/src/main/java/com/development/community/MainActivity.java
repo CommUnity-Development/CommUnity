@@ -417,7 +417,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     Log.d("DATASNAPSHOT", ds.toString());
                     Entry entry = ds.getValue(Entry.class);
                     assert entry != null;
-                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())<=0) {
+                    if(uid.equals(entry.getServerUID()) && entry.getStatus() == 2) {
                         entryArrayListPast.add(entry);
                         tasksPast.add(entry.getTask());
                         timesPast.add(entry.getTime());
@@ -456,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                     Log.d("DATASNAPSHOT", ds.toString());
                     Entry entry = ds.getValue(Entry.class);
                     assert entry != null;
-                    if(uid.equals(entry.getServerUID()) && Date.daysFromToday(entry.getDate())> 0) {
+                    if(uid.equals(entry.getServerUID()) && entry.getStatus() == 1) {
                         entryArrayListUp.add(entry);
                         tasksUp.add(entry.getTask());
                         timesUp.add(entry.getTime());
@@ -481,15 +481,17 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
     @Override
     public void onMessageClick(int position) {
-        Intent intent = new Intent(this, MessagingFragment.class);
-        intent.putExtra("ID", ids.get(position));
+        Intent intent = new Intent(this, MessageActivity.class);
+        intent.putExtra("IDchosen", ids.get(position));
+
         startActivity(intent);
     }
 
     @Override
     public void onUserClick(int position) {
         Intent intent = new Intent(this, MessageActivity.class);
-        intent.putExtra("ID", ids.get(position));
+        intent.putExtra("IDchosen", ids.get(position));
+        intent.putExtra("IDuser", firebaseAuth.getCurrentUser().getUid());
         startActivity(intent);
 
     }

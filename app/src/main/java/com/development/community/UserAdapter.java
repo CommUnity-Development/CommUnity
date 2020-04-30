@@ -88,6 +88,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             this.onUserListener = onUserListener;
             itemView.setOnClickListener(this);
 
+
+
         }
 
         @Override
@@ -97,7 +99,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         }
     }
 
-    private void lastMessage(final String userid, final TextView lastMsg){
+    private void lastMessage(final String userid, final TextView lastMsg) {
         theLastMessage = "default";
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("chats");
@@ -107,10 +109,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Chat chat = snapshot.getValue(Chat.class);
-                    if(chat.getReceiverUID().equals(firebaseUser.getUid()) && chat.getSenderUID().equals(userid) || chat.getReceiverUID().equals(userid) && chat.getSenderUID().equals(firebaseUser.getUid()))
+                    if (chat.getReceiverUID().equals(firebaseUser.getUid()) && chat.getSenderUID().equals(userid) || chat.getReceiverUID().equals(userid) && chat.getSenderUID().equals(firebaseUser.getUid()))
                         theLastMessage = chat.getMessage();
                 }
-                switch (theLastMessage){
+                switch (theLastMessage) {
                     case "default":
                         lastMsg.setText("No Message");
                         break;
@@ -131,8 +133,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
             }
         });
 
+
+
     }
-
-
 
 }
