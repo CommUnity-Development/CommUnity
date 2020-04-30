@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MessageActivity extends AppCompatActivity {
+
+public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
 
         ImageButton sendButton;
         EditText sendText;
@@ -53,6 +55,8 @@ public class MessageActivity extends AppCompatActivity {
         FirebaseUser fuser;
         DatabaseReference ref;
         FirebaseAuth firebaseAuth;
+
+        static String path = "chats";
 
         String userid;
 
@@ -70,8 +74,28 @@ public class MessageActivity extends AppCompatActivity {
             setContentView(R.layout.activity_message);
             apiService = Client.getClient("httpsL//fcm.googleapis.com/").create(APIService.class);
 
+            Intent intent = getIntent();
+            String idUser = intent.getStringExtra("IDuser");
+            final String idReceiver = intent.getStringExtra("IDchosen");
+            Toast.makeText(this, idUser + idReceiver, Toast.LENGTH_SHORT).show();
+            Log.e("idUserRec", idUser + idReceiver);
+            path = "chats";
+//            Log.i("idUser", idUser);
+//            Log.i("chosen", idReceiver);
+
+            try {
+                if (idUser.compareTo(idReceiver) > 0) path = "chats/" + idUser + idReceiver;
+                else path = "chats/" + idReceiver + idUser;
+            }catch(Exception ignored) {
+                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
+                path = "fdklsfkdlsfjsd";
+            }
+//            Toast.makeText()
+
             sendButton = findViewById(R.id.sendButton);
             sendText = findViewById(R.id.textSend);
+
             recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageActivity.this);
@@ -130,7 +154,13 @@ public class MessageActivity extends AppCompatActivity {
 
             HashMap<String,Object> hashMap = new HashMap<>();
 
-            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+//            Log.d("idUser", idUser);
+//            Log.d("idRec", idReceiver);
+
+
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(path);
+            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -167,7 +197,8 @@ public class MessageActivity extends AppCompatActivity {
 
             Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
 
-            ref.child("chats").push().setValue(message1);
+            ref.child(path).push().setValue(message1);
+            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         }
 
         private void sendNotification(String receiver, final String username, final String message){
@@ -209,7 +240,7 @@ public class MessageActivity extends AppCompatActivity {
 
             mchat = new ArrayList<>();
 
-            ref = FirebaseDatabase.getInstance().getReference("chats");
+            ref = FirebaseDatabase.getInstance().getReference(path);
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -233,4 +264,13 @@ public class MessageActivity extends AppCompatActivity {
             });
         }
 
+    @Override
+    public void onMessageClick(int position) {
+
     }
+
+    @Override
+    public void onUserClick(int position) {
+
+    }
+}
