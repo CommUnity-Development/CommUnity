@@ -74,7 +74,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 //        final TextView textView = root.findViewById(R.id.text_messaging);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_message);
-            apiService = Client.getClient("httpsL//fcm.googleapis.com/").create(APIService.class);
+            apiService = Client.getClient("https//fcm.googleapis.com/").create(APIService.class);
 
             Intent intent = getIntent();
             String idUser = intent.getStringExtra("IDuser");
