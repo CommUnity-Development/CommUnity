@@ -114,24 +114,7 @@ public class ChatManager extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
-                DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
 
-                userRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            User user = snapshot.getValue(User.class);
-                            mUsers.add(user);
-                        }
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-
-                });
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
 
@@ -163,6 +146,30 @@ public class ChatManager extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
         }
+        });
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    mUsers.add(user);
+                }
+
+                ArrayList<User> mUserAL = new ArrayList<>(mUsers);
+                userAdapter[0] = new UserAdapter(getContext(),mUserAL, (UserAdapter.onUserListener) getActivity());
+                Log.i("LENGTH", String.valueOf(userAdapter[0].getItemCount()));
+                recyclerView.setAdapter(userAdapter[0]);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
         });
         return userAdapter[0];
 
