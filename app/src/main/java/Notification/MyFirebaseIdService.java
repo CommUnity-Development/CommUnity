@@ -9,7 +9,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class MyFirebaseIdService extends FirebaseMessagingService {
 
-    
+
     public void onTokenRefresh(){
         FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
