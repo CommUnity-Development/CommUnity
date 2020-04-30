@@ -31,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+
 import Notification.Client;
 import Notification.Data;
 import Notification.MyResponse;
@@ -42,6 +43,7 @@ import retrofit2.Response;
 
 
 public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
+
 
         ImageButton sendButton;
         EditText sendText;
@@ -116,10 +118,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                     User user = dataSnapshot.getValue(User.class);
                     assert user != null;
                     try {
-                        readMessage(fuser.getUid(), userid, user.getProfilePicUrl());
+                        readMessage(fuser.getUid(), idReceiver, user.getProfilePicUrl());
                     }catch(Exception ignored){
                         Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_SHORT).show();
-                        readMessage(fuser.getUid(), userid, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
+                        readMessage(fuser.getUid(), idReceiver, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
                     }
                 }
 
@@ -136,7 +138,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                     notify = true;
                     String msg = sendText.getText().toString();
                     if(!msg.equals(""))
-                        sendMessage(fuser.getUid(),userid,msg);
+                        sendMessage(fuser.getUid(),idReceiver,msg);
                     else
                         Toast.makeText(MessageActivity.this,"Please Type Something to Send",Toast.LENGTH_SHORT).show();
                 }
