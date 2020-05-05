@@ -17,6 +17,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,6 +44,12 @@ public class EntryActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+    private static final String CHANNEL_ID = "community";
+    private static final String CHANNEL_NAME = "CommUnity";
+    private static final String CHANNEL_DESC = "CommUnity Notifications";
+
+
+
     //TODO: Implement an AutoCompleteSupportFragment for the location picker
 
     @Override
@@ -58,6 +66,8 @@ public class EntryActivity extends AppCompatActivity {
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
+
+
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +132,7 @@ public class EntryActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                displayNotification();
                 Intent intent = new Intent(EntryActivity.this, MainActivity.class);
                 if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || addressTextBox.getText().toString().equals("")) Toast.makeText(EntryActivity.this,
                         "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
@@ -153,6 +164,17 @@ public class EntryActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private void displayNotification(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Testing Testing").setContentText("Is it working?").setPriority(0);
+
+        NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
+
+        notificationMC.notify(1,mBuilder.build());
+
+    }
+
     public LatLng getLatLngFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);
