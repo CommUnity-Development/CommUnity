@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<String> usernamesUp = new ArrayList<>();
     ArrayList<Integer> statusesUp = new ArrayList<>();
 
+    ArrayList<String> userIDS = new ArrayList<>();
+
 
     FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 123;
@@ -114,6 +116,22 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        DatabaseReference userDatabase = firebaseDatabase.getReference("Users");
+
+        userDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    userIDS.add(ds.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -490,7 +508,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     @Override
     public void onUserClick(int position) {
         Intent intent = new Intent(this, MessageActivity.class);
-        intent.putExtra("IDchosen", ids.get(position));
+        Log.v("IDS", userIDS.toString());
+        intent.putExtra("IDchosen", userIDS.get(position));
+        Toast.makeText(MainActivity.this, "ID Chosen: "+userIDS.get(position)+", Your ID: "+firebaseAuth.getCurrentUser().getUid(), Toast.LENGTH_LONG).show();
         intent.putExtra("IDuser", firebaseAuth.getCurrentUser().getUid());
         startActivity(intent);
 

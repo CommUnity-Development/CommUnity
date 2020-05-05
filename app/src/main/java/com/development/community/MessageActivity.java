@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
-
 import Notification.Client;
 import Notification.Data;
 import Notification.MyResponse;
@@ -40,7 +38,6 @@ import Notification.Token;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
 
@@ -74,7 +71,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 //        final TextView textView = root.findViewById(R.id.text_messaging);
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_message);
-            apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+            apiService = Client.getClient("httpsL//fcm.googleapis.com/").create(APIService.class);
 
             Intent intent = getIntent();
             String idUser = intent.getStringExtra("IDuser");
@@ -97,7 +94,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
             sendButton = findViewById(R.id.sendButton);
             sendText = findViewById(R.id.textSend);
-
             recyclerView = findViewById(R.id.recyclerView);
             recyclerView.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageActivity.this);
@@ -200,7 +196,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
 
             ref.child(path).push().setValue(message1);
-            Toast.makeText(this, "Added message to "+path, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         }
 
         private void sendNotification(String receiver, final String username, final String message){
