@@ -2,8 +2,13 @@ package com.development.community;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,6 +31,10 @@ public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+
+    private static final String CHANNEL_ID = "community";
+    private static final String CHANNEL_NAME = "CommUnity";
+    private static final String CHANNEL_DESC = "CommUnity Notifications";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +71,14 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESC);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
+
         button.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -86,6 +103,7 @@ public class SignUpActivity extends AppCompatActivity {
                 }
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
+                displayNotification();
             }
         });
 
@@ -97,6 +115,17 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+    }
+
+
+    private void displayNotification(){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Successfully Signed Up for a Task").setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
+
+        NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
+
+        notificationMC.notify(1,mBuilder.build());
 
     }
 }
