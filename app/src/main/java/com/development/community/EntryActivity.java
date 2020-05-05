@@ -143,7 +143,7 @@ public class EntryActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                displayNotification();
+
                 Intent intent = new Intent(EntryActivity.this, MainActivity.class);
                 if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || addressTextBox.getText().toString().equals("")) Toast.makeText(EntryActivity.this,
                         "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
@@ -162,6 +162,7 @@ public class EntryActivity extends AppCompatActivity {
                                     null, null));
                             Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
                             startActivity(intent);
+                            displayNotification();
                         }
                         else{
                             Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
@@ -178,7 +179,7 @@ public class EntryActivity extends AppCompatActivity {
 
 
     private void displayNotification(){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Testing Testing").setContentText("Is it working?").setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Task successfully added").setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
 
         NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
 
