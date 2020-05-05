@@ -167,7 +167,7 @@ public class EntryActivity extends AppCompatActivity {
 
 
     private void displayNotification(){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Testing Testing").setContentText("Is it working?").setPriority(0);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Testing Testing").setContentText("Is it working?").setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
 
         NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
 
