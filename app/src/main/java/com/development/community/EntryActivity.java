@@ -162,7 +162,7 @@ public class EntryActivity extends AppCompatActivity {
                                     null, null));
                             Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
                             startActivity(intent);
-                            displayNotification();
+                            displayNotification(taskTextBox.getText().toString());
                         }
                         else{
                             Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
@@ -178,8 +178,8 @@ public class EntryActivity extends AppCompatActivity {
     }
 
 
-    private void displayNotification(){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Task successfully added").setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
+    private void displayNotification(String info){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Task successfully added").setContentText(info).setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
 
         NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
 
