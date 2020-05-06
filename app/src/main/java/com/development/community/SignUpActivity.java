@@ -121,7 +121,7 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private void displayNotification(){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Successfully Signed Up for a Task").setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Successfully Signed Up for a Task").setPriority(0).setSmallIcon(R.drawable.ic_arrow_upward_black_24dp);
 
         NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
 

@@ -11,6 +11,7 @@ public class User implements Serializable {
     private String address;
     private String bio;
     private String profilePicUrl;
+    private String token;
 
     public User(){
         name = "";
@@ -19,6 +20,7 @@ public class User implements Serializable {
         address = "";
         bio = "";
         profilePicUrl = "";
+        token = "";
     }
 
     public User(String givenName, String givenState, String givenTown, String givenAddress, String givenBio){
@@ -28,6 +30,7 @@ public class User implements Serializable {
         address = givenAddress;
         bio = givenBio;
         profilePicUrl = "";
+        token = "";
     }
 
     public User(String givenName, String givenState, String givenTown, String givenAddress, String givenBio, String givenProfilePicUrl){
@@ -37,6 +40,22 @@ public class User implements Serializable {
         address = givenAddress;
         bio = givenBio;
         profilePicUrl = givenProfilePicUrl;
+        token = "";
+
+    }
+
+    public User(String givenName,String givenToken){
+        token = givenToken;
+        name = givenName;
+    }
+    public User(String givenName, String givenState, String givenTown, String givenAddress, String givenBio, String givenProfilePicUrl, String givenToken){
+        name = givenName;
+        state = givenState;
+        town = givenTown;
+        address = givenAddress;
+        bio = givenBio;
+        profilePicUrl = givenProfilePicUrl;
+        token = givenToken;
     }
 
     public String getName() {

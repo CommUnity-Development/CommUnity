@@ -19,17 +19,23 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 public class EntryActivity extends AppCompatActivity {
 
@@ -46,10 +52,13 @@ public class EntryActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private FirebaseAuth mAuth;
 
     private static final String CHANNEL_ID = "community";
     private static final String CHANNEL_NAME = "CommUnity";
     private static final String CHANNEL_DESC = "CommUnity Notifications";
+
+    private String token;
 
 
 
@@ -69,6 +78,7 @@ public class EntryActivity extends AppCompatActivity {
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
+        mAuth = FirebaseAuth.getInstance();
 
 
 
@@ -175,7 +185,44 @@ public class EntryActivity extends AppCompatActivity {
             }
         });
 
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if(task.isSuccessful()) {
+                    token = Objects.requireNonNull(task.getResult()).getToken();
+                    saveToken(token);
+                }
+            }
+        });
+
     }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        if(mAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(this, EntryActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+        }
+    }
+
+    private void saveToken(String token){
+        String name = mAuth.getCurrentUser().getDisplayName();
+        User user = new User(name,token);
+
+        DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("Users");
+
+        dbUsers.child(mAuth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                    Toast.makeText(EntryActivity.this,"Token Saved",Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
+
 
 
     private void displayNotification(String info){
