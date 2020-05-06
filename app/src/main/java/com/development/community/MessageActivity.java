@@ -30,8 +30,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
-
-public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
 import Notification.Client;
 import Notification.Data;
 import Notification.MyResponse;
@@ -41,7 +39,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MessageActivity extends AppCompatActivity {
+public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
 
 
         ImageButton sendButton;
@@ -198,7 +196,7 @@ public class MessageActivity extends AppCompatActivity {
             Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
 
             ref.child(path).push().setValue(message1);
-            Toast.makeText(this, "Added message to "+path, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         }
 
         private void sendNotification(String receiver, final String username, final String message){

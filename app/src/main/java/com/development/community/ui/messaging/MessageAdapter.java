@@ -90,7 +90,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             itemView.setOnClickListener((View.OnClickListener) this);
             onUserListener = (UserAdapter.onUserListener) mContext;
 
-
         }
             @Override
             public void onClick(View view){
