@@ -54,7 +54,7 @@ public class EntryActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private FirebaseAuth mAuth;
 
-    private static final String CHANNEL_ID = "community";
+    public static final String CHANNEL_ID = "community";
     private static final String CHANNEL_NAME = "CommUnity";
     private static final String CHANNEL_DESC = "CommUnity Notifications";
 
