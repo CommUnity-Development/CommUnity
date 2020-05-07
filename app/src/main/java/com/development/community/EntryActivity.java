@@ -1,12 +1,15 @@
 package com.development.community;
 
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +20,8 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -42,6 +47,12 @@ public class EntryActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+    private static final String CHANNEL_ID = "community";
+    private static final String CHANNEL_NAME = "CommUnity";
+    private static final String CHANNEL_DESC = "CommUnity Notifications";
+
+
+
     //TODO: Implement an AutoCompleteSupportFragment for the location picker
 
     @Override
@@ -58,6 +69,8 @@ public class EntryActivity extends AppCompatActivity {
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
+
+
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,9 +132,18 @@ public class EntryActivity extends AppCompatActivity {
             }
         });
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESC);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(EntryActivity.this, MainActivity.class);
                 if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || addressTextBox.getText().toString().equals("")) Toast.makeText(EntryActivity.this,
                         "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
@@ -140,6 +162,7 @@ public class EntryActivity extends AppCompatActivity {
                                     null, null));
                             Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
                             startActivity(intent);
+                            displayNotification(taskTextBox.getText().toString());
                         }
                         else{
                             Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
@@ -153,6 +176,17 @@ public class EntryActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private void displayNotification(String info){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Task successfully added").setContentText(info).setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
+
+        NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
+
+        notificationMC.notify(1,mBuilder.build());
+
+    }
+
     public LatLng getLatLngFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);

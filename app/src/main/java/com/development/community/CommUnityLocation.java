@@ -15,5 +15,4 @@ public class CommUnityLocation extends Location {
         super("");
     }
 
-
 }

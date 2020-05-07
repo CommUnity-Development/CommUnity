@@ -26,11 +26,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+
+import Notification.Token;
 
 
 public class ChatManager extends Fragment {
@@ -88,7 +91,17 @@ public class ChatManager extends Fragment {
             }
         });
 
+        updateToken(FirebaseInstanceId.getInstance().getToken());
+
         return view;
+    }
+
+
+    private void updateToken(String token){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
+        Token token1 = new Token(token);
+
+        reference.child(fuser.getUid()).setValue(token1);
     }
 
     private UserAdapter readChat(){
@@ -126,6 +139,8 @@ public class ChatManager extends Fragment {
 
 
             }
+
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
