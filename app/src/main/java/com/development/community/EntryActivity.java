@@ -52,7 +52,7 @@ public class EntryActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
-    private FirebaseAuth mAuth;
+
 
     public static final String CHANNEL_ID = "community";
     private static final String CHANNEL_NAME = "CommUnity";
@@ -78,7 +78,7 @@ public class EntryActivity extends AppCompatActivity {
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
-        mAuth = FirebaseAuth.getInstance();
+
 
 
 
@@ -185,43 +185,13 @@ public class EntryActivity extends AppCompatActivity {
             }
         });
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-            @Override
-            public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                if(task.isSuccessful()) {
-                    token = Objects.requireNonNull(task.getResult()).getToken();
-                    saveToken(token);
-                }
-            }
-        });
+
 
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        if(mAuth.getCurrentUser() == null) {
-            Intent intent = new Intent(this, EntryActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-        }
-    }
 
-    private void saveToken(String token){
-        String name = mAuth.getCurrentUser().getDisplayName();
-        User user = new User(name,token);
 
-        DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("Users");
 
-        dbUsers.child(mAuth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                    Toast.makeText(EntryActivity.this,"Token Saved",Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
 
 
 

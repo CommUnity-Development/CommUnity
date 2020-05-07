@@ -35,24 +35,41 @@ public class User implements Serializable {
         this.uid = uid;
     }
 
-    public User(String uid, String givenName, String givenState, String givenTown, String givenAddress, String givenBio, String givenProfilePicUrl){
-
+    public User(String uid, String givenName, String givenState, String givenTown, String givenAddress, String givenBio,String givenToken){
         name = givenName;
         state = givenState;
         town = givenTown;
         address = givenAddress;
         bio = givenBio;
-        profilePicUrl = givenProfilePicUrl;
+        profilePicUrl = "";
+        token = givenToken;
         this.uid = uid;
-        token = "";
-
     }
 
-    public User(String givenName,String givenToken){
+
+    public User(String name, String state, String town, String address, String bio, String profilePicUrl, String token, String uid) {
+        this.name = name;
+        this.state = state;
+        this.town = town;
+        this.address = address;
+        this.bio = bio;
+        this.profilePicUrl = profilePicUrl;
+        this.token = token;
+        this.uid = uid;
+    }
+
+    public User(String givenName, String givenToken){
         token = givenToken;
         name = givenName;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
 
     public String getName() {
         return name;
