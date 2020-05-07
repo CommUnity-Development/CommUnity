@@ -103,7 +103,7 @@ public class AccountFragment extends Fragment {
                     Toast.makeText(getContext(),"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                    databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
+                    databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(firebaseAuth.getCurrentUser().getUid(), userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
                             userAddress.getText().toString(),userBio.getText().toString()));
                     try {
                         switchActivity switchActivity = (switchActivity) getContext();
