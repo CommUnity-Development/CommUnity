@@ -97,7 +97,7 @@ public class AccountCreate extends AppCompatActivity {
                 else {
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-                    databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
+                    databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(firebaseAuth.getCurrentUser().getUid(), userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
                             userAddress.getText().toString(),userBio.getText().toString()));
                     startActivity(intent);
                 }
