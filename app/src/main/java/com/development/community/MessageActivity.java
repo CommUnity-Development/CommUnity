@@ -39,6 +39,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * The activity which allows users to send and view messages
+ */
 public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
 
 
@@ -64,8 +67,12 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         boolean notify = false;
 
 
-
-        @Override
+    /**
+     * Runs when the activity is started
+     * Allows the user to type and send and view messages
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     */
+    @Override
         public void onCreate(Bundle savedInstanceState) {
 
 //        final TextView textView = root.findViewById(R.id.text_messaging);
@@ -88,7 +95,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             }catch(Exception ignored) {
 //                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
 //                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
-                path = "fdklsfkdlsfjsd";
+                path = "";
             }
 //            Toast.makeText()
 
@@ -108,7 +115,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             final String userid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
             fuser = FirebaseAuth.getInstance().getCurrentUser();
             ref = FirebaseDatabase.getInstance().getReference("users").child(userid);
-            ref.addValueEventListener(new ValueEventListener() {
+
+
+         //Loads the user data from firebase
+        ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     User user = dataSnapshot.getValue(User.class);
@@ -128,7 +138,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             });
 
 
-            sendButton.setOnClickListener(new View.OnClickListener() {
+         // Sends the message when the sendButton is clicked
+        sendButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     notify = true;
@@ -143,7 +154,12 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
         }
 
-
+    /**
+     * Sends the message
+     * @param send The UserID of the user who is sending the message
+     * @param receive The UserID of the user to receive the mssage
+     * @param message The message
+     */
         private void sendMessage(final String send, final String receive, String message){
 
             DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -199,6 +215,12 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         }
 
+    /**
+     * Sends a notification to the user that receives the message
+     * @param receiver The UserID of the user that receives the message
+     * @param username The username of the user that sends the message
+     * @param message The message
+     */
         private void sendNotification(String receiver, final String username, final String message){
             DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
             Query query = tokens.orderByKey().equalTo(receiver);
@@ -233,7 +255,12 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         }
 
 
-
+    /**
+     * Loads messages that are sent and received into the recyclerview
+     * @param myid the userID of the user
+     * @param userid the UserID of the user that they are communicating with
+     * @param imageurl The path to the profile picture of the user that they are communicating with
+     */
         private void readMessage(final String myid, final String userid, final String imageurl){
 
             mchat = new ArrayList<>();

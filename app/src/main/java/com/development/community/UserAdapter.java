@@ -29,6 +29,9 @@ import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+/**
+ * UserAdapter class used to load users into a RecyclerView
+ */
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     private Context mContext;
     private List<User> mUsers;
@@ -36,12 +39,24 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     onUserListener mOnUserListener;
     FirebaseAuth auth = FirebaseAuth.getInstance();
 
+    /**
+     * Constructor
+     * @param givenContext Context for the activity
+     * @param givenUsers A list of Users
+     * @param mOnUserListener A Listener for when a user is clicked
+     */
     public UserAdapter(Context givenContext, List<User> givenUsers, onUserListener mOnUserListener){
         mUsers = givenUsers;
         mContext = givenContext;
         this.mOnUserListener = mOnUserListener;
     }
 
+    /**
+     * Creates a ViewHolder to load into the RecyclerView
+     * @param parent The parent ViewGroup
+     * @param viewType The type of View
+     * @return A ViewHolder object
+     */
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -49,6 +64,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         return new ViewHolder(view, mOnUserListener);
     }
 
+    /**
+     * Loads data into the ViewHolder
+     * @param holder the ViewHolder in which the data should be loaded
+     * @param position The Position in the ViewHolder
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Log.d("ONBIND", "VIEW HOLDER HAS BEEN BINDED");
@@ -62,16 +82,25 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         lastMessage(uid, holder.lastMsg);
     }
 
-
+    /**
+     * Returns the number of Users
+     * @return the number of Users
+     */
     @Override
     public int getItemCount() {
         return mUsers.size();
     }
 
+    /**
+     * An interface which calls a function when a User is clicked
+     */
     public interface onUserListener{
         void onUserClick(int position);
     }
 
+    /**
+     * An Inner Class for the ViewHolder which allows loading data into the RecyclerView and handling onClick listeners
+     */
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView username;
@@ -79,6 +108,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         private TextView lastMsg;
         onUserListener onUserListener;
 
+        /**
+         * Constructor
+         * @param itemView the View to load in the ViewHolder
+         * @param onUserListener The listener for onClick functions
+         */
         public ViewHolder(View itemView, onUserListener onUserListener){
             super(itemView);
 
@@ -92,6 +126,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
 
         }
 
+        /**
+         * Called when a User item is clicked
+         * @param view The item which is clicked
+         */
         @Override
         public void onClick(View view) {
             onUserListener.onUserClick(getAdapterPosition());
@@ -99,6 +137,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         }
     }
 
+    /**
+     * Loads the last message sent into the View
+     * @param userid The ID of the user
+     * @param lastMsg The last message sent
+     */
     private void lastMessage(final String userid, final TextView lastMsg) {
         theLastMessage = "default";
         final FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
