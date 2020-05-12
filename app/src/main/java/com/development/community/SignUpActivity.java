@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+
 public class SignUpActivity extends AppCompatActivity {
 
     private Button button;
@@ -62,7 +63,9 @@ public class SignUpActivity extends AppCompatActivity {
                     button.setText("Withdraw");
                     markButton.setVisibility(0);
                 }
-                else button.setText("Mark as incomplete");
+                else {
+                    button.setText("Mark as incomplete");
+                }
             }
 
             @Override
@@ -92,18 +95,21 @@ public class SignUpActivity extends AppCompatActivity {
                     Log.d("DISPLAY", user.getUid());
                     dr.child("serverUsername").setValue(user.getDisplayName());
                     dr.child("serverUID").setValue(user.getUid());
+                    displayNotification(0);
                 }
                 else if(button.getText().equals("Withdraw")) {
                     dr.child("status").setValue(0);
                     dr.child("serverUsername").setValue(null);
                     dr.child("serverUID").setValue(null);
+                    displayNotification(2);
                 }
                 else{
-
+                    dr.child("status").setValue(1);
+                    displayNotification(3);
                 }
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
-                displayNotification();
+
             }
         });
 
@@ -111,6 +117,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 dr.child("status").setValue(2);
+                displayNotification(1);
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
             }
@@ -120,9 +127,21 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private void displayNotification(){
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Successfully Signed Up for a Task").setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
+    private void displayNotification(int type){
+        NotificationCompat.Builder mBuilder;
+        if(type == 0) {
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Signed Up for a Task").setPriority(0).setSmallIcon(R.drawable.ic_arrow_upward_black_24dp);
+        }
+        else if(type == 1) {
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Marked Task as Complete").setPriority(0).setSmallIcon(R.drawable.ic_check_black_24dp);
+        }
+        else if(type == 2){
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Withdrew Task").setPriority(0).setSmallIcon(R.drawable.ic_remove_circle_black_24dp);
+        }
+        else{
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Marked Task as Incomplete").setPriority(0).setSmallIcon(R.drawable.ic_backspace_black_24dp);
 
+        }
         NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
 
         notificationMC.notify(1,mBuilder.build());

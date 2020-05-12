@@ -19,18 +19,27 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
+/**
+ * The activity in which users create entries (tasks)
+ */
 public class EntryActivity extends AppCompatActivity {
 
     private Button dateButton;
@@ -47,14 +56,21 @@ public class EntryActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
-    private static final String CHANNEL_ID = "community";
+
+    public static final String CHANNEL_ID = "community";
     private static final String CHANNEL_NAME = "CommUnity";
     private static final String CHANNEL_DESC = "CommUnity Notifications";
+
+    private String token;
 
 
 
     //TODO: Implement an AutoCompleteSupportFragment for the location picker
 
+    /**
+     * Runs when the activity is opened and allows the users to fill out data fields for the entry.
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +85,7 @@ public class EntryActivity extends AppCompatActivity {
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
+
 
 
 
@@ -175,9 +192,15 @@ public class EntryActivity extends AppCompatActivity {
             }
         });
 
+
+
     }
 
 
+    /**
+     * Displays a push notification on the user's device
+     * @param info The description for the notificaiton
+     */
     private void displayNotification(String info){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this,CHANNEL_ID).setContentTitle("Task successfully added").setContentText(info).setPriority(0).setSmallIcon(R.drawable.ic_person_black_24dp);
 
@@ -187,6 +210,12 @@ public class EntryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Converts an address to a latitude and longitude value and returns a LatLng object
+     * @param context The context for the activity
+     * @param strAddress The address as a string
+     * @return The address as a LatLng object
+     */
     public LatLng getLatLngFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);
@@ -211,9 +240,15 @@ public class EntryActivity extends AppCompatActivity {
         return p1;
     }
 
+    /**
+     * Converts a LatLng and an address to a CommUnityLocation object
+     * @param address The address (as a string)
+     * @param l The latitude and longitude (as a LatLng object)
+     * @return a CommUnityLocation object containing the address and latlng values
+     */
     public CommUnityLocation getLocationFromLatLng(String address, LatLng l){
         if(l==null){
-            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
             return null;
         }
         CommUnityLocation a = new CommUnityLocation(address);
