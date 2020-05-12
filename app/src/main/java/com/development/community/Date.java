@@ -8,6 +8,9 @@ import java.util.Calendar;
 
 import java.io.Serializable;
 
+/**
+ * A class which stores dates and allows them to be compared
+ */
 public class Date implements Serializable, Comparable<Date> {
     private int month;
     private int day;

@@ -23,6 +23,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
+/**
+ * This activity allows the user to create or edit their personal profile.
+ */
+
 public class AccountCreate extends AppCompatActivity {
 
     private EditText userName;
@@ -44,8 +48,11 @@ public class AccountCreate extends AppCompatActivity {
     String uid;
 
 
-
-
+    /**
+     * Run once the activity is created.
+     * Allows the user to modify and save their personal profile.
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +124,12 @@ public class AccountCreate extends AppCompatActivity {
 
     }
 
+    /**
+     * Allows the user to set and save a profile picture
+     * @param requestCode The code for the user's request
+     * @param resultCode A code which determines whether or not the image selection and saving was successful
+     * @param data A reference to the selected image
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
