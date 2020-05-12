@@ -8,17 +8,27 @@ import androidx.annotation.RequiresApi;
 
 import java.io.Serializable;
 
+/**
+ * Class that stores Time values for the entries
+ */
 public class Time implements Serializable {
     private int hour;
     private int minute;
 
-
+    /**
+     * Default Constructor
+     */
     Time(){
         Calendar calendar = Calendar.getInstance();
         this.hour = calendar.get(Calendar.HOUR);
         this.minute = calendar.get(Calendar.MINUTE);
     }
 
+    /**
+     * Parameter Constructor
+     * @param hour the hour of the day
+     * @param minute the minute of the day
+     */
     Time(int hour, int minute){
         this.hour = hour;
         this.minute = minute;

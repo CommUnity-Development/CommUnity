@@ -37,6 +37,11 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String CHANNEL_NAME = "CommUnity";
     private static final String CHANNEL_DESC = "CommUnity Notifications";
 
+    /**
+     * Runs when the activity is started
+     * Allows the user to sign up for an activity, mark as complete, mark as incomplete, or withdraw
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +93,8 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseUser user = auth.getCurrentUser();
+
+                // Signs up the user for the task
                 if(button.getText().equals("Sign Up")) {
                     dr.child("status").setValue(1);
                     assert user != null;
@@ -97,6 +104,8 @@ public class SignUpActivity extends AppCompatActivity {
                     dr.child("serverUID").setValue(user.getUid());
                     displayNotification(0);
                 }
+
+                // Withdraws the task
                 else if(button.getText().equals("Withdraw")) {
                     dr.child("status").setValue(0);
                     dr.child("serverUsername").setValue(null);
@@ -104,6 +113,7 @@ public class SignUpActivity extends AppCompatActivity {
                     displayNotification(2);
                 }
                 else{
+                    // Marks a task as incomplete
                     dr.child("status").setValue(1);
                     displayNotification(3);
                 }
@@ -113,6 +123,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        // Marks a task as complete
         markButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

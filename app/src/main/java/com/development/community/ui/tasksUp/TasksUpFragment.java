@@ -24,6 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+/**
+ * Fragment which displays tasks that the user is assigned to complete
+ */
 public class TasksUpFragment extends Fragment {
     private View root;
     FirebaseDatabase firebaseDatabase;
@@ -39,14 +42,24 @@ public class TasksUpFragment extends Fragment {
 
 
 
+    /**
+     * Gets the adapter to load items into the RecyclerView
+     */
     public interface EntryUpAdapter{
         EntryAdapter getUp();
     }
 
+    /**
+     * Gets the LayoutManager to load the RecyclerView
+     */
     public interface LayoutUp{
         LinearLayoutManager getUpLayout();
     }
 
+    /**
+     * Run when the fragment is attached to the activity and assigns the Aapter and LayoutManager
+     * @param context The context for the activity
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -62,6 +75,13 @@ public class TasksUpFragment extends Fragment {
         }
     }
 
+    /**
+     * Runs when the fragment is loaded, loads data into the recyclerview
+     * @param inflater The inflater which loads the fragment into the activity
+     * @param container The ViewGroup container for the View
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     * @return the View which should be loaded into the activity
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
      

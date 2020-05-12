@@ -35,6 +35,9 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
+/**
+ * The fragment that allows users to edit their profile
+ */
 public class AccountFragment extends Fragment {
     EditText userState,userTown,userAddress,userBio,userName;
     private Button saveButton,photoPicker;
@@ -50,7 +53,9 @@ public class AccountFragment extends Fragment {
     final User[] user = new User[1];
     String token;
 
-
+    /**
+     * Default Constructor
+     */
     public AccountFragment(){
 
     }
@@ -61,6 +66,13 @@ public class AccountFragment extends Fragment {
         void switchActivity();
     }
 
+    /**
+     * Runs when the fragment is loaded
+     * @param inflater The inflater which loads the fragment into the activity
+     * @param container The ViewGroup container for the View
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     * @return the View which should be loaded into the activity
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         firebaseStorage = FirebaseStorage.getInstance();
@@ -102,7 +114,7 @@ public class AccountFragment extends Fragment {
             }
         });
 
-
+        // Saves the user's data
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,7 +154,7 @@ public class AccountFragment extends Fragment {
 
         });
 
-
+        // Loads a photo picker and allows the user to select a profile picture
         photoPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,6 +173,12 @@ public class AccountFragment extends Fragment {
 
     }
 
+    /**
+     *
+     * @param requestCode The code for the user's request
+     * @param resultCode A code which determines whether or not the image selection and saving was successful
+     * @param data A reference to the selected image
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -184,6 +202,10 @@ public class AccountFragment extends Fragment {
 
     }
 
+    /**
+     * Saves the user's token into their User object
+     * @param token the user's token
+     */
     private void saveToken(String token){
         String uid = mAuth.getCurrentUser().getUid();
         User user = new User(uid, userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),

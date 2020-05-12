@@ -13,6 +13,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * StartUp Activity
+ * Loads a splash screen for a couple of seconds while the app is loading, then starts MainActivity
+ */
 public class Splash extends AppCompatActivity {
 
     private static final int SPLASH_TIME = 1000;
@@ -23,6 +27,10 @@ public class Splash extends AppCompatActivity {
     private String userState,userBio,userAddress,userTown;
 
 
+    /**
+     * Runs when the activity (and app) is started
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
