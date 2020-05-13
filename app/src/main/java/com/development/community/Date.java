@@ -108,6 +108,6 @@ public class Date implements Serializable, Comparable<Date> {
     @NonNull
     @Override
     public String toString(){
-        return Controller.monthsShort[month] + " " + day + ", " + year;
+        return Controller.getMonthsShort()[month] + " " + day + ", " + year;
     }
 }

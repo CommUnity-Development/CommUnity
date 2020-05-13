@@ -83,7 +83,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
         Log.d("Position", tasks.get(position));
         holder.tvLocation.setText(locations.get(position).getProvider());
         holder.tvUsername.setText("Requested by " +usernames.get(position));
-        holder.tvStatus.setText("Status: " +Controller.statuses[statuses.get(position)]);
+        holder.tvStatus.setText("Status: " +Controller.getStatuses()[statuses.get(position)]);
     }
 
     /**
