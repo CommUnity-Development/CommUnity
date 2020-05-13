@@ -1,7 +1,5 @@
 package com.development.community;
 
-import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 
 import java.util.Calendar;
@@ -108,6 +106,6 @@ public class Date implements Serializable, Comparable<Date> {
     @NonNull
     @Override
     public String toString(){
-        return Controller.monthsShort[month] + " " + day + ", " + year;
+        return Globals.getMonthsShort()[month] + " " + day + ", " + year;
     }
 }

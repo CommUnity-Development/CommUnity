@@ -1,7 +1,6 @@
 package com.development.community;
 
 import android.content.Context;
-import android.location.Location;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,7 +82,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
         Log.d("Position", tasks.get(position));
         holder.tvLocation.setText(locations.get(position).getProvider());
         holder.tvUsername.setText("Requested by " +usernames.get(position));
-        holder.tvStatus.setText("Status: " +Controller.statuses[statuses.get(position)]);
+        holder.tvStatus.setText("Status: " + Globals.getStatuses()[statuses.get(position)]);
     }
 
     /**
