@@ -1,5 +1,7 @@
 package com.development.community;
 
+import com.development.community.ui.messaging.Chat;
+
 import java.util.ArrayList;
 
 /**
@@ -33,7 +35,7 @@ public class Globals {
 
     private ArrayList<User> users;
 
-    private ArrayList<Message> messages;
+    private ArrayList<Chat> messages;
 
     public ArrayList<Entry> getEntries(){
         return entries;
@@ -43,7 +45,7 @@ public class Globals {
         return users;
     }
 
-    public ArrayList<Message> getMessages(){
+    public ArrayList<Chat> getMessages(){
         return messages;
     }
 

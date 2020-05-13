@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.development.community.Message;
 import com.development.community.R;
 import com.development.community.UserAdapter;
 import com.google.firebase.auth.FirebaseAuth;
