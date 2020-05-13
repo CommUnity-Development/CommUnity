@@ -3,11 +3,11 @@ package com.development.community.ui.messaging;
 import androidx.annotation.NonNull;
 
 public class Chat {
-    private String senderUID;
-    private String receiverUID;
-    private String senderUsername;
+    public String senderUID;
+    public String receiverUID;
+    public String senderUsername;
     public String receiverUsername;
-    private String message;
+    public String message;
 
     public Chat(){
         senderUID = "";
@@ -24,32 +24,20 @@ public class Chat {
         this.message = message;
     }
 
-    public String getSenderUID() {
-        return senderUID;
-    }
 
-    public void setSenderUID(String senderUID) {
-        this.senderUID = senderUID;
-    }
 
-    public String getReceiverUID() {
-        return receiverUID;
-    }
-
-    public void setReceiverUID(String receiverUID) {
-        this.receiverUID = receiverUID;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
     @Override @NonNull
     public String toString(){
-        return message + "Sent by " + senderUID + " to " + receiverUID;
+        return message + "; Sent by " + senderUID + " to " + receiverUID;
+    }
+
+
+    public String getReceiverUsername() {
+        return receiverUsername;
+    }
+
+    public void setReceiverUsername(String receiverUsername) {
+        this.receiverUsername = receiverUsername;
     }
 
     public String getSenderUsername() {
@@ -60,11 +48,25 @@ public class Chat {
         this.senderUsername = senderUsername;
     }
 
-    public String getReceiverUsername(){
-        return receiverUsername;
+    public String getMessage() {
+        return message;
     }
 
-    public void setReceiverUsername(String receiverUsername){
-        this.receiverUsername = receiverUsername;
+    public void setMessage(String message) {
+        this.message = message;
     }
-}
+
+    public String getSenderUID(){
+        return senderUID;
+    }
+    public void setSenderUID(String senderUID){
+        this.senderUID = senderUID;
+    }
+
+    public String getReceiverUID(){
+        return receiverUID;
+    }
+
+    public void setReceiverUID(String receiverUID){
+        this.receiverUID = receiverUID;
+    }}

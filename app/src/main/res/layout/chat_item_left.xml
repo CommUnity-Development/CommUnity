@@ -17,9 +17,10 @@
         android:layout_toRightOf="@+id/profilepic"
         android:layout_marginLeft="5dp"
         android:textSize="18sp"
-        android:text="hello"
+        android:text="DIOS"
+        android:id="@+id/showMessage"
         android:padding="8dp"
-        android:id="@+id/showMessageLeft"
+        android:layout_marginBottom="10dp"
         />
 
 </RelativeLayout>
