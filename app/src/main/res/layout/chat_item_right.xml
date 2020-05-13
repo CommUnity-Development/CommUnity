@@ -20,7 +20,7 @@
         android:layout_marginRight="5dp"
         android:textSize="18sp"
         android:id="@+id/showMessage"
-        android:text="hello"
+        android:text="P"
         android:padding="8dp"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="10dp"

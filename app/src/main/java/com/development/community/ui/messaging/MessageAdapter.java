@@ -59,8 +59,10 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         try {
             holder.show_message.setText((chat.getMessage()));
+            Log.d("SUCCESS", chat.getMessage());
         }catch(Exception e) {
             Log.d("ERROR", Objects.requireNonNull(e.getMessage()));
+            Log.d("ERROR", holder.toString());
         }
 
         if(imageurl.equals("default"))
@@ -88,6 +90,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
 
             show_message = itemView.findViewById(R.id.showMessage);
+            Log.d("ITEMVIEW", itemView.toString());
             profile_image = itemView.findViewById(R.id.profilepic);
             itemView.setOnClickListener((View.OnClickListener) this);
             onUserListener = (UserAdapter.onUserListener) mContext;
