@@ -1,7 +1,6 @@
 package com.development.community;
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import java.util.ArrayList;
 
 /**
  * A class which is used to store data that will need to be accessed across the app
@@ -13,5 +12,11 @@ public class Controller {
             "September", "October","November", "December"};
     public static String[] statuses = {"Not Signed Up", "In Progress", "Complete"};
     public static boolean restarted = false;
+
+    public ArrayList<Entry> entries;
+
+    public ArrayList<User> users;
+
+    public ArrayList<Message> messages;
 
 }
