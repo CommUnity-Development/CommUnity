@@ -1,14 +1,17 @@
 package com.development.community;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -33,8 +37,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -55,6 +61,7 @@ public class EntryActivity extends AppCompatActivity {
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
+    private boolean usingCurrentLocation = false;
 
 
     public static final String CHANNEL_ID = "community";
@@ -73,6 +80,8 @@ public class EntryActivity extends AppCompatActivity {
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 100);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
 
@@ -145,8 +154,18 @@ public class EntryActivity extends AppCompatActivity {
         currentLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Implement Current Location Button
-            }
+
+                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    assert lm != null;
+                    Location l = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    try {
+                        assert l != null;
+                        addressTextBox.setText(getAddressFromLatLng(new LatLng(l.getLatitude(), l.getLongitude())));
+                    } catch (IOException e) {
+                        Toast.makeText(EntryActivity.this, "Unable to access location", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
         });
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -162,31 +181,33 @@ public class EntryActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 Intent intent = new Intent(EntryActivity.this, MainActivity.class);
-                if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || addressTextBox.getText().toString().equals("")) Toast.makeText(EntryActivity.this,
+                if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || (addressTextBox.getText().toString().equals("") && !usingCurrentLocation)) Toast.makeText(EntryActivity.this,
                         "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
-                    if(getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())) != null){
-                        intent.putExtra("Date", selectedDate);
-                        intent.putExtra("Time", selectedTime);
-                        intent.putExtra("Task", taskTextBox.getText().toString());
-                        intent.putExtra("Location", addressTextBox.getText().toString());
-                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                        FirebaseUser user = auth.getCurrentUser();
-                        if(user != null) {
-                            Log.i("TAG", user.getUid());
-                            databaseReference.push().setValue(new Entry(selectedDate, selectedTime, getLocationFromLatLng(addressTextBox.getText().toString(),getLatLngFromAddress(EntryActivity.this,addressTextBox.getText().toString())),
-                                    taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
-                                    null, null));
-                            Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
-                            startActivity(intent);
-                            displayNotification(taskTextBox.getText().toString());
+
+
+                        if (getLocationFromLatLng(addressTextBox.getText().toString(), getLatLngFromAddress(EntryActivity.this, addressTextBox.getText().toString())) != null) {
+                            intent.putExtra("Date", selectedDate);
+                            intent.putExtra("Time", selectedTime);
+                            intent.putExtra("Task", taskTextBox.getText().toString());
+                            intent.putExtra("Location", addressTextBox.getText().toString());
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+                            FirebaseUser user = auth.getCurrentUser();
+                            if (user != null) {
+                                Log.i("TAG", user.getUid());
+                                databaseReference.push().setValue(new Entry(selectedDate, selectedTime, getLocationFromLatLng(addressTextBox.getText().toString(), getLatLngFromAddress(EntryActivity.this, addressTextBox.getText().toString())),
+                                        taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
+                                        null, null));
+                                Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
+                                startActivity(intent);
+                                displayNotification(taskTextBox.getText().toString());
+                            } else {
+                                Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            Toast.makeText(EntryActivity.this, "Invalid Location", Toast.LENGTH_LONG).show();
                         }
-                        else{
-                            Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
-                        }
-                    }else{
-                        Toast.makeText(EntryActivity.this, "Invalid Location", Toast.LENGTH_LONG).show();
-                    }
+
 
                 }
             }
@@ -210,6 +231,41 @@ public class EntryActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Checks if location access is granted
+     * @return true if location is granted, false otherwise
+     */
+    public boolean checkLocationPermission()
+    {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+
+    // Source: https://stackoverflow.com/questions/33865445/gps-location-provider-requires-access-fine-location-permission-for-android-6-0
+    /**
+     * Runs once the user decides to grant or not to grant fine location permission
+     * @param requestCode the code for the request (100 for the Find Location Permission)
+     * @param permissions an array of permissions
+     * @param grantResults an array of the granted permission results
+     */
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 100: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
     /**
      * Converts an address to a latitude and longitude value and returns a LatLng object
      * @param context The context for the activity
@@ -255,5 +311,22 @@ public class EntryActivity extends AppCompatActivity {
         a.setLatitude(l.getLat());
         a.setLongitude(l.getLng());
         return a;
+    }
+
+    // Source: https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+    public String getAddressFromLatLng(LatLng l) throws IOException {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        addresses = geocoder.getFromLocation(l.getLat(), l.getLng(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+        String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+        String city = addresses.get(0).getLocality();
+        String state = addresses.get(0).getAdminArea();
+        String country = addresses.get(0).getCountryName();
+        String postalCode = addresses.get(0).getPostalCode();
+        String knownName = addresses.get(0).getFeatureName();
+        return address;
     }
 }
