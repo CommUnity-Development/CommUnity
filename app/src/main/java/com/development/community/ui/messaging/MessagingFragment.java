@@ -29,6 +29,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Deals with majority of the sending and receiving of messages
+ */
 public class MessagingFragment extends Fragment {
 
     ImageButton sendButton;
@@ -43,11 +46,16 @@ public class MessagingFragment extends Fragment {
     DatabaseReference ref;
     FirebaseAuth firebaseAuth;
 
-    String userid;
 
 
 
-
+    /**
+     * Runs when the fragment is loaded, loads data into the recyclerview
+     * @param inflater The inflater which loads the fragment into the activity
+     * @param container The ViewGroup container for the View
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     * @return the View which should be loaded into the activity
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_messaging, container, false);
@@ -105,7 +113,12 @@ public class MessagingFragment extends Fragment {
         return root;
     }
 
-
+    /**
+     * sends the message to another user
+     * @param send the sending user ID
+     * @param receive the receiving user ID
+     * @param message the message desired to be sent
+     */
     private void sendMessage(final String send, final String receive, String message){
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
@@ -137,8 +150,12 @@ public class MessagingFragment extends Fragment {
         ref.child("chats").push().setValue(message1);
     }
 
-
-
+    /**
+     * reads the incoming message
+     * @param myid the id of the user incoming
+     * @param userid the id of the user that sent the message
+     * @param imageurl the profile picture of the user sending the message
+     */
     private void readMessage(final String myid, final String userid, final String imageurl){
 
         mchat = new ArrayList<>();

@@ -17,6 +17,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
+/**
+ * This class was originally used to test Storage, as in getting a user to select and upload a profile picture
+ * After this was successful consistently we implemented this in the app
+ */
 public class StorageTesting extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseStorage mFirebaseStorage;
@@ -26,6 +30,11 @@ public class StorageTesting extends AppCompatActivity {
 
     private ImageButton photoPicker;
 
+
+    /**
+     * Runs when the activity is opened and allows the users to insert a photo to be uploaded
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +60,12 @@ public class StorageTesting extends AppCompatActivity {
 
     }
 
+    /**
+     *
+     * @param requestCode an integer to tell is the request is good to go
+     * @param resultCode an integer to tell if the result is good to go
+     * @param data an Intent to get data from the users device
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
