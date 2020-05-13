@@ -11,6 +11,7 @@ public class User implements Serializable {
     private String address;
     private String bio;
     private String profilePicUrl;
+    private String uid;
 
     public User(){
         name = "";
@@ -21,22 +22,25 @@ public class User implements Serializable {
         profilePicUrl = "";
     }
 
-    public User(String givenName, String givenState, String givenTown, String givenAddress, String givenBio){
+    public User(String uid, String givenName, String givenState, String givenTown, String givenAddress, String givenBio){
         name = givenName;
         state = givenState;
         town = givenTown;
         address = givenAddress;
         bio = givenBio;
         profilePicUrl = "";
+        this.uid = uid;
     }
 
-    public User(String givenName, String givenState, String givenTown, String givenAddress, String givenBio, String givenProfilePicUrl){
+    public User(String uid, String givenName, String givenState, String givenTown, String givenAddress, String givenBio, String givenProfilePicUrl){
+
         name = givenName;
         state = givenState;
         town = givenTown;
         address = givenAddress;
         bio = givenBio;
         profilePicUrl = givenProfilePicUrl;
+        this.uid = uid;
     }
 
     public String getName() {
@@ -81,6 +85,10 @@ public class User implements Serializable {
         this.bio = bio;
     }
 
+    public void setUid(String uid) { this.uid = uid; }
+
+    public String getUid() { return this.uid; }
+
     @Override @NonNull
     public String toString() {
         return "User{" +
@@ -89,6 +97,7 @@ public class User implements Serializable {
                 ", town='" + town + '\'' +
                 ", address='" + address + '\'' +
                 ", bio='" + bio + '\'' +
+                ", uid='" + uid + '\'' +
                 '}';
     }
 

@@ -60,7 +60,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             Intent intent = getIntent();
             String idUser = intent.getStringExtra("IDuser");
             final String idReceiver = intent.getStringExtra("IDchosen");
-            Toast.makeText(this, idUser + idReceiver, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, idUser + idReceiver, Toast.LENGTH_SHORT).show();
             Log.e("idUserRec", idUser + idReceiver);
             path = "chats";
 //            Log.i("idUser", idUser);
@@ -70,8 +70,8 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 if (idUser.compareTo(idReceiver) > 0) path = "chats/" + idUser + idReceiver;
                 else path = "chats/" + idReceiver + idUser;
             }catch(Exception ignored) {
-                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
-                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
+//                Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_LONG).show();
                 path = "fdklsfkdlsfjsd";
             }
 //            Toast.makeText()
@@ -101,7 +101,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                     try {
                         readMessage(fuser.getUid(), idReceiver, user.getProfilePicUrl());
                     }catch(Exception ignored){
-                        Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_SHORT).show();
                         readMessage(fuser.getUid(), idReceiver, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
                     }
                 }
@@ -144,7 +144,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
 
             DatabaseReference userRef = FirebaseDatabase.getInstance().getReference(path);
-            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
             userRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

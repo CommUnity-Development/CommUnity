@@ -85,7 +85,7 @@ public class MessagingFragment extends Fragment {
                 try {
                     readMessage(fuser.getUid(), userid, user.getProfilePicUrl());
                 }catch(Exception ignored){
-                    Toast.makeText(getContext(), ignored.getMessage(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), ignored.getMessage(), Toast.LENGTH_SHORT).show();
                     readMessage(fuser.getUid(), userid, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
                 }
             }
