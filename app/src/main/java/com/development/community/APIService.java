@@ -8,6 +8,9 @@ import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
+/**
+ * An API reference that is currently not in use as of 5/14/2020, will hopefully be used in the future when including cross device notifications
+ */
 public interface APIService {
     @Headers(
             {"Content-Type:application/json",

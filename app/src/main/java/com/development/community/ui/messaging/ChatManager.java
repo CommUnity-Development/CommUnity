@@ -36,6 +36,9 @@ import java.util.Objects;
 import Notification.Token;
 
 
+/**
+ * Fragment that shows all of the users to chat with
+ */
 public class ChatManager extends Fragment {
 
     private RecyclerView recyclerView;
@@ -49,7 +52,13 @@ public class ChatManager extends Fragment {
     private List<String> userList;
     String uidUserFinal;
 
-
+    /**
+     * Runs when the fragment is loaded, loads data into the recyclerview
+     * @param inflater The inflater which loads the fragment into the activity
+     * @param container The ViewGroup container for the View
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     * @return the View which should be loaded into the activity
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,6 +109,10 @@ public class ChatManager extends Fragment {
     }
 
 
+    /**
+     * This updates the token of each user and stores it in Firebase
+     * @param token The token desired to be stored
+     */
     private void updateToken(String token){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Tokens");
         Token token1 = new Token(token);
@@ -107,6 +120,10 @@ public class ChatManager extends Fragment {
         reference.child(fuser.getUid()).setValue(token1);
     }
 
+    /**
+     * reads the chat from the user and makes a list of users to chat with
+     * @return a user adapter with the possible users to chat with
+     */
     private UserAdapter readChat(){
         mUsers = new HashSet<>();
         final UserAdapter[] userAdapter = new UserAdapter[1];
