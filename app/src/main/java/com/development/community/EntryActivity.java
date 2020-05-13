@@ -154,20 +154,18 @@ public class EntryActivity extends AppCompatActivity {
         currentLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentLocationButton.getText().equals("Use Current Location")) {
-                    currentLocationButton.setText("Cancel Current Location");
-                    addressTextBox.setText("Using Current Location");
-                    addressTextBox.setEnabled(false);
-                    usingCurrentLocation = true;
-                }
-                else{
-                    currentLocationButton.setText("Use Current Location");
-                    usingCurrentLocation = false;
-                    addressTextBox.setText("");
-                    addressTextBox.setEnabled(true);
+
+                    LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                    assert lm != null;
+                    Location l = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    try {
+                        assert l != null;
+                        addressTextBox.setText(getAddressFromLatLng(new LatLng(l.getLatitude(), l.getLongitude())));
+                    } catch (IOException e) {
+                        Toast.makeText(EntryActivity.this, "Unable to access location", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
-            }
         });
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
@@ -186,7 +184,6 @@ public class EntryActivity extends AppCompatActivity {
                 if(selectedDate == null || selectedTime==null || taskTextBox.getText().toString().equals("") || (addressTextBox.getText().toString().equals("") && !usingCurrentLocation)) Toast.makeText(EntryActivity.this,
                         "Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
-                    if (!usingCurrentLocation) {
 
 
                         if (getLocationFromLatLng(addressTextBox.getText().toString(), getLatLngFromAddress(EntryActivity.this, addressTextBox.getText().toString())) != null) {
@@ -211,35 +208,7 @@ public class EntryActivity extends AppCompatActivity {
                             Toast.makeText(EntryActivity.this, "Invalid Location", Toast.LENGTH_LONG).show();
                         }
 
-                    }else{
-                        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-                        assert lm != null;
-                        Location l = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        CommUnityLocation location = null;
-                        try {
-                            assert l != null;
-                            location = new CommUnityLocation(getAddressFromLatLng(new LatLng(l.getLatitude(), l.getLongitude())));
-                        } catch (IOException e) {
-                            Toast.makeText(EntryActivity.this, "Could not access current location", Toast.LENGTH_LONG).show();
-                        }
-                        intent.putExtra("Date", selectedDate);
-                        intent.putExtra("Time", selectedTime);
-                        intent.putExtra("Task", taskTextBox.getText().toString());
-                        intent.putExtra("Location", location);
-                        FirebaseAuth auth = FirebaseAuth.getInstance();
-                        FirebaseUser user = auth.getCurrentUser();
-                        if (user != null) {
-                            Log.i("TAG", user.getUid());
-                            databaseReference.push().setValue(new Entry(selectedDate, selectedTime, getLocationFromLatLng(addressTextBox.getText().toString(), getLatLngFromAddress(EntryActivity.this, addressTextBox.getText().toString())),
-                                    taskTextBox.getText().toString(), user.getDisplayName(), user.getUid(), 0,
-                                    null, null));
-                            Toast.makeText(EntryActivity.this, "Successfully Added Task", Toast.LENGTH_LONG).show();
-                            startActivity(intent);
-                            displayNotification(taskTextBox.getText().toString());
-                        } else {
-                            Toast.makeText(EntryActivity.this, "You are not signed in", Toast.LENGTH_LONG).show();
-                        }
-                    }
+
                 }
             }
         });
@@ -358,6 +327,6 @@ public class EntryActivity extends AppCompatActivity {
         String country = addresses.get(0).getCountryName();
         String postalCode = addresses.get(0).getPostalCode();
         String knownName = addresses.get(0).getFeatureName();
-        return address + city + state + postalCode;
+        return address;
     }
 }
