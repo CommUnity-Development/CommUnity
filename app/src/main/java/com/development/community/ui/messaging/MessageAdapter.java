@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * A class that helps load a message into the recycler view
+ */
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     public static final int MSG_TYPE_LEFT = 0;
@@ -30,6 +33,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     private String imageurl;
     FirebaseUser fuser;
 
+    /**
+     * a constructor with all data
+     * @param mContext Context for the activity
+     * @param mChat List of chats
+     * @param imageurl the string of the URL for the profile picture of the other user
+     */
     public MessageAdapter(Context mContext, List<Chat> mChat, String imageurl) {
         this.mChat = mChat;
         this.mContext = mContext;
@@ -37,7 +46,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     }
 
-
+    /**
+     * Creates a ViewHolder to load into the RecyclerView
+     * @param parent The parent ViewGroup
+     * @param viewType The type of View
+     * @return A ViewHolder object
+     */
     @Override @NonNull
     public MessageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == MSG_TYPE_RIGHT) {
@@ -50,6 +64,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
     }
 
+    /**
+     * Loads data into the ViewHolder
+     * @param holder the ViewHolder in which the data should be loaded
+     * @param position The Position in the ViewHolder
+     */
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
@@ -74,11 +93,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     }
 
-
+    /**
+     * a getter that returns the number of chats
+     * @return the size of the Chat List
+     */
     public int getItemCount(){
         return mChat.size();
     }
 
+    /**
+     * An Inner Class for the ViewHolder which allows loading data into the RecyclerView and handling onClick listeners
+     */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView show_message;
@@ -97,6 +122,11 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             onUserListener = (UserAdapter.onUserListener) mContext;
 
         }
+
+        /**
+         * Called when a Chat item is clicked
+         * @param view The item which is clicked
+         */
             @Override
             public void onClick(View view){
                 onUserListener.onUserClick(getAdapterPosition());
@@ -104,12 +134,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             }
 
     }
-
+    /**
+     * An interface which calls a function when a chat is clicked on
+     */
     public interface onMessageListener{
         void onMessageClick(int position);
     }
 
-
+    /**
+     * tells whether or not the message should be displayed on the left or right,
+     * where left is receiving and right is sending
+     * @param position potision of the view type
+     * @return the right or left
+     */
     public int getItemViewType(int position){
         fuser = FirebaseAuth.getInstance().getCurrentUser();
         if(mChat.get(position).getSenderUID().equals(fuser.getUid()))

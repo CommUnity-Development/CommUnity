@@ -17,6 +17,10 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+
+/**
+ * A class originally used to send notifications, not working currently as of 5/14/2020
+ */
 public class MyFirebaseMessaging extends FirebaseMessagingService {
 
     @Override
@@ -31,6 +35,11 @@ public class MyFirebaseMessaging extends FirebaseMessagingService {
             sendNotification(remoteMessage);
     }
 
+
+    /**
+     * A method to send the notification to another device
+     * @param remoteMessage the remote message to send
+     */
     private void sendNotification(RemoteMessage remoteMessage){
         String user = remoteMessage.getData().get("user");
         String icon = remoteMessage.getData().get("icon");
