@@ -82,6 +82,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         public TextView show_message;
+        public TextView left_message;
         public ImageView profile_image;
         UserAdapter.onUserListener onUserListener;
 
@@ -90,7 +91,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
 
             show_message = itemView.findViewById(R.id.showMessage);
-            Log.d("ITEMVIEW", itemView.toString());
+
             profile_image = itemView.findViewById(R.id.profilepic);
             itemView.setOnClickListener((View.OnClickListener) this);
             onUserListener = (UserAdapter.onUserListener) mContext;
