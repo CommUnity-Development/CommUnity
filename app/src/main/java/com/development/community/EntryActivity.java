@@ -37,8 +37,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 /**
@@ -212,7 +214,14 @@ public class EntryActivity extends AppCompatActivity {
                     }else{
                         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
                         assert lm != null;
-                        CommUnityLocation location = new CommUnityLocation(lm.getLastKnownLocation(LocationManager.GPS_PROVIDER));
+                        Location l = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        CommUnityLocation location = null;
+                        try {
+                            assert l != null;
+                            location = new CommUnityLocation(getAddressFromLatLng(new LatLng(l.getLatitude(), l.getLongitude())));
+                        } catch (IOException e) {
+                            Toast.makeText(EntryActivity.this, "Could not access current location", Toast.LENGTH_LONG).show();
+                        }
                         intent.putExtra("Date", selectedDate);
                         intent.putExtra("Time", selectedTime);
                         intent.putExtra("Task", taskTextBox.getText().toString());
@@ -265,7 +274,6 @@ public class EntryActivity extends AppCompatActivity {
     }
 
     // Source: https://stackoverflow.com/questions/33865445/gps-location-provider-requires-access-fine-location-permission-for-android-6-0
-
     /**
      * Runs once the user decides to grant or not to grant fine location permission
      * @param requestCode the code for the request (100 for the Find Location Permission)
@@ -334,5 +342,22 @@ public class EntryActivity extends AppCompatActivity {
         a.setLatitude(l.getLat());
         a.setLongitude(l.getLng());
         return a;
+    }
+
+    // Source: https://stackoverflow.com/questions/9409195/how-to-get-complete-address-from-latitude-and-longitude
+    public String getAddressFromLatLng(LatLng l) throws IOException {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        addresses = geocoder.getFromLocation(l.getLat(), l.getLng(), 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+
+        String address = addresses.get(0).getAddressLine(0); // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+        String city = addresses.get(0).getLocality();
+        String state = addresses.get(0).getAdminArea();
+        String country = addresses.get(0).getCountryName();
+        String postalCode = addresses.get(0).getPostalCode();
+        String knownName = addresses.get(0).getFeatureName();
+        return address + city + state + postalCode;
     }
 }
