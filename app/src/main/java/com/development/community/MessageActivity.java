@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.development.community.ui.messaging.Chat;
 import com.development.community.ui.messaging.MessageAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +50,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
         EditText sendText;
         Intent intent;
         MessageAdapter messageAdapter;
-        List<Message> mchat;
+        List<Chat> mchat;
         DatabaseReference reference;
 
         RecyclerView recyclerView;
@@ -153,7 +154,6 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 }
             });
 
-
         }
 
     /**
@@ -211,7 +211,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             });
 
 
-            Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
+            Chat message1 = new Chat(send, sendName[0], receive, receiveName[0], message);
 
             ref.child(path).push().setValue(message1);
             Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
@@ -273,7 +273,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     mchat.clear();
                     for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        Message chat = snapshot.getValue(Message.class);
+                        Chat chat = snapshot.getValue(Chat.class);
                         assert chat != null;
                         if(chat.getReceiverUID().equals(myid) && chat.getSenderUID().equals(userid) || chat.getReceiverUID().equals(userid) && chat.getSenderUID().equals(myid))
                             mchat.add(chat);

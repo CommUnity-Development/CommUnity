@@ -2,25 +2,18 @@ package com.development.community.ui.messaging;
 
 import android.content.Intent;
 import android.os.Bundle;
-import com.development.community.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.development.community.Entry;
 import com.development.community.R;
 import com.development.community.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +35,7 @@ public class MessagingFragment extends Fragment {
     EditText sendText;
     Intent intent;
     MessageAdapter messageAdapter;
-    List<Message> mchat;
+    List<Chat> mchat;
 
     RecyclerView recyclerView;
 
@@ -139,7 +132,7 @@ public class MessagingFragment extends Fragment {
         });
 
 
-        Message message1 = new Message(send, sendName[0], receive, receiveName[0], message);
+        Chat message1 = new Chat(send, sendName[0], receive, receiveName[0], message);
 
         ref.child("chats").push().setValue(message1);
     }
@@ -156,7 +149,7 @@ public class MessagingFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mchat.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    Message chat = snapshot.getValue(Message.class);
+                    Chat chat = snapshot.getValue(Chat.class);
                     assert chat != null;
                     if(chat.getReceiverUID().equals(myid) && chat.getSenderUID().equals(userid) || chat.getReceiverUID().equals(userid) && chat.getSenderUID().equals(myid))
                         mchat.add(chat);

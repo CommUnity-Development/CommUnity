@@ -4,15 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.development.community.EntryAdapter;
-import com.development.community.Message;
 import com.development.community.R;
-import com.development.community.User;
 import com.development.community.UserAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 
 
 import java.util.List;
@@ -25,18 +20,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
     public static final int MSG_TYPE_LEFT = 0;
     public static final int MSG_TYPE_RIGHT = 1;
     private Context mContext;
-    private List<Message> mChat;
+    private List<Chat> mChat;
     private String imageurl;
     FirebaseUser fuser;
 
-    public MessageAdapter(Context mContext, List<Message> mChat, String imageurl) {
+    public MessageAdapter(Context mContext, List<Chat> mChat, String imageurl) {
         this.mChat = mChat;
         this.mContext = mContext;
         this.imageurl = imageurl;
@@ -59,14 +53,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        Message chat = mChat.get(position);
+        Chat chat = mChat.get(position);
 
         Log.d("SHOW", holder.toString());
 
         try {
             holder.show_message.setText((chat.getMessage()));
+            Log.d("SUCCESS", chat.getMessage());
         }catch(Exception e) {
             Log.d("ERROR", Objects.requireNonNull(e.getMessage()));
+            Log.d("ERROR", holder.toString());
         }
 
         if(imageurl.equals("default"))
@@ -94,6 +90,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
 
             show_message = itemView.findViewById(R.id.showMessage);
+            Log.d("ITEMVIEW", itemView.toString());
             profile_image = itemView.findViewById(R.id.profilepic);
             itemView.setOnClickListener((View.OnClickListener) this);
             onUserListener = (UserAdapter.onUserListener) mContext;

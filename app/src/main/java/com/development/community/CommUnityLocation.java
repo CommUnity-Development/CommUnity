@@ -18,4 +18,9 @@ public class CommUnityLocation extends Location {
         super("");
     }
 
+    @Override
+    public boolean isFromMockProvider() {
+        return super.isFromMockProvider();
+    }
+
 }
