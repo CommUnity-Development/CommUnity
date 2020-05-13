@@ -75,6 +75,8 @@ public class AccountFragment extends Fragment {
      */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference("profile_pics");
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -120,7 +122,7 @@ public class AccountFragment extends Fragment {
             public void onClick(View view) {
 
 
-                FirebaseMessaging.getInstance().subscribeToTopic("updates");
+
                 FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
                     public void onComplete(@NonNull Task<InstanceIdResult> task) {

@@ -43,6 +43,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("updates");
+
         // Learned from https://www.youtube.com/watch?v=jXtof6OUtcE
 
 
