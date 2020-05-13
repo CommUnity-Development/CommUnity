@@ -117,8 +117,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                 @Override
                 public void onClick(View v) {
                     String msg = sendText.getText().toString();
-                    if(!msg.equals(""))
-                        sendMessage(fuser.getUid(),idReceiver,msg);
+                    if(!msg.equals("")) {
+                        sendMessage(fuser.getUid(), idReceiver, msg);
+                        sendText.setText("");
+                    }
                     else
                         Toast.makeText(MessageActivity.this,"Please Type Something to Send",Toast.LENGTH_SHORT).show();
                 }
