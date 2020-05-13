@@ -226,9 +226,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
                     //user is signed in
-                    if(!Controller.restarted){
+                    if(!Controller.getRestarted()){
                         recreate();
-                        Controller.restarted = true;
+                        Controller.setRestarted(true);
                     }
 
                     onSignedInInitialize(user.getDisplayName());
