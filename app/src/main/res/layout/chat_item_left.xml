@@ -19,6 +19,7 @@
         android:textSize="18sp"
         android:text="hello"
         android:padding="8dp"
+        android:id="@+id/showMessageLeft"
         />
 
 </RelativeLayout>
