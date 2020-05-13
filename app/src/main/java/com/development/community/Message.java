@@ -2,6 +2,9 @@ package com.development.community;
 
 import androidx.annotation.NonNull;
 
+/**
+ * A class that stores data for messages that are sent/received
+ */
 public class Message {
     private String senderUID;
     private String receiverUID;
@@ -9,6 +12,9 @@ public class Message {
     public String receiverUsername;
     private String message;
 
+    /**
+     * Default Constructor, initializes all strings to empty
+     */
     public Message(){
         senderUID = "";
         senderUsername = "";
@@ -16,6 +22,15 @@ public class Message {
         receiverUsername = "";
         message = "";
     }
+
+    /**
+     * Parameter Constructor
+     * @param senderUID The User ID of the user who sent the message
+     * @param senderUsername The Username of the user who sent the message
+     * @param receiverUID The User ID of the user who received the message
+     * @param receiverUsername The Username of the user who received the message
+     * @param message The message
+     */
     public Message(String senderUID, String senderUsername, String receiverUID, String receiverUsername, String message){
         this.senderUID = senderUID;
         this.senderUsername = senderUsername;

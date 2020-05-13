@@ -22,6 +22,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+/**
+ * The fragment which loads the recyclerview (the default fragment for the activity)
+ */
 public class HomeFragment extends Fragment{
     private View root;
     FirebaseDatabase firebaseDatabase;
@@ -30,28 +33,42 @@ public class HomeFragment extends Fragment{
     EntryAdapterMethods entryAdapterMethods;
     RecyclerView recyclerView;
 
-
+    /**
+     * Default Constructor
+     */
     public HomeFragment(){
 
     }
 
+    /**
+     * Sets the RecyclerView's Adapter and LayoutManager
+     */
     public void setAdapterAndLayout(){
         recyclerView.setLayoutManager(entryAdapterMethods.getLayoutManager());
         recyclerView.setAdapter(entryAdapterMethods.getAdapter());
     }
 
 
-
+    /**
+     * Used to set the onClick method for entries
+     */
     public interface OnPostButtonClickListener{
         void onPostButtonClick();
     }
 
+    /**
+     * Used to get the EntryAdapter and LinearLayoutManager
+     */
     public interface EntryAdapterMethods{
         EntryAdapter getAdapter();
         LinearLayoutManager getLayoutManager();
 
     }
 
+    /**
+     * Called when the fragment is attached to the activity
+     * @param context the context for the activity
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -67,6 +84,13 @@ public class HomeFragment extends Fragment{
         }
     }
 
+    /**
+     * Runs when the fragment is loaded
+     * @param inflater The inflater which loads the fragment into the activity
+     * @param container The ViewGroup container for the View
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     * @return the View which should be loaded into the activity
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -92,6 +116,7 @@ public class HomeFragment extends Fragment{
             }
         });
 
+        // Runs when the "Post" button is clicked
         postButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

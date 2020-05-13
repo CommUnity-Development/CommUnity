@@ -34,7 +34,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Objects;
 
 
-//TODO: Retrieve the profile picture from Firebase
+/**
+ * The fragment which allows users to view their profile
+ */
 public class ProfileFragment extends Fragment {
     TextView userState, userBio, userAddress, userTown,userName;
     Button editButton;
@@ -46,13 +48,22 @@ public class ProfileFragment extends Fragment {
 
     private ImageView userPic;
 
+    /**
+     * Interface which allows users to edit their profile
+     */
     public interface profileFunc{
         void edit();
     }
 
 
 
-
+    /**
+     * Runs when the fragment is loaded
+     * @param inflater The inflater which loads the fragment into the activity
+     * @param container The ViewGroup container for the View
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     * @return the View which should be loaded into the activity
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
@@ -117,6 +128,7 @@ public class ProfileFragment extends Fragment {
 
         });
 
+        // Called when the editButton is clicked and allows the user to edit their profile
         editButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -135,5 +147,7 @@ public class ProfileFragment extends Fragment {
 
         return root;
     }
+
+
 
 }

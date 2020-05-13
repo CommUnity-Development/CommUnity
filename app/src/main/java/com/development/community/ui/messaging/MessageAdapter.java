@@ -16,6 +16,7 @@ import com.google.firebase.database.Query;
 
 
 import java.util.List;
+import java.util.Objects;
 
 import android.content.Context;
 import android.util.Log;
@@ -24,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
 
@@ -59,7 +61,13 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
         Message chat = mChat.get(position);
 
-        holder.show_message.setText((chat.getMessage()));
+        Log.d("SHOW", holder.toString());
+
+        try {
+            holder.show_message.setText((chat.getMessage()));
+        }catch(Exception e) {
+            Log.d("ERROR", Objects.requireNonNull(e.getMessage()));
+        }
 
         if(imageurl.equals("default"))
             holder.profile_image.setImageResource(R.mipmap.ic_launcher);
@@ -89,7 +97,6 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
             profile_image = itemView.findViewById(R.id.profilepic);
             itemView.setOnClickListener((View.OnClickListener) this);
             onUserListener = (UserAdapter.onUserListener) mContext;
-
 
         }
             @Override

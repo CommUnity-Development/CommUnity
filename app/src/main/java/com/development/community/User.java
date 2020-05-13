@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 
+/**
+ * A Class that stores information about users
+ */
 public class User implements Serializable {
     private String name;
     private String state;
@@ -11,8 +14,13 @@ public class User implements Serializable {
     private String address;
     private String bio;
     private String profilePicUrl;
+    private String token;
     private String uid;
 
+
+    /**
+     * Default Constructor
+     */
     public User(){
         name = "";
         state = "";
@@ -20,8 +28,18 @@ public class User implements Serializable {
         address = "";
         bio = "";
         profilePicUrl = "";
+        token = "";
     }
 
+    /**
+     * Parameter Constructor
+     * @param uid The user's User ID
+     * @param givenName The User's name or username
+     * @param givenState The User's state
+     * @param givenTown The User's town
+     * @param givenAddress The user's address
+     * @param givenBio The user's bio
+     */
     public User(String uid, String givenName, String givenState, String givenTown, String givenAddress, String givenBio){
         name = givenName;
         state = givenState;
@@ -29,18 +47,70 @@ public class User implements Serializable {
         address = givenAddress;
         bio = givenBio;
         profilePicUrl = "";
+        token = "";
         this.uid = uid;
     }
 
-    public User(String uid, String givenName, String givenState, String givenTown, String givenAddress, String givenBio, String givenProfilePicUrl){
-
+    /**
+     * Parameter Constructor
+     * @param uid The user's User ID
+     * @param givenName The User's name or username
+     * @param givenState The User's state
+     * @param givenTown The User's town
+     * @param givenAddress The user's address
+     * @param givenBio The user's bio
+     * @param givenToken The user's token
+     */
+    public User(String uid, String givenName, String givenState, String givenTown, String givenAddress, String givenBio,String givenToken){
         name = givenName;
         state = givenState;
         town = givenTown;
         address = givenAddress;
         bio = givenBio;
-        profilePicUrl = givenProfilePicUrl;
+        profilePicUrl = "";
+        token = givenToken;
         this.uid = uid;
+    }
+
+
+    /**
+     * Parameter Constructor
+     * @param name The user's name
+     * @param state The user's state
+     * @param town The user's town
+     * @param address The user's address
+     * @param bio The user's bio
+     * @param profilePicUrl The user's profile picture URL
+     * @param token The user's token
+     * @param uid The user's User ID
+     */
+    public User(String name, String state, String town, String address, String bio, String profilePicUrl, String token, String uid) {
+        this.name = name;
+        this.state = state;
+        this.town = town;
+        this.address = address;
+        this.bio = bio;
+        this.profilePicUrl = profilePicUrl;
+        this.token = token;
+        this.uid = uid;
+    }
+
+    /**
+     * Parameter Constructor
+     * @param givenName The user's name
+     * @param givenToken The user's token
+     */
+    public User(String givenName, String givenToken){
+        token = givenToken;
+        name = givenName;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getName() {

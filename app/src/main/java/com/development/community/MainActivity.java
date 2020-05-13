@@ -1,8 +1,6 @@
 package com.development.community;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,7 +27,6 @@ import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
 import com.development.community.ui.messaging.MessageAdapter;
-import com.development.community.ui.messaging.MessagingFragment;
 import com.development.community.ui.profile.ProfileFragment;
 import com.development.community.ui.tasksPast.TasksPastFragment;
 import com.development.community.ui.tasksUp.TasksUpFragment;
@@ -43,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 
 public class MainActivity extends AppCompatActivity implements EntryAdapter.onEntryListener,
@@ -83,6 +80,8 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     ArrayList<String> usernamesUp = new ArrayList<>();
     ArrayList<Integer> statusesUp = new ArrayList<>();
 
+    ArrayList<String> userIDS = new ArrayList<>();
+
 
     FirebaseAuth.AuthStateListener authStateListener;
     private static final int RC_SIGN_IN = 123;
@@ -96,6 +95,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseMessaging.getInstance().subscribeToTopic("updates");
+
         // Learned from https://www.youtube.com/watch?v=jXtof6OUtcE
 
 
@@ -114,6 +116,22 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         firebaseAuth = FirebaseAuth.getInstance();
+
+        DatabaseReference userDatabase = firebaseDatabase.getReference("Users");
+
+        userDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()){
+                    userIDS.add(ds.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
@@ -208,9 +226,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
                     //user is signed in
-                    if(!Controller.restarted){
+                    if(!Globals.getRestarted()){
                         recreate();
-                        Controller.restarted = true;
+                        Globals.setRestarted(true);
                     }
 
                     onSignedInInitialize(user.getDisplayName());
@@ -490,7 +508,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     @Override
     public void onUserClick(int position) {
         Intent intent = new Intent(this, MessageActivity.class);
-        intent.putExtra("IDchosen", ids.get(position));
+        Log.v("IDS", userIDS.toString());
+        intent.putExtra("IDchosen", userIDS.get(position));
+        Toast.makeText(MainActivity.this, "ID Chosen: "+userIDS.get(position)+", Your ID: "+firebaseAuth.getCurrentUser().getUid(), Toast.LENGTH_LONG).show();
         intent.putExtra("IDuser", firebaseAuth.getCurrentUser().getUid());
         startActivity(intent);
 

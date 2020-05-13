@@ -15,20 +15,29 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.development.community.EntryActivity;
 import com.development.community.MainActivity;
 import com.development.community.R;
 import com.development.community.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.Objects;
 
+/**
+ * The fragment that allows users to edit their profile
+ */
 public class AccountFragment extends Fragment {
     EditText userState,userTown,userAddress,userBio,userName;
     private Button saveButton,photoPicker;
@@ -36,15 +45,17 @@ public class AccountFragment extends Fragment {
     private DatabaseReference databaseReference;
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("Users");
-    FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseAuth mAuth;
     private FirebaseStorage firebaseStorage;
     private StorageReference storageReference;
     private FirebaseAuth mFirebaseAuth;
     private String uid;
     final User[] user = new User[1];
+    String token;
 
-
-
+    /**
+     * Default Constructor
+     */
     public AccountFragment(){
 
     }
@@ -55,8 +66,17 @@ public class AccountFragment extends Fragment {
         void switchActivity();
     }
 
+    /**
+     * Runs when the fragment is loaded
+     * @param inflater The inflater which loads the fragment into the activity
+     * @param container The ViewGroup container for the View
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     * @return the View which should be loaded into the activity
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
+
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference("profile_pics");
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -65,6 +85,8 @@ public class AccountFragment extends Fragment {
         }catch(Exception e){
             Toast.makeText(getContext(), "You are not signed in", Toast.LENGTH_LONG).show();
         }
+
+        mAuth = FirebaseAuth.getInstance();
 
         View root = inflater.inflate(R.layout.fragment_account_edit, container, false);
 //        final TextView textView = root.findViewById(R.id.text_messaging);
@@ -94,29 +116,47 @@ public class AccountFragment extends Fragment {
             }
         });
 
-
+        // Saves the user's data
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
+                FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if(task.isSuccessful()) {
+                            token = Objects.requireNonNull(task.getResult()).getToken();
+                            saveToken(token);
+                        }
+                    }
+                });
+
                 if(userName.getText().toString().equals("") || userState.getText().toString().equals("") || userTown.getText().toString().equals("") || userAddress.getText().toString().equals("") ||
                         userBio.getText().toString().equals(""))
                     Toast.makeText(getContext(),"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                     databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(firebaseAuth.getCurrentUser().getUid(), userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
-                            userAddress.getText().toString(),userBio.getText().toString()));
+                            userAddress.getText().toString(),userBio.getText().toString(),token));
                     try {
                         switchActivity switchActivity = (switchActivity) getContext();
                         assert switchActivity != null;
                         switchActivity.switchActivity();
                     }catch(Exception e){
                         Log.d("TAG", "sad");
+
+
+
                     }
                 }
             }
+
+
         });
 
-
+        // Loads a photo picker and allows the user to select a profile picture
         photoPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,12 +170,17 @@ public class AccountFragment extends Fragment {
 
 
 
-
         return root;
 
 
     }
 
+    /**
+     *
+     * @param requestCode The code for the user's request
+     * @param resultCode A code which determines whether or not the image selection and saving was successful
+     * @param data A reference to the selected image
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
@@ -156,6 +201,27 @@ public class AccountFragment extends Fragment {
             }
 
         }
+
+    }
+
+    /**
+     * Saves the user's token into their User object
+     * @param token the user's token
+     */
+    private void saveToken(String token){
+        String uid = mAuth.getCurrentUser().getUid();
+        User user = new User(uid, userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
+                userAddress.getText().toString(),userBio.getText().toString(),token);
+
+        DatabaseReference dbUsers = FirebaseDatabase.getInstance().getReference("Users");
+
+        dbUsers.child(mAuth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful())
+                    Toast.makeText(getContext(),"Token Saved",Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 

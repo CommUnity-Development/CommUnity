@@ -1,13 +1,14 @@
 package com.development.community;
 
-import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
 
 import java.util.Calendar;
 
 import java.io.Serializable;
 
+/**
+ * A class which stores dates and allows them to be compared
+ */
 public class Date implements Serializable, Comparable<Date> {
     private int month;
     private int day;
@@ -105,6 +106,6 @@ public class Date implements Serializable, Comparable<Date> {
     @NonNull
     @Override
     public String toString(){
-        return Controller.monthsShort[month] + " " + day + ", " + year;
+        return Globals.getMonthsShort()[month] + " " + day + ", " + year;
     }
 }

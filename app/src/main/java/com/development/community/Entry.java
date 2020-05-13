@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import java.io.Serializable;
 import java.util.Calendar;
 
+/**
+ * Class that stores data for entries (tasks)
+ */
 public class Entry implements Serializable {
 
     private Date date;
@@ -32,6 +35,18 @@ public class Entry implements Serializable {
         this.clientUsername = null;
     }
 
+    /**
+     * Constructor with all data fields
+     * @param date The date by which the task must be completed
+     * @param time The time by which the task must be completed
+     * @param destination The location where the items must be delivered
+     * @param task A description of the task
+     * @param clientUsername The username of the client
+     * @param clientUID The User ID of the client
+     * @param status The status of the entry: 0: Not signed up, 1: In progress, 2: Completed
+     * @param serverUsername The username of the server
+     * @param serverUID The User ID of the server
+     */
     public Entry(Date date, Time time, CommUnityLocation destination, String task, String clientUsername, String clientUID, int status,
                  String serverUsername, String serverUID){
         this.date = date;
@@ -128,4 +143,5 @@ public class Entry implements Serializable {
     public void setServerUID(String serverUID) {
         this.serverUID = serverUID;
     }
+
 }

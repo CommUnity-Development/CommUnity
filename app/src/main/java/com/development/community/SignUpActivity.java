@@ -2,8 +2,13 @@ package com.development.community;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
+
 public class SignUpActivity extends AppCompatActivity {
 
     private Button button;
@@ -27,6 +33,15 @@ public class SignUpActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
 
+    private static final String CHANNEL_ID = "community";
+    private static final String CHANNEL_NAME = "CommUnity";
+    private static final String CHANNEL_DESC = "CommUnity Notifications";
+
+    /**
+     * Runs when the activity is started
+     * Allows the user to sign up for an activity, mark as complete, mark as incomplete, or withdraw
+     * @param savedInstanceState Allows data to be restored if there is a saved instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +68,9 @@ public class SignUpActivity extends AppCompatActivity {
                     button.setText("Withdraw");
                     markButton.setVisibility(0);
                 }
-                else button.setText("Mark as incomplete");
+                else {
+                    button.setText("Mark as incomplete");
+                }
             }
 
             @Override
@@ -62,12 +79,22 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
 
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            channel.setDescription(CHANNEL_DESC);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+
+        }
+
         button.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseUser user = auth.getCurrentUser();
+
+                // Signs up the user for the task
                 if(button.getText().equals("Sign Up")) {
                     dr.child("status").setValue(1);
                     assert user != null;
@@ -75,28 +102,60 @@ public class SignUpActivity extends AppCompatActivity {
                     Log.d("DISPLAY", user.getUid());
                     dr.child("serverUsername").setValue(user.getDisplayName());
                     dr.child("serverUID").setValue(user.getUid());
+                    displayNotification(0);
                 }
+
+                // Withdraws the task
                 else if(button.getText().equals("Withdraw")) {
                     dr.child("status").setValue(0);
                     dr.child("serverUsername").setValue(null);
                     dr.child("serverUID").setValue(null);
+                    displayNotification(2);
                 }
                 else{
-
+                    // Marks a task as incomplete
+                    dr.child("status").setValue(1);
+                    displayNotification(3);
                 }
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
+
             }
         });
 
+        // Marks a task as complete
         markButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dr.child("status").setValue(2);
+                displayNotification(1);
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
             }
         });
+
+
+    }
+
+
+    private void displayNotification(int type){
+        NotificationCompat.Builder mBuilder;
+        if(type == 0) {
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Signed Up for a Task").setPriority(0).setSmallIcon(R.drawable.ic_arrow_upward_black_24dp);
+        }
+        else if(type == 1) {
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Marked Task as Complete").setPriority(0).setSmallIcon(R.drawable.ic_check_black_24dp);
+        }
+        else if(type == 2){
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Withdrew Task").setPriority(0).setSmallIcon(R.drawable.ic_remove_circle_black_24dp);
+        }
+        else{
+            mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID).setContentTitle("Successfully Marked Task as Incomplete").setPriority(0).setSmallIcon(R.drawable.ic_backspace_black_24dp);
+
+        }
+        NotificationManagerCompat notificationMC = NotificationManagerCompat.from(this);
+
+        notificationMC.notify(1,mBuilder.build());
 
     }
 }
