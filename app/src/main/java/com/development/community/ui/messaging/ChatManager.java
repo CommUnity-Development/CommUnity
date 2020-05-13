@@ -47,6 +47,7 @@ public class ChatManager extends Fragment {
     DatabaseReference reference;
 
     private List<String> userList;
+    String uidUserFinal;
 
 
     @Override
@@ -59,6 +60,8 @@ public class ChatManager extends Fragment {
 
         userList = new ArrayList<>();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
+
+        uidUserFinal = fuser.getUid();
 
 
 
@@ -118,11 +121,10 @@ public class ChatManager extends Fragment {
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
 
-                    String uid = Objects.requireNonNull(auth.getCurrentUser()).getUid();
                     for(String id : userList) {
-                        if (uid.equals(id)) {
+                        assert user != null;
+                        if (user.getUid().equals(id)) {
                             mUsers.add(user);
-                            Log.i("User", user.toString());
                         }
                     }
                 }
@@ -130,12 +132,14 @@ public class ChatManager extends Fragment {
                 Log.i("Musers", mUsers.toString());
 
 
-
                 ArrayList<User> mUserAL = new ArrayList<>(mUsers);
+
+
                 userAdapter[0] = new UserAdapter(getContext(),mUserAL, (UserAdapter.onUserListener) getActivity());
                 Log.i("LENGTH", String.valueOf(userAdapter[0].getItemCount()));
                 recyclerView.setAdapter(userAdapter[0]);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                Log.i("UserID",uidUserFinal);
 
 
             }
@@ -154,8 +158,11 @@ public class ChatManager extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     User user = snapshot.getValue(User.class);
-                    mUsers.add(user);
+                    if(!user.getUid().equals(uidUserFinal))
+                        mUsers.add(user);
                 }
+
+//                mUsers.remove()
 
                 ArrayList<User> mUserAL = new ArrayList<>(mUsers);
                 userAdapter[0] = new UserAdapter(getContext(),mUserAL, (UserAdapter.onUserListener) getActivity());
