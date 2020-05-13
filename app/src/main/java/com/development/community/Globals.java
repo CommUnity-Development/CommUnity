@@ -5,12 +5,13 @@ import java.util.ArrayList;
 /**
  * A class which is used to store data that will need to be accessed across the app
  */
-public class Controller {
+public class Globals {
     private static final String[] monthsShort = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep",
             "Oct", "Nov", "Dec"};
     private static final String[] months = {"January", "February", "March", "April", "May", "June", "July", "August",
             "September", "October","November", "December"};
     private static final String[] statuses = {"Not Signed Up", "In Progress", "Complete"};
+
     private static boolean restarted = false;
 
     public static void setRestarted(boolean newState){
@@ -26,6 +27,7 @@ public class Controller {
     public static String[] getMonths() { return months; }
 
     public static String[] getStatuses() { return statuses; }
+
 
     private ArrayList<Entry> entries;
 

@@ -28,20 +28,15 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 
 import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 /**
  * The activity in which users create entries (tasks)
@@ -142,7 +137,7 @@ public class EntryActivity extends AppCompatActivity {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(EntryActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateButton.setText(getString(R.string.chosen_date,Controller.getMonthsShort()[month], day, year));
+                        dateButton.setText(getString(R.string.chosen_date, Globals.getMonthsShort()[month], day, year));
                         selectedDate = new Date(month, day, year);
                     }
                 }, year, month, day);

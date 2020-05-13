@@ -1,8 +1,6 @@
 package com.development.community;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -11,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -30,7 +27,6 @@ import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
 import com.development.community.ui.messaging.MessageAdapter;
-import com.development.community.ui.messaging.MessagingFragment;
 import com.development.community.ui.profile.ProfileFragment;
 import com.development.community.ui.tasksPast.TasksPastFragment;
 import com.development.community.ui.tasksUp.TasksUpFragment;
@@ -230,9 +226,9 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user != null){
                     //user is signed in
-                    if(!Controller.getRestarted()){
+                    if(!Globals.getRestarted()){
                         recreate();
-                        Controller.setRestarted(true);
+                        Globals.setRestarted(true);
                     }
 
                     onSignedInInitialize(user.getDisplayName());
