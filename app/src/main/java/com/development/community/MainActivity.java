@@ -506,11 +506,11 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
     @Override
-    public void onUserClick(int position) {
+    public void onUserClick(User user) {
         Intent intent = new Intent(this, MessageActivity.class);
         Log.v("IDS", userIDS.toString());
-        intent.putExtra("IDchosen", userIDS.get(position));
-        Toast.makeText(MainActivity.this, "ID Chosen: "+userIDS.get(position)+", Your ID: "+firebaseAuth.getCurrentUser().getUid(), Toast.LENGTH_LONG).show();
+        intent.putExtra("IDchosen", user.getUid());
+        Toast.makeText(MainActivity.this, "ID Chosen: "+user.getUid()+", Your ID: "+firebaseAuth.getCurrentUser().getUid(), Toast.LENGTH_LONG).show();
         intent.putExtra("IDuser", firebaseAuth.getCurrentUser().getUid());
         startActivity(intent);
 

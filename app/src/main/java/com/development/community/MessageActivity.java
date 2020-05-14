@@ -296,8 +296,10 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
 
     }
 
+
+
     @Override
-    public void onUserClick(int position) {
+    public void onUserClick(User user) {
 
     }
 }
