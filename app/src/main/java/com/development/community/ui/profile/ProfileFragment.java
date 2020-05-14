@@ -52,7 +52,7 @@ public class ProfileFragment extends Fragment {
      * Interface which allows users to edit their profile
      */
     public interface profileFunc{
-        void edit();
+        void edit(String name, String state, String town, String address, String bio);
     }
 
 
@@ -135,7 +135,8 @@ public class ProfileFragment extends Fragment {
                 try {
                     profileFunc pf = (profileFunc) getContext();
                     assert pf != null;
-                    pf.edit();
+                    pf.edit(userName.getText().toString(), userState.getText().toString(), userTown.getText().toString(),
+                            userAddress.getText().toString(), userBio.getText().toString());
                 }catch(Exception e){
                     Log.d("TAG", "Fail"+e.getMessage());
 
