@@ -214,7 +214,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             Chat message1 = new Chat(send, sendName[0], receive, receiveName[0], message);
 
             ref.child(path).push().setValue(message1);
-            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, path, Toast.LENGTH_SHORT).show();
         }
 
     /**
@@ -236,9 +236,9 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
                         apiService.sendNotification(sender).enqueue(new Callback<MyResponse>() {
                             @Override
                             public void onResponse(Call<MyResponse> call, Response<MyResponse> response) {
-                                if(response.code() == 200)
-                                    if(response.body().success == 1)
-                                        Toast.makeText(MessageActivity.this,"FAILED",Toast.LENGTH_SHORT).show();
+//                                if(response.code() == 200)
+//                                    if(response.body().success == 1)
+//                                        Toast.makeText(MessageActivity.this,"FAILED",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
