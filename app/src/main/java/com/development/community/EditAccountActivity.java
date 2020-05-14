@@ -22,6 +22,7 @@ public class EditAccountActivity extends AppCompatActivity implements AccountFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_account);
 
+
         FragmentManager fm = getSupportFragmentManager();
         AccountFragment af = new AccountFragment();
         fm.beginTransaction().add(R.id.editAccountFragment, af).commit();

@@ -413,8 +413,13 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
     @Override
-    public void edit() {
+    public void edit(String name, String state, String town, String address, String bio) {
         Intent intent = new Intent(MainActivity.this, EditAccountActivity.class);
+        intent.putExtra("name", name);
+        intent.putExtra("state", state);
+        intent.putExtra("town", town);
+        intent.putExtra("address", address);
+        intent.putExtra("bio", bio);
         startActivity(intent);
     }
 
