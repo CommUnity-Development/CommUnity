@@ -129,7 +129,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
          */
             @Override
             public void onClick(View view){
-                onUserListener.onUserClick(getAdapterPosition());
+//                onUserListener.onUserClick(getAdapterPosition());
 
             }
 

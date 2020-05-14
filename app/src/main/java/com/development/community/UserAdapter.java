@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,7 +62,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.user_item, parent, false);
-        return new ViewHolder(view, mOnUserListener);
+        return new ViewHolder(view, mOnUserListener, mUsers);
     }
 
     /**
@@ -95,7 +96,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
      * An interface which calls a function when a User is clicked
      */
     public interface onUserListener{
-        void onUserClick(int position);
+        void onUserClick(User user);
     }
 
     /**
@@ -106,6 +107,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
         public TextView username;
         public CircleImageView profilePic;
         private TextView lastMsg;
+        private List<User> userList;
         onUserListener onUserListener;
 
         /**
@@ -113,13 +115,14 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
          * @param itemView the View to load in the ViewHolder
          * @param onUserListener The listener for onClick functions
          */
-        public ViewHolder(View itemView, onUserListener onUserListener){
+        public ViewHolder(View itemView, onUserListener onUserListener, List<User> userList){
             super(itemView);
 
             username = itemView.findViewById(R.id.userName);
             profilePic = itemView.findViewById(R.id.profilepic);
             lastMsg = itemView.findViewById(R.id.lastMsg);
             this.onUserListener = onUserListener;
+            this.userList = userList;
             itemView.setOnClickListener(this);
 
 
@@ -132,7 +135,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder>{
          */
         @Override
         public void onClick(View view) {
-            onUserListener.onUserClick(getAdapterPosition());
+            onUserListener.onUserClick(userList.get(getAdapterPosition()));
             Log.d("CLICK", "ITEM CLICKED AT POSITION "+getAdapterPosition());
         }
     }

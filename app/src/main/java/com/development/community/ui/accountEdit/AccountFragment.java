@@ -218,8 +218,8 @@ public class AccountFragment extends Fragment {
         dbUsers.child(mAuth.getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful())
-                    Toast.makeText(getContext(),"Token Saved",Toast.LENGTH_LONG).show();
+//                if(task.isSuccessful())
+//                    Toast.makeText(getContext(),"Token Saved",Toast.LENGTH_LONG).show();
             }
         });
 

@@ -102,7 +102,7 @@ public class MessagingFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String msg = sendText.getText().toString();
-                if(!msg.equals(""))
+                if(!msg.trim().equals(""))
                     sendMessage(fuser.getUid(),userid,msg);
                 else
                     Toast.makeText(getContext(),"Please Type Something to Send",Toast.LENGTH_SHORT).show();
