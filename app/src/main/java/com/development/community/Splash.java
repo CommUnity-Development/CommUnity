@@ -13,6 +13,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+// Learned from https://www.youtube.com/watch?v=jXtof6OUtcE
+
 /**
  * StartUp Activity
  * Loads a splash screen for a couple of seconds while the app is loading, then starts MainActivity
