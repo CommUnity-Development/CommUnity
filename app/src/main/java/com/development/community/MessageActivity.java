@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.development.community.ui.messaging.Chat;
@@ -52,6 +53,7 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
         MessageAdapter messageAdapter;
         List<Chat> mchat;
         DatabaseReference reference;
+        TextView userName;
 
         RecyclerView recyclerView;
 
@@ -108,6 +110,8 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(MessageActivity.this);
             linearLayoutManager.setStackFromEnd(true);
             recyclerView.setLayoutManager(linearLayoutManager);
+            userName = findViewById(R.id.userName);
+
 
 
             intent = Objects.requireNonNull(MessageActivity.this).getIntent();
@@ -118,6 +122,7 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
             fuser = FirebaseAuth.getInstance().getCurrentUser();
             ref = FirebaseDatabase.getInstance().getReference("users").child(userid);
 
+            userName.setText(fuser.getDisplayName());
 
          //Loads the user data from firebase
         ref.addValueEventListener(new ValueEventListener() {
