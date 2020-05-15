@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.development.community.MainActivity;
@@ -51,6 +52,8 @@ public class ChatManager extends Fragment {
 
     private List<String> userList;
     String uidUserFinal;
+
+    String theLastMessage;
 
     /**
      * Runs when the fragment is loaded, loads data into the recyclerview
@@ -199,5 +202,8 @@ public class ChatManager extends Fragment {
 
 
     }
+
+
+
 
 }
