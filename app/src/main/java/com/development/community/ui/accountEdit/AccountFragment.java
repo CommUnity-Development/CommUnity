@@ -77,6 +77,7 @@ public class AccountFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
 
 
+
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference("profile_pics");
         mFirebaseAuth = FirebaseAuth.getInstance();
@@ -100,6 +101,18 @@ public class AccountFragment extends Fragment {
         userBio = root.findViewById(R.id.userBioEnter);
         photoPicker = root.findViewById(R.id.photoPicker);
         saveButton = root.findViewById(R.id.saveButton);
+        Intent intent = Objects.requireNonNull(getActivity()).getIntent();
+        String name = intent.getStringExtra("name");
+        String state = intent.getStringExtra("state");
+        String town = intent.getStringExtra("town");
+        String address = intent.getStringExtra("address");
+        String bio = intent.getStringExtra("bio");
+
+        if(name != null) userName.setText(name);
+        if(state != null) userState.setText(state);
+        if(town != null) userTown.setText(town);
+        if(address != null) userAddress.setText(address);
+        if(bio != null) userBio.setText(bio);
 
         firebaseDatabase =  FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Users");

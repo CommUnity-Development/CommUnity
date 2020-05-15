@@ -137,9 +137,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     /**
      * An interface which calls a function when a chat is clicked on
      */
-    public interface onMessageListener{
-        void onMessageClick(int position);
-    }
+
 
     /**
      * tells whether or not the message should be displayed on the left or right,

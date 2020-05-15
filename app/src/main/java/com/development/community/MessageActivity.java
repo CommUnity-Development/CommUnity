@@ -43,7 +43,7 @@ import retrofit2.Response;
 /**
  * The activity which allows users to send and view messages
  */
-public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
+public class MessageActivity extends AppCompatActivity implements UserAdapter.onUserListener {
 
 
         ImageButton sendButton;
@@ -82,6 +82,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
             Intent intent = getIntent();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             String idUser = intent.getStringExtra("IDuser");
             final String idReceiver = intent.getStringExtra("IDchosen");
 //            Toast.makeText(this, idUser + idReceiver, Toast.LENGTH_SHORT).show();
@@ -291,10 +292,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             });
         }
 
-    @Override
-    public void onMessageClick(int position) {
 
-    }
 
 
 
