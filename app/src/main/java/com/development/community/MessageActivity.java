@@ -82,6 +82,7 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
             apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
             Intent intent = getIntent();
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             String idUser = intent.getStringExtra("IDuser");
             final String idReceiver = intent.getStringExtra("IDchosen");
 //            Toast.makeText(this, idUser + idReceiver, Toast.LENGTH_SHORT).show();
