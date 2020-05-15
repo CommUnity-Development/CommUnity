@@ -59,6 +59,7 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
 
         FirebaseUser fuser;
         DatabaseReference ref;
+        DatabaseReference senderRef;
         FirebaseAuth firebaseAuth;
 
         static String path = "chats";
@@ -68,6 +69,8 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
         APIService apiService;
 
         boolean notify = false;
+
+        String senderName;
 
 
     /**
@@ -120,9 +123,22 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
             firebaseAuth = FirebaseAuth.getInstance();
             final String userid = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
             fuser = FirebaseAuth.getInstance().getCurrentUser();
-            ref = FirebaseDatabase.getInstance().getReference("users").child(userid);
+            ref = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
-            userName.setText(fuser.getDisplayName());
+            senderRef = FirebaseDatabase.getInstance().getReference("Users").child(idReceiver);
+
+            senderRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    User user = dataSnapshot.getValue(User.class);
+                    userName.setText(user.getName());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
 
          //Loads the user data from firebase
         ref.addValueEventListener(new ValueEventListener() {
@@ -132,6 +148,7 @@ public class MessageActivity extends AppCompatActivity implements UserAdapter.on
                     assert user != null;
                     try {
                         readMessage(fuser.getUid(), idReceiver, user.getProfilePicUrl());
+
                     }catch(Exception ignored){
 //                        Toast.makeText(MessageActivity.this, ignored.getMessage(), Toast.LENGTH_SHORT).show();
                         readMessage(fuser.getUid(), idReceiver, "https://cdnjs.loli.net/ajax/libs/material-design-icons/1.0.2/social/3x_ios/ic_person_black_48dp.png");
