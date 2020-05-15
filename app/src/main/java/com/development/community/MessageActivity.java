@@ -43,7 +43,7 @@ import retrofit2.Response;
 /**
  * The activity which allows users to send and view messages
  */
-public class MessageActivity extends AppCompatActivity implements MessageAdapter.onMessageListener, UserAdapter.onUserListener{
+public class MessageActivity extends AppCompatActivity implements UserAdapter.onUserListener {
 
 
         ImageButton sendButton;
@@ -291,10 +291,7 @@ public class MessageActivity extends AppCompatActivity implements MessageAdapter
             });
         }
 
-    @Override
-    public void onMessageClick(int position) {
 
-    }
 
 
 
