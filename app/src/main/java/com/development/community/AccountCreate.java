@@ -3,6 +3,7 @@ package com.development.community;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +47,8 @@ public class AccountCreate extends AppCompatActivity {
     private Button photoPicker;
     final User[] user = new User[1];
     String uid;
+    boolean click = false;
+    String profPicUrl;
 
 
     /**
@@ -97,15 +100,16 @@ public class AccountCreate extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                click = true;
                 Intent intent = new Intent(AccountCreate.this, MainActivity.class);
                 if(userName.getText().toString().equals("") || userState.getText().toString().equals("") || userTown.getText().toString().equals("") || userAddress.getText().toString().equals("") ||
                         userBio.getText().toString().equals(""))
                     Toast.makeText(AccountCreate.this,"Make sure to fill out all fields", Toast.LENGTH_LONG).show();
                 else {
                     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-
-                    databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(new User(firebaseAuth.getCurrentUser().getUid(), userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
-                            userAddress.getText().toString(),userBio.getText().toString()));
+                    User user = new User(firebaseAuth.getCurrentUser().getUid(), userName.getText().toString(),userState.getText().toString(),userTown.getText().toString(),
+                            userAddress.getText().toString(),userBio.getText().toString(),profPicUrl,"","");
+                    databaseReference.child(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()).setValue(user);
                     startActivity(intent);
                 }
             }
@@ -118,7 +122,6 @@ public class AccountCreate extends AppCompatActivity {
                 intent.setType("image/jpeg");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
                 startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
-
             }
         });
 
@@ -131,30 +134,30 @@ public class AccountCreate extends AppCompatActivity {
      * @param data A reference to the selected image
      */
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode == 1) {
-            if (resultCode == RESULT_OK)
-                Toast.makeText(this, "Signed in", Toast.LENGTH_SHORT).show();
-            else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-        else if(requestCode == 2 && resultCode == RESULT_OK){
-            Uri selectedImageUri = data.getData();
-            try {
-                String uid = Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid();
-                StorageReference photoRef = storageReference.child(uid);
-                assert selectedImageUri != null;
-                photoRef.putFile(selectedImageUri);
-                user[0].setProfilePicUrl(selectedImageUri.toString());
-                databaseReference.child(uid).setValue(user[0]);
-            }catch(Exception e){
-                Toast.makeText(AccountCreate.this, "You are not signed in", Toast.LENGTH_SHORT).show();
-            }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == 1) {
+                if (resultCode == RESULT_OK)
+                    Toast.makeText(this, "Signed in", Toast.LENGTH_SHORT).show();
+                else if (resultCode == RESULT_CANCELED) {
+                    Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            } else if (requestCode == 2 && resultCode == RESULT_OK) {
+                Uri selectedImageUri = data.getData();
+                try {
+                    String uid = Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid();
+                    StorageReference photoRef = storageReference.child(uid);
+                    assert selectedImageUri != null;
+                    photoRef.putFile(selectedImageUri);
+                    user[0].setProfilePicUrl(selectedImageUri.toString());
+                    profPicUrl = selectedImageUri.toString();
+                    databaseReference.child(uid).setValue(user[0]);
+                } catch (Exception e) {
+                    Toast.makeText(AccountCreate.this, "You are not signed in", Toast.LENGTH_SHORT).show();
+                }
 
-        }
+            }
 
     }
 

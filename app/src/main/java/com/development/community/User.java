@@ -2,6 +2,8 @@ package com.development.community;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.io.Serializable;
 
 /**
@@ -46,8 +48,6 @@ public class User implements Serializable {
         town = givenTown;
         address = givenAddress;
         bio = givenBio;
-        profilePicUrl = "";
-        token = "";
         this.uid = uid;
     }
 
@@ -67,7 +67,6 @@ public class User implements Serializable {
         town = givenTown;
         address = givenAddress;
         bio = givenBio;
-        profilePicUrl = "";
         token = givenToken;
         this.uid = uid;
     }
@@ -84,7 +83,7 @@ public class User implements Serializable {
      * @param token The user's token
      * @param uid The user's User ID
      */
-    public User(String name, String state, String town, String address, String bio, String profilePicUrl, String token, String uid) {
+    public User(String uid,String name, String state, String town, String address, String bio, String profilePicUrl, String token) {
         this.name = name;
         this.state = state;
         this.town = town;
@@ -94,6 +93,40 @@ public class User implements Serializable {
         this.token = token;
         this.uid = uid;
     }
+
+    /**
+     * Parameter Constructor
+     * @param name The user's name
+     * @param state The user's state
+     * @param town The user's town
+     * @param address The user's address
+     * @param bio The user's bio
+     * @param givenprofilePicUrl The user's profile picture URL
+     * @param uid The user's User ID
+     * @param filler1 dont ask...
+     * @param filler2 dont ask again...
+     */
+    public User(String uid,String name, String state, String town, String address, String bio, String givenprofilePicUrl, String filler1,String filler2) {
+        this.name = name;
+        this.state = state;
+        this.town = town;
+        this.address = address;
+        this.bio = bio;
+        profilePicUrl = givenprofilePicUrl;
+        this.uid = uid;
+    }
+
+
+    /**
+     * Parameter Constructor
+     * @param name The user's name
+     * @param state The user's state
+     * @param town The user's town
+     * @param address The user's address
+     * @param bio The user's bio
+     * @param profilePicUrl The user's profile picture URL
+     * @param uid The user's User ID
+     */
 
     /**
      * Parameter Constructor
