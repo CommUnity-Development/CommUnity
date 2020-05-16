@@ -88,6 +88,17 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
         holder.tvLocation.setText(locations.get(position).getProvider());
         holder.tvUsername.setText("Requested by " +usernames.get(position));
         holder.tvStatus.setText("Status: " + Globals.getStatuses()[statuses.get(position)]);
+        switch(statuses.get(position)){
+            case 0:
+                holder.statusImageView.setImageResource(android.R.drawable.presence_busy);
+                break;
+            case 1:
+                holder.statusImageView.setImageResource(android.R.drawable.presence_away);
+                break;
+            default:
+                holder.statusImageView.setImageResource(android.R.drawable.presence_online);
+                 break;
+        }
     }
 
     /**
@@ -118,7 +129,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
         TextView tvStatus;
         TextView tvUsername;
         onEntryListener onEntryListener;
-        ImageView taskStatus;
+        ImageView statusImageView;
 
         /**
          * The constructor for the ViewHolder
@@ -135,11 +146,11 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             this.onEntryListener = onEntryListener;
-            taskStatus = itemView.findViewById(R.id.taskStatus);
+            statusImageView = itemView.findViewById(R.id.taskStatus);
 
             itemView.setOnClickListener(this);
 
-            taskStatus.setVisibility(View.GONE);
+            statusImageView.setVisibility(View.VISIBLE);
         }
 
         /**
