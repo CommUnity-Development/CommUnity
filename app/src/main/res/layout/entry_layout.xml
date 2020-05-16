@@ -15,10 +15,11 @@
 
     <ImageView
         android:id="@+id/taskStatus"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/presence_online" />
-
+        android:layout_gravity="right"
+        app:srcCompat="@android:drawable/presence_online"
+/>
     <TextView
         android:id="@+id/tvTask"
         android:layout_width="match_parent"
