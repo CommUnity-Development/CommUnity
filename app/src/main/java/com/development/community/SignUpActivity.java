@@ -53,6 +53,8 @@ public class SignUpActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("tasks");
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         button = findViewById(R.id.signUpButton);
         markButton = findViewById(R.id.markAsCompleteButton);
         taskStatus = findViewById(R.id.taskStatus);
