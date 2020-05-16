@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
     private static Context context;
     private onEntryListener mOnEntryListener;
     private ArrayList<String> ids;
+
+
 
     /**
      * Constructor for an EntryAdapter
@@ -65,6 +68,8 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.entry_layout, parent, false);
         return new ViewHolder(view, mOnEntryListener);
+
+
     }
 
     /**
@@ -113,6 +118,7 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
         TextView tvStatus;
         TextView tvUsername;
         onEntryListener onEntryListener;
+        ImageView taskStatus;
 
         /**
          * The constructor for the ViewHolder
@@ -129,9 +135,11 @@ public class EntryAdapter extends RecyclerView.Adapter<EntryAdapter.ViewHolder> 
             tvStatus = itemView.findViewById(R.id.tvStatus);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             this.onEntryListener = onEntryListener;
+            taskStatus = itemView.findViewById(R.id.taskStatus);
 
             itemView.setOnClickListener(this);
 
+            taskStatus.setVisibility(View.GONE);
         }
 
         /**

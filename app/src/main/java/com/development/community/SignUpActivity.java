@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +30,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     private Button button;
     private Button markButton;
+    ImageView taskStatus;
+    private int count = 0;
 
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
@@ -52,6 +55,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         button = findViewById(R.id.signUpButton);
         markButton = findViewById(R.id.markAsCompleteButton);
+        taskStatus = findViewById(R.id.taskStatus);
+
 
         String id = Objects.requireNonNull(getIntent().getExtras()).getString("ID");
         assert id != null;
@@ -131,10 +136,18 @@ public class SignUpActivity extends AppCompatActivity {
                 displayNotification(1);
                 Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                 startActivity(intent);
+                count++;
             }
         });
 
 
+    }
+
+    public boolean isComplete(){
+        if(count%1 == 0)
+            return true;
+
+        return false;
     }
 
 
