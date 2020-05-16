@@ -9,6 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -23,6 +25,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 import com.development.community.ui.home.HomeFragment;
@@ -144,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
 
 
         final View navHeader = navigationView.getHeaderView(0);
@@ -290,25 +294,56 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
     }
 
     /**
+     * Checks which NavigationView item is selected
+      * @param navigationView The navigation view
+     * @return the index of the selected item
+     */
+    private int getCheckedItem(NavigationView navigationView) {
+        Menu menu = navigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item = menu.getItem(i);
+            if (item.isChecked()) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * Runs when the user clicks on an entry
      * Loads the SignUpActivity and passes the id as an extra
      * @param position the position of the entry in the RecyclerView
      */
     @Override
     public void onEntryClick(int position) {
-
-        if(entryArrayList.get(position).getServerUID() == null ||
-                entryArrayList.get(position).getServerUID().equals(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid())) {
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        if(getCheckedItem(navigationView) == 0) {
+            if (entryArrayList.get(position).getServerUID() == null ||
+                    entryArrayList.get(position).getServerUID().equals(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid())) {
 //            Log.d("UID", entryArrayList.get(position).getServerUID());
-            Intent intent = new Intent(this, SignUpActivity.class);
-            intent.putExtra("ID", ids.get(position));
-            startActivity(intent);
+                Intent intent = new Intent(this, SignUpActivity.class);
+                intent.putExtra("ID", ids.get(position));
+                Log.d("Fail", "A");
+                startActivity(intent);
+            } else {
+                Toast.makeText(MainActivity.this, "Someone else has already signed up for this task", Toast.LENGTH_SHORT).show();
+                Log.d("FAIL", "B");
+            }
         }
-        else{
-            Toast.makeText(MainActivity.this, "Someone else has already signed up for this task", Toast.LENGTH_SHORT).show();
-        }
+//        else if(getVisibleFragment()==null) {
+//            Toast.makeText(MainActivity.this, "FAIL", Toast.LENGTH_SHORT).show();
+//            Log.d("FAIL", "C");
+//        }
+//        else{
+//            Log.d("FAIL", getVisibleFragment().toString());
+//        }
+
 
     }
+
+
+
 
     /**
      * Runs when an item in the menu is selected
