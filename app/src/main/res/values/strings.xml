@@ -73,5 +73,6 @@
     <string name="profPic">UPDATE PROFILE PICTURE</string>
     <string name="tasksPast">Completed Tasks</string>
     <string name="tasksUp">Upcoming Tasks</string>
+    <string name="messaging">Messaging</string>
 </resources>
 
