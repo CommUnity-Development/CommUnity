@@ -35,30 +35,30 @@ public class StorageTesting extends AppCompatActivity {
      * Runs when the activity is opened and allows the users to insert a photo to be uploaded
      * @param savedInstanceState Allows data to be restored if there is a saved instance
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_storage_testing);
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFirebaseAuth = FirebaseAuth.getInstance();
-        mFirebaseStorage = FirebaseStorage.getInstance();
-
-        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
-        mChatPhotosStorageReference = mFirebaseStorage.getReference().child("profile_pics");
-
-        photoPicker = findViewById(R.id.photoPicker);
-
-        photoPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/jpeg");
-                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
-            }
-        });
-
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_storage_testing);
+//        mFirebaseDatabase = FirebaseDatabase.getInstance();
+//        mFirebaseAuth = FirebaseAuth.getInstance();
+//        mFirebaseStorage = FirebaseStorage.getInstance();
+//
+//        mMessagesDatabaseReference = mFirebaseDatabase.getReference().child("messages");
+//        mChatPhotosStorageReference = mFirebaseStorage.getReference().child("profile_pics");
+//
+//        photoPicker = findViewById(R.id.photoPicker);
+//
+//        photoPicker.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                intent.setType("image/jpeg");
+//                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+//                startActivityForResult(Intent.createChooser(intent, "Complete action using"), 2);
+//            }
+//        });
+//
+//    }
 
     /**
      *
@@ -66,29 +66,29 @@ public class StorageTesting extends AppCompatActivity {
      * @param resultCode an integer to tell if the result is good to go
      * @param data an Intent to get data from the users device
      */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-        if(requestCode == 1) {
-            if (resultCode == RESULT_OK)
-                Toast.makeText(this, "Signed in", Toast.LENGTH_SHORT).show();
-            else if (resultCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        }
-            else if(requestCode == 2 && resultCode == RESULT_OK){
-                Uri selectedImageUri = data.getData();
-                try {
-                    String uid = Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid();
-                    StorageReference photoRef = mChatPhotosStorageReference.child(uid);
-                    assert selectedImageUri != null;
-                    photoRef.putFile(selectedImageUri);
-                }catch(Exception e){
-                    Toast.makeText(StorageTesting.this, "You are not signed in", Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data){
+//        super.onActivityResult(requestCode,resultCode,data);
+//        if(requestCode == 1) {
+//            if (resultCode == RESULT_OK)
+//                Toast.makeText(this, "Signed in", Toast.LENGTH_SHORT).show();
+//            else if (resultCode == RESULT_CANCELED) {
+//                Toast.makeText(this, "Sign in cancelled", Toast.LENGTH_SHORT).show();
+//                finish();
+//            }
+//        }
+//            else if(requestCode == 2 && resultCode == RESULT_OK){
+//                Uri selectedImageUri = data.getData();
+//                try {
+//                    String uid = Objects.requireNonNull(mFirebaseAuth.getCurrentUser()).getUid();
+//                    StorageReference photoRef = mChatPhotosStorageReference.child(uid);
+//                    assert selectedImageUri != null;
+//                    photoRef.putFile(selectedImageUri);
+//                }catch(Exception e){
+//                    Toast.makeText(StorageTesting.this, "You are not signed in", Toast.LENGTH_LONG).show();
+//                }
+//
+//            }
+//
+//    }
 }

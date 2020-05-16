@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
 
         // Source: https://stackoverflow.com/questions/57702646/how-to-fix-android-studio-3-5-navigation-activity-template-onnavigationitemselec
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_profile, R.id.nav_tasksUp, R.id.nav_tasksPast, R.id.fragment_chat_manager)
+                R.id.nav_home, R.id.nav_profile, R.id.nav_tasksUp, R.id.nav_tasksPast, R.id.nav_messaging)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -296,9 +296,17 @@ public class MainActivity extends AppCompatActivity implements EntryAdapter.onEn
      */
     @Override
     public void onEntryClick(int position) {
-        Intent intent = new Intent(this, SignUpActivity.class);
-        intent.putExtra("ID", ids.get(position));
-        startActivity(intent);
+
+        if(entryArrayList.get(position).getServerUID() == null ||
+                entryArrayList.get(position).getServerUID().equals(Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid())) {
+//            Log.d("UID", entryArrayList.get(position).getServerUID());
+            Intent intent = new Intent(this, SignUpActivity.class);
+            intent.putExtra("ID", ids.get(position));
+            startActivity(intent);
+        }
+        else{
+            Toast.makeText(MainActivity.this, "Someone else has already signed up for this task", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
