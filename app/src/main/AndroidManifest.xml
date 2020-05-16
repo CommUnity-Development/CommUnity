@@ -31,7 +31,8 @@
         <activity android:name=".AccountCreate" />
         <activity android:name=".StorageTesting" />
         <activity android:name=".ProfilePage" />
-        <activity android:name=".SignUpActivity" />
+        <activity android:name=".SignUpActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".EntryActivity" />
         <activity
             android:name=".MainActivity"
